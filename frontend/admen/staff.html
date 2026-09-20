@@ -1,0 +1,3095 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>The Marrow — Staff</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+
+<style>
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+:root{
+
+    --charcoal:#221D19;
+    --charcoal-2:#2E2721;
+    --charcoal-3:#3A312A;
+
+    --cream:#F8F4EA;
+    --paper:#FFFFFF;
+
+    --ink:#2B2420;
+
+    --muted:#8A7F72;
+    --muted-2:#B4A995;
+
+    --ember:#D98A3D;
+    --ember-dark:#B86F2C;
+    --ember-tint:#FCEBD6;
+
+    --sage:#6F8A5E;
+    --sage-tint:#E7EEE2;
+
+    --rust:#A8442F;
+    --rust-tint:#F5E3DE;
+
+    --blue:#65758B;
+    --blue-tint:#E7EBF1;
+
+    --line:#E4DCC8;
+
+}
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+*{
+
+    box-sizing:border-box;
+
+    margin:0;
+
+    padding:0;
+
+}
+
+
+body{
+
+    background:var(--cream);
+
+    color:var(--ink);
+
+    font-family:'Inter',sans-serif;
+
+}
+
+
+/* =====================================================
+   APP
+===================================================== */
+
+.app{
+
+    display:grid;
+
+    grid-template-columns:236px 1fr;
+
+    min-height:100vh;
+
+}
+
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.sidebar{
+
+    background:var(--charcoal);
+
+    color:var(--cream);
+
+    padding:28px 22px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:36px;
+
+    min-height:100vh;
+
+}
+
+
+.brand{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:2px;
+
+    border-bottom:1px solid rgba(248,244,234,.12);
+
+    padding-bottom:20px;
+
+}
+
+
+.brand .mark{
+
+    font-family:'Fraunces',serif;
+
+    font-size:22px;
+
+    font-weight:700;
+
+}
+
+
+.brand .mark span{
+
+    color:var(--ember);
+
+}
+
+
+.brand .sub{
+
+    font-size:11px;
+
+    letter-spacing:.14em;
+
+    text-transform:uppercase;
+
+    color:var(--muted-2);
+
+}
+
+
+nav{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:3px;
+
+}
+
+
+.navlink{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:11px 12px;
+
+    color:var(--muted-2);
+
+    text-decoration:none;
+
+    font-size:14px;
+
+    border-radius:3px;
+
+    cursor:pointer;
+
+}
+
+
+.navlink:hover{
+
+    background:var(--charcoal-2);
+
+    color:var(--cream);
+
+}
+
+
+.navlink.active{
+
+    background:var(--charcoal-2);
+
+    color:var(--cream);
+
+    border-left:3px solid var(--ember);
+
+}
+
+
+.navlink svg{
+
+    width:17px;
+
+    height:17px;
+
+}
+
+
+.shift-card{
+
+    margin-top:auto;
+
+    background:var(--charcoal-2);
+
+    border:1px dashed rgba(248,244,234,.18);
+
+    padding:14px;
+
+    font-size:12px;
+
+    color:var(--muted-2);
+
+    line-height:1.5;
+
+}
+
+
+.shift-card strong{
+
+    color:var(--cream);
+
+    display:block;
+
+    margin-bottom:3px;
+
+}
+
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+.main{
+
+    padding:32px 40px 60px;
+
+    max-width:1250px;
+
+    width:100%;
+
+}
+
+
+/* =====================================================
+   TOPBAR
+===================================================== */
+
+.topbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-end;
+
+    margin-bottom:30px;
+
+    flex-wrap:wrap;
+
+    gap:20px;
+
+}
+
+
+.topbar h1{
+
+    font-family:'Fraunces',serif;
+
+    font-size:30px;
+
+}
+
+
+.date{
+
+    color:var(--muted);
+
+    font-size:13px;
+
+    margin-top:5px;
+
+}
+
+
+.admin-profile{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+
+.avatar{
+
+    width:38px;
+
+    height:38px;
+
+    border-radius:50%;
+
+    background:var(--charcoal);
+
+    color:white;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-weight:600;
+
+}
+
+
+.admin-info strong{
+
+    display:block;
+
+    font-size:13px;
+
+}
+
+
+.admin-info small{
+
+    color:var(--muted);
+
+    font-size:11px;
+
+}
+
+
+/* =====================================================
+   SUMMARY
+===================================================== */
+
+.summary{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:18px;
+
+    margin-bottom:25px;
+
+}
+
+
+.summary-card{
+
+    background:var(--paper);
+
+    border:1px solid var(--line);
+
+    padding:19px;
+
+}
+
+
+.summary-label{
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.1em;
+
+    margin-bottom:10px;
+
+}
+
+
+.summary-value{
+
+    font-family:'IBM Plex Mono',monospace;
+
+    font-size:27px;
+
+    font-weight:600;
+
+}
+
+
+.summary-small{
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    margin-top:6px;
+
+}
+
+
+/* =====================================================
+   TOOLBAR
+===================================================== */
+
+.toolbar{
+
+    background:var(--paper);
+
+    border:1px solid var(--line);
+
+    padding:18px;
+
+    display:flex;
+
+    gap:12px;
+
+    flex-wrap:wrap;
+
+    margin-bottom:18px;
+
+}
+
+
+.search{
+
+    flex:1;
+
+    min-width:230px;
+
+}
+
+
+.search input{
+
+    width:100%;
+
+    padding:11px 14px;
+
+    background:var(--cream);
+
+    border:1px solid var(--line);
+
+    outline:none;
+
+    font-family:'Inter',sans-serif;
+
+    font-size:13px;
+
+}
+
+
+.search input:focus{
+
+    border-color:var(--ember);
+
+}
+
+
+.filter{
+
+    padding:11px 14px;
+
+    background:var(--cream);
+
+    border:1px solid var(--line);
+
+    font-family:'Inter',sans-serif;
+
+    cursor:pointer;
+
+}
+
+
+.add-btn{
+
+    background:var(--charcoal);
+
+    color:white;
+
+    border:none;
+
+    padding:11px 17px;
+
+    cursor:pointer;
+
+    font-size:12px;
+
+    font-weight:600;
+
+}
+
+
+.add-btn:hover{
+
+    background:var(--ember-dark);
+
+}
+
+
+/* =====================================================
+   STAFF PANEL
+===================================================== */
+
+.panel{
+
+    background:var(--paper);
+
+    border:1px solid var(--line);
+
+    padding:22px;
+
+}
+
+
+.panel-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+
+}
+
+
+.panel-header h2{
+
+    font-family:'Fraunces',serif;
+
+    font-size:19px;
+
+}
+
+
+.panel-header span{
+
+    color:var(--muted);
+
+    font-size:12px;
+
+}
+
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+.table-container{
+
+    overflow-x:auto;
+
+}
+
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+
+th{
+
+    text-align:left;
+
+    padding:13px 12px;
+
+    border-bottom:1px solid var(--line);
+
+    color:var(--muted);
+
+    font-size:10px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.08em;
+
+}
+
+
+td{
+
+    padding:14px 12px;
+
+    border-bottom:1px solid var(--line);
+
+    font-size:13px;
+
+}
+
+
+tr:last-child td{
+
+    border-bottom:none;
+
+}
+
+
+/* =====================================================
+   STAFF NAME
+===================================================== */
+
+.staff-person{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:11px;
+
+}
+
+
+.staff-avatar{
+
+    width:38px;
+
+    height:38px;
+
+    border-radius:50%;
+
+    background:var(--cream);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-weight:600;
+
+    font-size:12px;
+
+}
+
+
+.staff-name{
+
+    font-weight:600;
+
+}
+
+
+.staff-email{
+
+    font-size:11px;
+
+    color:var(--muted);
+
+    margin-top:3px;
+
+}
+
+
+/* =====================================================
+   ROLE BADGE
+===================================================== */
+
+.role{
+
+    display:inline-block;
+
+    padding:5px 10px;
+
+    border-radius:20px;
+
+    font-size:10px;
+
+    font-weight:600;
+
+}
+
+
+.role-admin{
+
+    background:var(--rust-tint);
+
+    color:var(--rust);
+
+}
+
+
+.role-chef{
+
+    background:var(--ember-tint);
+
+    color:var(--ember-dark);
+
+}
+
+
+.role-waiter{
+
+    background:var(--blue-tint);
+
+    color:var(--blue);
+
+}
+
+
+.role-cashier{
+
+    background:var(--sage-tint);
+
+    color:var(--sage);
+
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.status{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:5px;
+
+    padding:5px 10px;
+
+    border-radius:20px;
+
+    font-size:10px;
+
+    font-weight:600;
+
+}
+
+
+.status::before{
+
+    content:"";
+
+    width:6px;
+
+    height:6px;
+
+    border-radius:50%;
+
+    background:currentColor;
+
+}
+
+
+.status-active{
+
+    background:var(--sage-tint);
+
+    color:var(--sage);
+
+}
+
+
+.status-off{
+
+    background:#ECE9E4;
+
+    color:var(--muted);
+
+}
+
+
+/* =====================================================
+   ACTIONS
+===================================================== */
+
+.actions{
+
+    display:flex;
+
+    gap:6px;
+
+}
+
+
+.action-btn{
+
+    border:none;
+
+    background:var(--cream);
+
+    padding:7px 10px;
+
+    cursor:pointer;
+
+    font-size:11px;
+
+}
+
+
+.action-btn:hover{
+
+    background:var(--ember-tint);
+
+}
+
+
+.delete-btn{
+
+    color:var(--rust);
+
+}
+
+
+.delete-btn:hover{
+
+    background:var(--rust-tint);
+
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(34,29,25,.6);
+
+    z-index:100;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+
+}
+
+
+.modal.show{
+
+    display:flex;
+
+}
+
+
+.modal-content{
+
+    background:var(--paper);
+
+    width:100%;
+
+    max-width:500px;
+
+    padding:26px;
+
+    border:1px solid var(--line);
+
+}
+
+
+.modal-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:22px;
+
+}
+
+
+.modal-header h2{
+
+    font-family:'Fraunces',serif;
+
+    font-size:21px;
+
+}
+
+
+.close{
+
+    border:none;
+
+    background:none;
+
+    font-size:25px;
+
+    color:var(--muted);
+
+    cursor:pointer;
+
+}
+
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.form-group{
+
+    margin-bottom:16px;
+
+}
+
+
+.form-group label{
+
+    display:block;
+
+    font-size:11px;
+
+    font-weight:600;
+
+    margin-bottom:7px;
+
+}
+
+
+.form-group input,
+.form-group select{
+
+    width:100%;
+
+    padding:11px;
+
+    border:1px solid var(--line);
+
+    background:var(--cream);
+
+    outline:none;
+
+    font-family:'Inter',sans-serif;
+
+}
+
+
+.form-group input:focus,
+.form-group select:focus{
+
+    border-color:var(--ember);
+
+}
+
+
+.form-actions{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:8px;
+
+    margin-top:22px;
+
+}
+
+
+.cancel-btn{
+
+    border:1px solid var(--line);
+
+    background:var(--cream);
+
+    padding:10px 16px;
+
+    cursor:pointer;
+
+}
+
+
+.save-btn{
+
+    border:none;
+
+    background:var(--charcoal);
+
+    color:white;
+
+    padding:10px 18px;
+
+    cursor:pointer;
+
+}
+
+
+.save-btn:hover{
+
+    background:var(--ember-dark);
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:1000px){
+
+    .app{
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .sidebar{
+
+        min-height:auto;
+
+        flex-direction:row;
+
+        align-items:center;
+
+        overflow-x:auto;
+
+        padding:15px;
+
+    }
+
+
+    .brand{
+
+        border:none;
+
+        padding:0;
+
+    }
+
+
+    nav{
+
+        flex-direction:row;
+
+    }
+
+
+    .shift-card{
+
+        display:none;
+
+    }
+
+
+    .summary{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+
+    .main{
+
+        padding:25px 20px;
+
+    }
+
+}
+
+
+@media(max-width:600px){
+
+    .summary{
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .toolbar{
+
+        flex-direction:column;
+
+    }
+
+
+    .search{
+
+        min-width:100%;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+
+    <div class="brand">
+
+        <div class="mark">
+
+            The <span>Marrow</span>
+
+        </div>
+
+        <div class="sub">
+
+            Admin Panel
+
+        </div>
+
+    </div>
+
+
+    <nav>
+
+
+        <a class="navlink"
+           href="home.html">
+
+            <svg viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2">
+
+                <rect x="3"
+                      y="3"
+                      width="7"
+                      height="9"/>
+
+                <rect x="14"
+                      y="3"
+                      width="7"
+                      height="5"/>
+
+                <rect x="14"
+                      y="12"
+                      width="7"
+                      height="9"/>
+
+                <rect x="3"
+                      y="16"
+                      width="7"
+                      height="5"/>
+
+            </svg>
+
+            Dashboard
+
+        </a>
+
+
+        <a class="navlink"
+           href="orders.html">
+
+            <svg viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2">
+
+                <path d="M6 2h12"/>
+
+                <path d="M6 2v20"/>
+
+                <path d="M18 2v20"/>
+
+                <path d="M6 7h12"/>
+
+                <path d="M6 12h12"/>
+
+                <path d="M6 17h12"/>
+
+            </svg>
+
+            Orders
+
+        </a>
+
+
+        <a class="navlink active"
+           href="staff.html">
+
+            <svg viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2">
+
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+
+                <circle cx="9"
+                        cy="7"
+                        r="4"/>
+
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+
+            </svg>
+
+            Staff
+
+        </a>
+
+
+        <a class="navlink"
+           href="menu.html">
+
+            <svg viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2">
+
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+
+            </svg>
+
+            Menu
+
+        </a>
+
+
+        <a class="navlink"
+           href="statistics.html">
+
+            <svg viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2">
+
+                <path d="M3 3v18h18"/>
+
+                <path d="M18 17V9"/>
+
+                <path d="M13 17V5"/>
+
+                <path d="M8 17v-3"/>
+
+            </svg>
+
+            Statistics
+
+        </a>
+
+
+        <a class="navlink"
+           href="settings.html">
+
+            <svg viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2">
+
+                <circle cx="12"
+                        cy="12"
+                        r="3"/>
+
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82"/>
+
+            </svg>
+
+            Settings
+
+        </a>
+
+
+        <a class="navlink"
+           href="#"
+           onclick="logout()">
+
+            Logout
+
+        </a>
+
+
+    </nav>
+
+
+    <div class="shift-card">
+
+        <strong>Evening service</strong>
+
+        Doors at 5:00 PM ·
+
+        <span id="shift-count">
+            6 staff scheduled tonight
+        </span>
+
+    </div>
+
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+
+<!-- TOPBAR -->
+
+<div class="topbar">
+
+
+    <div>
+
+        <h1>
+            Staff
+        </h1>
+
+        <div class="date"
+             id="today-date">
+
+        </div>
+
+    </div>
+
+
+    <div class="admin-profile">
+
+
+        <div class="avatar">
+
+            A
+
+        </div>
+
+
+        <div class="admin-info">
+
+            <strong>
+                Admin
+            </strong>
+
+            <small>
+                Restaurant Manager
+            </small>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     SUMMARY
+===================================================== -->
+
+<section class="summary">
+
+
+    <div class="summary-card">
+
+        <div class="summary-label">
+
+            Total Staff
+
+        </div>
+
+        <div class="summary-value"
+             id="totalStaff">
+
+            6
+
+        </div>
+
+        <div class="summary-small">
+
+            Registered employees
+
+        </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <div class="summary-label">
+
+            Active
+
+        </div>
+
+        <div class="summary-value"
+             id="activeStaff">
+
+            5
+
+        </div>
+
+        <div class="summary-small">
+
+            Currently active
+
+        </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <div class="summary-label">
+
+            Chefs
+
+        </div>
+
+        <div class="summary-value">
+
+            2
+
+        </div>
+
+        <div class="summary-small">
+
+            Kitchen staff
+
+        </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <div class="summary-label">
+
+            Waiters
+
+        </div>
+
+        <div class="summary-value">
+
+            2
+
+        </div>
+
+        <div class="summary-small">
+
+            Service staff
+
+        </div>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     TOOLBAR
+===================================================== -->
+
+<div class="toolbar">
+
+
+    <div class="search">
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search staff by name or email..."
+        >
+
+    </div>
+
+
+    <select class="filter"
+            id="roleFilter">
+
+        <option value="all">
+            All roles
+        </option>
+
+        <option value="Admin">
+            Admin
+        </option>
+
+        <option value="Chef">
+            Chef
+        </option>
+
+        <option value="Waiter">
+            Waiter
+        </option>
+
+        <option value="Cashier">
+            Cashier
+        </option>
+
+    </select>
+
+
+    <select class="filter"
+            id="statusFilter">
+
+        <option value="all">
+            All status
+        </option>
+
+        <option value="Active">
+            Active
+        </option>
+
+        <option value="Off Duty">
+            Off Duty
+        </option>
+
+    </select>
+
+
+    <button class="add-btn"
+            onclick="openAddModal()">
+
+        + Add Staff
+
+    </button>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     STAFF TABLE
+===================================================== -->
+
+<section class="panel">
+
+
+    <div class="panel-header">
+
+        <h2>
+            Staff Members
+        </h2>
+
+        <span id="staffCount">
+            6 employees
+        </span>
+
+    </div>
+
+
+    <div class="table-container">
+
+
+        <table>
+
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Employee
+                    </th>
+
+                    <th>
+                        Role
+                    </th>
+
+                    <th>
+                        Phone
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                    <th>
+                        Shift
+                    </th>
+
+                    <th>
+                        Actions
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="staffTable">
+
+
+                <!-- STAFF 1 -->
+
+                <tr
+                    data-name="Sarah Adams"
+                    data-email="sarah@themarrow.com"
+                    data-role="Chef"
+                    data-status="Active"
+                >
+
+                    <td>
+
+                        <div class="staff-person">
+
+                            <div class="staff-avatar">
+                                SA
+                            </div>
+
+                            <div>
+
+                                <div class="staff-name">
+                                    Sarah Adams
+                                </div>
+
+                                <div class="staff-email">
+                                    sarah@themarrow.com
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="role role-chef">
+                            Chef
+                        </span>
+
+                    </td>
+
+
+                    <td>
+                        +213 555 000 001
+                    </td>
+
+
+                    <td>
+
+                        <span class="status status-active">
+                            Active
+                        </span>
+
+                    </td>
+
+
+                    <td>
+                        Evening
+                    </td>
+
+
+                    <td>
+
+                        <div class="actions">
+
+                            <button
+                                class="action-btn"
+                                onclick="editStaff(this)">
+
+                                Edit
+
+                            </button>
+
+                            <button
+                                class="action-btn delete-btn"
+                                onclick="deleteStaff(this)">
+
+                                Delete
+
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+
+
+                <!-- STAFF 2 -->
+
+                <tr
+                    data-name="Michael King"
+                    data-email="michael@themarrow.com"
+                    data-role="Waiter"
+                    data-status="Active"
+                >
+
+                    <td>
+
+                        <div class="staff-person">
+
+                            <div class="staff-avatar">
+                                MK
+                            </div>
+
+                            <div>
+
+                                <div class="staff-name">
+                                    Michael King
+                                </div>
+
+                                <div class="staff-email">
+                                    michael@themarrow.com
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="role role-waiter">
+                            Waiter
+                        </span>
+
+                    </td>
+
+
+                    <td>
+                        +213 555 000 002
+                    </td>
+
+
+                    <td>
+
+                        <span class="status status-active">
+                            Active
+                        </span>
+
+                    </td>
+
+
+                    <td>
+                        Evening
+                    </td>
+
+
+                    <td>
+
+                        <div class="actions">
+
+                            <button
+                                class="action-btn"
+                                onclick="editStaff(this)">
+
+                                Edit
+
+                            </button>
+
+                            <button
+                                class="action-btn delete-btn"
+                                onclick="deleteStaff(this)">
+
+                                Delete
+
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+
+
+                <!-- STAFF 3 -->
+
+                <tr
+                    data-name="Lina Martin"
+                    data-email="lina@themarrow.com"
+                    data-role="Cashier"
+                    data-status="Active"
+                >
+
+                    <td>
+
+                        <div class="staff-person">
+
+                            <div class="staff-avatar">
+                                LM
+                            </div>
+
+                            <div>
+
+                                <div class="staff-name">
+                                    Lina Martin
+                                </div>
+
+                                <div class="staff-email">
+                                    lina@themarrow.com
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="role role-cashier">
+                            Cashier
+                        </span>
+
+                    </td>
+
+
+                    <td>
+                        +213 555 000 003
+                    </td>
+
+
+                    <td>
+
+                        <span class="status status-active">
+                            Active
+                        </span>
+
+                    </td>
+
+
+                    <td>
+                        Morning
+                    </td>
+
+
+                    <td>
+
+                        <div class="actions">
+
+                            <button
+                                class="action-btn"
+                                onclick="editStaff(this)">
+
+                                Edit
+
+                            </button>
+
+                            <button
+                                class="action-btn delete-btn"
+                                onclick="deleteStaff(this)">
+
+                                Delete
+
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+
+
+                <!-- STAFF 4 -->
+
+                <tr
+                    data-name="John Davis"
+                    data-email="john@themarrow.com"
+                    data-role="Waiter"
+                    data-status="Active"
+                >
+
+                    <td>
+
+                        <div class="staff-person">
+
+                            <div class="staff-avatar">
+                                JD
+                            </div>
+
+                            <div>
+
+                                <div class="staff-name">
+                                    John Davis
+                                </div>
+
+                                <div class="staff-email">
+                                    john@themarrow.com
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="role role-waiter">
+                            Waiter
+                        </span>
+
+                    </td>
+
+
+                    <td>
+                        +213 555 000 004
+                    </td>
+
+
+                    <td>
+
+                        <span class="status status-active">
+                            Active
+                        </span>
+
+                    </td>
+
+
+                    <td>
+                        Evening
+                    </td>
+
+
+                    <td>
+
+                        <div class="actions">
+
+                            <button
+                                class="action-btn"
+                                onclick="editStaff(this)">
+
+                                Edit
+
+                            </button>
+
+                            <button
+                                class="action-btn delete-btn"
+                                onclick="deleteStaff(this)">
+
+                                Delete
+
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+
+
+                <!-- STAFF 5 -->
+
+                <tr
+                    data-name="David Stone"
+                    data-email="david@themarrow.com"
+                    data-role="Chef"
+                    data-status="Active"
+                >
+
+                    <td>
+
+                        <div class="staff-person">
+
+                            <div class="staff-avatar">
+                                DS
+                            </div>
+
+                            <div>
+
+                                <div class="staff-name">
+                                    David Stone
+                                </div>
+
+                                <div class="staff-email">
+                                    david@themarrow.com
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="role role-chef">
+                            Chef
+                        </span>
+
+                    </td>
+
+
+                    <td>
+                        +213 555 000 005
+                    </td>
+
+
+                    <td>
+
+                        <span class="status status-active">
+                            Active
+                        </span>
+
+                    </td>
+
+
+                    <td>
+                        Morning
+                    </td>
+
+
+                    <td>
+
+                        <div class="actions">
+
+                            <button
+                                class="action-btn"
+                                onclick="editStaff(this)">
+
+                                Edit
+
+                            </button>
+
+                            <button
+                                class="action-btn delete-btn"
+                                onclick="deleteStaff(this)">
+
+                                Delete
+
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+
+
+                <!-- STAFF 6 -->
+
+                <tr
+                    data-name="Emma Wilson"
+                    data-email="emma@themarrow.com"
+                    data-role="Cashier"
+                    data-status="Off Duty"
+                >
+
+                    <td>
+
+                        <div class="staff-person">
+
+                            <div class="staff-avatar">
+                                EW
+                            </div>
+
+                            <div>
+
+                                <div class="staff-name">
+                                    Emma Wilson
+                                </div>
+
+                                <div class="staff-email">
+                                    emma@themarrow.com
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="role role-cashier">
+                            Cashier
+                        </span>
+
+                    </td>
+
+
+                    <td>
+                        +213 555 000 006
+                    </td>
+
+
+                    <td>
+
+                        <span class="status status-off">
+                            Off Duty
+                        </span>
+
+                    </td>
+
+
+                    <td>
+                        Off
+                    </td>
+
+
+                    <td>
+
+                        <div class="actions">
+
+                            <button
+                                class="action-btn"
+                                onclick="editStaff(this)">
+
+                                Edit
+
+                            </button>
+
+                            <button
+                                class="action-btn delete-btn"
+                                onclick="deleteStaff(this)">
+
+                                Delete
+
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+
+            </tbody>
+
+
+        </table>
+
+    </div>
+
+
+</section>
+
+
+</main>
+
+</div>
+
+
+
+<!-- =====================================================
+     ADD / EDIT MODAL
+===================================================== -->
+
+<div class="modal"
+     id="staffModal">
+
+
+    <div class="modal-content">
+
+
+        <div class="modal-header">
+
+            <h2 id="modalTitle">
+                Add Staff
+            </h2>
+
+            <button
+                class="close"
+                onclick="closeModal()">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <form id="staffForm">
+
+
+            <div class="form-group">
+
+                <label>
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Enter full name"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="example@themarrow.com"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Phone
+                </label>
+
+                <input
+                    type="text"
+                    id="phone"
+                    placeholder="+213 ..."
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Role
+                </label>
+
+                <select id="role"
+                        required>
+
+                    <option value="">
+                        Select role
+                    </option>
+
+                    <option value="Admin">
+                        Admin
+                    </option>
+
+                    <option value="Chef">
+                        Chef
+                    </option>
+
+                    <option value="Waiter">
+                        Waiter
+                    </option>
+
+                    <option value="Cashier">
+                        Cashier
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Shift
+                </label>
+
+                <select id="shift"
+                        required>
+
+                    <option value="">
+                        Select shift
+                    </option>
+
+                    <option value="Morning">
+                        Morning
+                    </option>
+
+                    <option value="Evening">
+                        Evening
+                    </option>
+
+                    <option value="Full Day">
+                        Full Day
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Status
+                </label>
+
+                <select id="status">
+
+                    <option value="Active">
+                        Active
+                    </option>
+
+                    <option value="Off Duty">
+                        Off Duty
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-actions">
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    onclick="closeModal()">
+
+                    Cancel
+
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="save-btn">
+
+                    Save Staff
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+/* =====================================================
+   DATE
+===================================================== */
+
+document.getElementById("today-date").textContent =
+
+    new Date().toLocaleDateString(
+        "en-US",
+        {
+            weekday:"long",
+            year:"numeric",
+            month:"long",
+            day:"numeric"
+        }
+    );
+
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let editingRow = null;
+
+
+
+/* =====================================================
+   OPEN ADD MODAL
+===================================================== */
+
+function openAddModal(){
+
+    editingRow = null;
+
+    document.getElementById("modalTitle").textContent =
+        "Add Staff";
+
+    document.getElementById("staffForm").reset();
+
+    document.getElementById("staffModal")
+        .classList.add("show");
+
+}
+
+
+
+/* =====================================================
+   EDIT STAFF
+===================================================== */
+
+function editStaff(button){
+
+    editingRow =
+        button.closest("tr");
+
+
+    const name =
+        editingRow.dataset.name;
+
+    const email =
+        editingRow.dataset.email;
+
+    const role =
+        editingRow.dataset.role;
+
+    const status =
+        editingRow.dataset.status;
+
+
+    document.getElementById("modalTitle")
+        .textContent =
+        "Edit Staff";
+
+
+    document.getElementById("name")
+        .value =
+        name;
+
+
+    document.getElementById("email")
+        .value =
+        email;
+
+
+    document.getElementById("role")
+        .value =
+        role;
+
+
+    document.getElementById("status")
+        .value =
+        status;
+
+
+    document.getElementById("staffModal")
+        .classList.add("show");
+
+}
+
+
+
+/* =====================================================
+   DELETE STAFF
+===================================================== */
+
+function deleteStaff(button){
+
+    const row =
+        button.closest("tr");
+
+
+    const name =
+        row.dataset.name;
+
+
+    const confirmation =
+        confirm(
+            "Are you sure you want to delete " +
+            name +
+            "?"
+        );
+
+
+    if(confirmation){
+
+        row.remove();
+
+        updateStaffCounters();
+
+        alert(
+            name +
+            " has been removed."
+        );
+
+    }
+
+}
+
+
+
+/* =====================================================
+   FORM SUBMIT
+===================================================== */
+
+document.getElementById("staffForm")
+.addEventListener(
+    "submit",
+    function(event){
+
+        event.preventDefault();
+
+
+        const name =
+            document.getElementById("name")
+            .value;
+
+
+        const email =
+            document.getElementById("email")
+            .value;
+
+
+        const phone =
+            document.getElementById("phone")
+            .value;
+
+
+        const role =
+            document.getElementById("role")
+            .value;
+
+
+        const shift =
+            document.getElementById("shift")
+            .value;
+
+
+        const status =
+            document.getElementById("status")
+            .value;
+
+
+        /* EDIT */
+
+        if(editingRow){
+
+            editingRow.dataset.name =
+                name;
+
+            editingRow.dataset.email =
+                email;
+
+            editingRow.dataset.role =
+                role;
+
+            editingRow.dataset.status =
+                status;
+
+
+            const avatar =
+                editingRow
+                .querySelector(".staff-avatar");
+
+
+            avatar.textContent =
+                getInitials(name);
+
+
+            editingRow
+            .querySelector(".staff-name")
+            .textContent =
+                name;
+
+
+            editingRow
+            .querySelector(".staff-email")
+            .textContent =
+                email;
+
+
+            editingRow
+            .querySelector(".role")
+            .textContent =
+                role;
+
+
+            editingRow
+            .querySelector(".role")
+            .className =
+                "role " +
+                getRoleClass(role);
+
+
+            editingRow
+            .querySelector(".status")
+            .textContent =
+                status;
+
+
+            editingRow
+            .querySelector(".status")
+            .className =
+                "status " +
+                getStatusClass(status);
+
+
+            editingRow
+            .cells[2]
+            .textContent =
+                phone;
+
+
+            editingRow
+            .cells[4]
+            .textContent =
+                shift;
+
+
+            alert(
+                name +
+                " has been updated."
+            );
+
+        }
+
+
+        /* ADD */
+
+        else{
+
+            const tbody =
+                document.getElementById(
+                    "staffTable"
+                );
+
+
+            const row =
+                document.createElement("tr");
+
+
+            row.dataset.name =
+                name;
+
+            row.dataset.email =
+                email;
+
+            row.dataset.role =
+                role;
+
+            row.dataset.status =
+                status;
+
+
+            row.innerHTML = `
+
+                <td>
+
+                    <div class="staff-person">
+
+                        <div class="staff-avatar">
+                            ${getInitials(name)}
+                        </div>
+
+                        <div>
+
+                            <div class="staff-name">
+                                ${name}
+                            </div>
+
+                            <div class="staff-email">
+                                ${email}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </td>
+
+
+                <td>
+
+                    <span class="role ${getRoleClass(role)}">
+                        ${role}
+                    </span>
+
+                </td>
+
+
+                <td>
+                    ${phone}
+                </td>
+
+
+                <td>
+
+                    <span class="status ${getStatusClass(status)}">
+                        ${status}
+                    </span>
+
+                </td>
+
+
+                <td>
+                    ${shift}
+                </td>
+
+
+                <td>
+
+                    <div class="actions">
+
+                        <button
+                            class="action-btn"
+                            onclick="editStaff(this)">
+
+                            Edit
+
+                        </button>
+
+
+                        <button
+                            class="action-btn delete-btn"
+                            onclick="deleteStaff(this)">
+
+                            Delete
+
+                        </button>
+
+                    </div>
+
+                </td>
+
+            `;
+
+
+            tbody.appendChild(row);
+
+
+            alert(
+                name +
+                " has been added."
+            );
+
+        }
+
+
+        closeModal();
+
+        updateStaffCounters();
+
+        filterStaff();
+
+    }
+);
+
+
+
+/* =====================================================
+   ROLE CLASS
+===================================================== */
+
+function getRoleClass(role){
+
+    if(role === "Admin")
+        return "role-admin";
+
+    if(role === "Chef")
+        return "role-chef";
+
+    if(role === "Waiter")
+        return "role-waiter";
+
+    if(role === "Cashier")
+        return "role-cashier";
+
+    return "";
+
+}
+
+
+
+/* =====================================================
+   STATUS CLASS
+===================================================== */
+
+function getStatusClass(status){
+
+    if(status === "Active")
+        return "status-active";
+
+    return "status-off";
+
+}
+
+
+
+/* =====================================================
+   INITIALS
+===================================================== */
+
+function getInitials(name){
+
+    return name
+        .split(" ")
+        .map(word => word[0])
+        .join("")
+        .substring(0,2)
+        .toUpperCase();
+
+}
+
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+document.getElementById("searchInput")
+.addEventListener(
+    "input",
+    filterStaff
+);
+
+
+
+/* =====================================================
+   ROLE FILTER
+===================================================== */
+
+document.getElementById("roleFilter")
+.addEventListener(
+    "change",
+    filterStaff
+);
+
+
+
+/* =====================================================
+   STATUS FILTER
+===================================================== */
+
+document.getElementById("statusFilter")
+.addEventListener(
+    "change",
+    filterStaff
+);
+
+
+
+/* =====================================================
+   FILTER STAFF
+===================================================== */
+
+function filterStaff(){
+
+    const search =
+        document.getElementById(
+            "searchInput"
+        ).value.toLowerCase();
+
+
+    const role =
+        document.getElementById(
+            "roleFilter"
+        ).value;
+
+
+    const status =
+        document.getElementById(
+            "statusFilter"
+        ).value;
+
+
+    const rows =
+        document.querySelectorAll(
+            "#staffTable tr"
+        );
+
+
+    let visible = 0;
+
+
+    rows.forEach(row => {
+
+        const name =
+            row.dataset.name
+            .toLowerCase();
+
+
+        const email =
+            row.dataset.email
+            .toLowerCase();
+
+
+        const rowRole =
+            row.dataset.role;
+
+
+        const rowStatus =
+            row.dataset.status;
+
+
+        const searchMatch =
+            name.includes(search) ||
+            email.includes(search);
+
+
+        const roleMatch =
+            role === "all" ||
+            rowRole === role;
+
+
+        const statusMatch =
+            status === "all" ||
+            rowStatus === status;
+
+
+        if(
+            searchMatch &&
+            roleMatch &&
+            statusMatch
+        ){
+
+            row.style.display =
+                "";
+
+            visible++;
+
+        }
+        else{
+
+            row.style.display =
+                "none";
+
+        }
+
+    });
+
+
+    document.getElementById(
+        "staffCount"
+    ).textContent =
+        visible + " employees";
+
+}
+
+
+
+/* =====================================================
+   UPDATE COUNTERS
+===================================================== */
+
+function updateStaffCounters(){
+
+    const rows =
+        document.querySelectorAll(
+            "#staffTable tr"
+        );
+
+
+    let total = 0;
+
+    let active = 0;
+
+
+    rows.forEach(row => {
+
+        total++;
+
+
+        if(
+            row.dataset.status ===
+            "Active"
+        ){
+
+            active++;
+
+        }
+
+    });
+
+
+    document.getElementById(
+        "totalStaff"
+    ).textContent =
+        total;
+
+
+    document.getElementById(
+        "activeStaff"
+    ).textContent =
+        active;
+
+
+    document.getElementById(
+        "shift-count"
+    ).textContent =
+        active +
+        " staff scheduled tonight";
+
+}
+
+
+
+/* =====================================================
+   CLOSE MODAL
+===================================================== */
+
+function closeModal(){
+
+    document.getElementById(
+        "staffModal"
+    ).classList.remove("show");
+
+}
+
+
+
+/* =====================================================
+   CLOSE MODAL OUTSIDE
+===================================================== */
+
+document.getElementById("staffModal")
+.addEventListener(
+    "click",
+    function(event){
+
+        if(event.target === this){
+
+            closeModal();
+
+        }
+
+    }
+);
+
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout(){
+
+    const confirmation =
+        confirm(
+            "Are you sure you want to logout?"
+        );
+
+
+    if(confirmation){
+
+        window.location.href =
+            "login.html";
+
+    }
+
+}
+
+</script>
+
+
+</body>
+
+</html>

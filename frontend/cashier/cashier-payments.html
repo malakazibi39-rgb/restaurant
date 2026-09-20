@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Payments & Invoices</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f5f6fa;
+    color:#2d3436;
+}
+
+.layout{
+    display:flex;
+    min-height:100vh;
+}
+
+.sidebar{
+    width:250px;
+    background:#1f2937;
+    color:white;
+    padding:20px 15px;
+    position:fixed;
+    height:100vh;
+}
+
+.logo{
+    text-align:center;
+    font-size:22px;
+    font-weight:bold;
+    margin-bottom:35px;
+}
+
+.logo span{
+    color:#f39c12;
+}
+
+.profile{
+    text-align:center;
+    padding-bottom:25px;
+    border-bottom:1px solid #374151;
+    margin-bottom:20px;
+}
+
+.avatar{
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    background:#f39c12;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:auto;
+    font-size:28px;
+}
+
+.profile h3{
+    margin-top:10px;
+}
+
+.profile p{
+    color:#9ca3af;
+    font-size:13px;
+}
+
+.menu a{
+    display:flex;
+    gap:12px;
+    align-items:center;
+    color:#d1d5db;
+    text-decoration:none;
+    padding:13px 15px;
+    border-radius:8px;
+    margin-bottom:7px;
+}
+
+.menu a:hover,
+.menu a.active{
+    background:#f39c12;
+    color:white;
+}
+
+.logout{
+    position:absolute;
+    bottom:20px;
+    left:15px;
+    right:15px;
+}
+
+.logout a{
+    color:#ff7675;
+}
+
+.main{
+    margin-left:250px;
+    width:calc(100% - 250px);
+}
+
+.topbar{
+    height:70px;
+    background:white;
+    padding:0 30px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid #eee;
+}
+
+.date{
+    color:#777;
+}
+
+.content{
+    padding:30px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    margin-bottom:25px;
+}
+
+.stat{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+}
+
+.stat h3{
+    font-size:27px;
+    margin:8px 0;
+}
+
+.stat p{
+    color:#777;
+}
+
+.toolbar{
+    background:white;
+    padding:18px;
+    border-radius:12px;
+    margin-bottom:20px;
+    display:flex;
+    justify-content:space-between;
+}
+
+.search{
+    padding:10px 15px;
+    border:1px solid #ddd;
+    border-radius:7px;
+    width:240px;
+}
+
+.box{
+    background:white;
+    border-radius:12px;
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:900px;
+}
+
+th{
+    padding:16px;
+    background:#f8f9fa;
+    text-align:left;
+    color:#666;
+    font-size:13px;
+}
+
+td{
+    padding:16px;
+    border-top:1px solid #eee;
+}
+
+.status{
+    padding:6px 10px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.paid{
+    background:#d1fae5;
+    color:#047857;
+}
+
+.refunded{
+    background:#fee2e2;
+    color:#b91c1c;
+}
+
+.btn{
+    border:none;
+    padding:8px 12px;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.invoice{
+    background:#3498db;
+    color:white;
+}
+
+.print{
+    background:#f1f2f6;
+}
+
+@media(max-width:1000px){
+
+.stats{
+    grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+@media(max-width:700px){
+
+.sidebar{
+    width:70px;
+    padding:15px 8px;
+}
+
+.logo span,
+.profile h3,
+.profile p,
+.menu span{
+    display:none;
+}
+
+.profile{
+    border:none;
+}
+
+.main{
+    margin-left:70px;
+    width:calc(100% - 70px);
+}
+
+.content{
+    padding:15px;
+}
+
+.toolbar{
+    flex-direction:column;
+    gap:12px;
+}
+
+.search{
+    width:100%;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="layout">
+
+<aside class="sidebar">
+
+<div class="logo">💳 <span>Restaurant</span></div>
+
+<div class="profile">
+
+<div class="avatar">💰</div>
+
+<h3>Michael Carter</h3>
+<p>Cashier</p>
+
+</div>
+
+<nav class="menu">
+
+<a href="cashier.html">
+🏠 <span>Dashboard</span>
+</a>
+
+<a href="cashier-orders.html">
+📋 <span>Orders</span>
+</a>
+
+<a href="cashier-payments.html" class="active">
+💳 <span>Payments</span>
+</a>
+
+</nav>
+
+<div class="logout">
+<a href="login.html">
+🚪 <span>Logout</span>
+</a>
+</div>
+
+</aside>
+
+
+<main class="main">
+
+<header class="topbar">
+
+<h2>Payments & Invoices</h2>
+
+<div class="date" id="date"></div>
+
+</header>
+
+
+<section class="content">
+
+<div class="stats">
+
+<div class="stat">
+<h3>41</h3>
+<p>Paid Orders</p>
+</div>
+
+<div class="stat">
+<h3>86,500 DA</h3>
+<p>Total Revenue</p>
+</div>
+
+<div class="stat">
+<h3>38</h3>
+<p>Cash Payments</p>
+</div>
+
+<div class="stat">
+<h3>3</h3>
+<p>Card Payments</p>
+</div>
+
+</div>
+
+
+<div class="toolbar">
+
+<h3>Payment History</h3>
+
+<input
+id="search"
+class="search"
+placeholder="Search payment..."
+onkeyup="searchPayments()">
+
+</div>
+
+
+<div class="box">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Payment ID</th>
+<th>Order</th>
+<th>Customer</th>
+<th>Amount</th>
+<th>Method</th>
+<th>Date</th>
+<th>Status</th>
+<th>Invoice</th>
+</tr>
+
+</thead>
+
+<tbody id="payments">
+
+
+<tr>
+
+<td><strong>#PAY-2045</strong></td>
+
+<td>#ORD-1045</td>
+
+<td>Mia Taylor</td>
+
+<td>3,200 DA</td>
+
+<td>Cash</td>
+
+<td>18 Sep 2026 19:30</td>
+
+<td>
+<span class="status paid">Paid</span>
+</td>
+
+<td>
+
+<button
+class="btn invoice"
+onclick="invoice('PAY-2045')">
+Invoice
+</button>
+
+<button
+class="btn print"
+onclick="printInvoice('PAY-2045')">
+Print
+</button>
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td><strong>#PAY-2044</strong></td>
+
+<td>#ORD-1044</td>
+
+<td>David Miller</td>
+
+<td>5,200 DA</td>
+
+<td>Card</td>
+
+<td>18 Sep 2026 19:15</td>
+
+<td>
+<span class="status paid">Paid</span>
+</td>
+
+<td>
+
+<button
+class="btn invoice"
+onclick="invoice('PAY-2044')">
+Invoice
+</button>
+
+<button
+class="btn print"
+onclick="printInvoice('PAY-2044')">
+Print
+</button>
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td><strong>#PAY-2043</strong></td>
+
+<td>#ORD-1043</td>
+
+<td>Emma Wilson</td>
+
+<td>4,800 DA</td>
+
+<td>Cash</td>
+
+<td>18 Sep 2026 18:55</td>
+
+<td>
+<span class="status paid">Paid</span>
+</td>
+
+<td>
+
+<button
+class="btn invoice"
+onclick="invoice('PAY-2043')">
+Invoice
+</button>
+
+<button
+class="btn print"
+onclick="printInvoice('PAY-2043')">
+Print
+</button>
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td><strong>#PAY-2042</strong></td>
+
+<td>#ORD-1042</td>
+
+<td>James Smith</td>
+
+<td>2,800 DA</td>
+
+<td>Cash</td>
+
+<td>18 Sep 2026 18:30</td>
+
+<td>
+<span class="status paid">Paid</span>
+</td>
+
+<td>
+
+<button
+class="btn invoice"
+onclick="invoice('PAY-2042')">
+Invoice
+</button>
+
+<button
+class="btn print"
+onclick="printInvoice('PAY-2042')">
+Print
+</button>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+
+<script>
+
+document.getElementById("date").textContent =
+new Date().toLocaleDateString("en-US",{
+weekday:"long",
+year:"numeric",
+month:"long",
+day:"numeric"
+});
+
+
+function searchPayments(){
+
+const value=
+document.getElementById("search")
+.value.toLowerCase();
+
+document.querySelectorAll("#payments tr")
+.forEach(row=>{
+
+row.style.display=
+row.innerText.toLowerCase().includes(value)
+?"":"none";
+
+});
+
+}
+
+
+function invoice(id){
+
+alert(
+"Invoice generated successfully for "+id
+);
+
+}
+
+
+function printInvoice(id){
+
+alert(
+"Printing invoice "+id
+);
+
+window.print();
+
+}
+
+</script>
+
+</body>
+</html>

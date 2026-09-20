@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ember & Ash — New Order</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   EMBER & ASH — shared theme
+   Used by: server-home.html, order-management.html,
+            chef-kitchen.html, delivery-dispatch.html
+   ============================================================ */
+
+:root{
+  --char: #1C1815;
+  --char-2: #241f1a;
+  --char-3: #2c2620;
+  --ember: #C1502E;       /* new / fired ticket */
+  --ember-bright: #E06B3F;
+  --gold: #B8935A;        /* preparing */
+  --olive: #6F8F63;       /* ready */
+  --smoke: #6E8CA0;       /* delivered / done */
+  --bone: #EDE6D6;
+  --bone-dim: rgba(237,230,214,0.55);
+  --bone-faint: rgba(237,230,214,0.35);
+  --line: rgba(237,230,214,0.14);
+}
+
+*{ box-sizing:border-box; }
+
+body{
+  margin:0;
+  background: var(--char);
+  color: var(--bone);
+  font-family:'Work Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  min-height:100vh;
+}
+
+.mono{ font-family:'JetBrains Mono', monospace; }
+.serif{ font-family:'Fraunces', serif; }
+
+a{ color: inherit; }
+
+/* ---- header (shared across all pages) ---- */
+header.site{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding: 1.6rem 3vw;
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top:0;
+  background: rgba(28,24,21,0.92);
+  backdrop-filter: blur(6px);
+  z-index: 10;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.brand{
+  display:flex;
+  align-items:baseline;
+  gap: 0.9rem;
+}
+.brand h1{
+  font-family:'Fraunces', serif;
+  font-weight: 400;
+  font-size: 1.4rem;
+  margin:0;
+}
+.brand h1 em{ font-style: italic; color: var(--ember-bright); }
+.brand .tag{
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+}
+.header-right{
+  display:flex;
+  align-items:center;
+  gap: 1.1rem;
+}
+.role-pill{
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  border: 1px solid var(--line);
+  padding: 0.4rem 0.9rem;
+  border-radius: 20px;
+}
+.clock{
+  font-size: 0.85rem;
+  color: var(--bone-dim);
+}
+
+.wrap{
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 2.4rem 3vw 4rem;
+}
+
+/* ---- buttons ---- */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.3rem;
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+  border-radius: 2px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-family:'Work Sans', sans-serif;
+  text-decoration:none;
+  transition: transform .15s ease, opacity .15s ease;
+}
+.btn:hover{ transform: translateY(-1px); }
+.btn:focus-visible{ outline: 2px solid var(--bone); outline-offset: 2px; }
+.btn-ember{ background: var(--ember); color: var(--bone); }
+.btn-gold{ background: var(--gold); color: var(--char); }
+.btn-olive{ background: var(--olive); color: var(--char); }
+.btn-smoke{ background: var(--smoke); color: var(--char); }
+.btn-ghost{
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--bone-dim);
+}
+.btn-ghost:hover{ border-color: var(--bone); color: var(--bone); }
+
+/* ---- generic panel/card ---- */
+.panel{
+  background: var(--char-2);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 1.6rem 1.5rem 1.8rem;
+}
+.panel h2{
+  font-family:'Fraunces', serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 1.1rem;
+  margin: 0 0 1.2rem;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+}
+.panel h2 a.see-all{
+  font-family:'Work Sans', sans-serif;
+  font-style: normal;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+  text-decoration:none;
+}
+.panel h2 a.see-all:hover{ color: var(--bone); }
+
+/* ---- stat cards ---- */
+.stat-card{
+  background: var(--char-2);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--stat-color, var(--ember));
+  border-radius: 3px;
+  padding: 1.1rem 1.2rem;
+}
+.stat-card .label{
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+  display:flex;
+  align-items:center;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+.stat-dot{ width:8px; height:8px; border-radius:50%; background: var(--stat-color, var(--ember)); }
+.stat-card .value{
+  font-family:'JetBrains Mono', monospace;
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+/* ---- ticket card (used on order/delivery pages too) ---- */
+.ticket{
+  background: var(--char-2);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  position: relative;
+  overflow: hidden;
+}
+.ticket::before{
+  content:'';
+  position:absolute;
+  top:0; left:0; right:0;
+  height: 6px;
+  background-image: radial-gradient(circle, var(--char) 2.5px, transparent 2.6px);
+  background-size: 14px 14px;
+  background-position: 0 -7px;
+}
+.ticket-top{
+  padding: 1.1rem 1.2rem 0.8rem;
+  display:flex;
+  justify-content: space-between;
+  align-items:flex-start;
+  gap: 0.8rem;
+}
+.ticket-id{
+  font-family:'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+}
+.ticket-name{
+  font-family:'Fraunces', serif;
+  font-size: 1.1rem;
+  margin-top: 0.3rem;
+}
+.ticket-phone{
+  font-family:'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--bone-faint);
+  margin-top: 0.25rem;
+}
+.ticket-total{
+  font-family:'JetBrains Mono', monospace;
+  font-size: 1rem;
+  color: var(--bone);
+  white-space: nowrap;
+}
+.ticket-total .cur{ color: var(--bone-faint); font-size:0.72rem; }
+
+.empty-note{
+  font-size: 0.85rem;
+  color: var(--bone-faint);
+  font-style: italic;
+  font-family:'Fraunces', serif;
+  padding: 1rem 0;
+}
+
+/* ---- inputs ---- */
+.field{
+  display:flex;
+  flex-direction:column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+.field label{
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+}
+.field input{
+  background: var(--char);
+  border: 1px solid var(--line);
+  color: var(--bone);
+  padding: 0.75rem 0.8rem;
+  border-radius: 2px;
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+.field input:focus{
+  outline:none;
+  border-color: var(--ember);
+  box-shadow: 0 0 0 3px rgba(193,80,46,0.2);
+}
+
+.back-link{
+  display:inline-block;
+  margin-top: 1.8rem;
+  font-size: 0.78rem;
+  color: var(--bone-faint);
+  text-decoration:none;
+  letter-spacing: 0.04em;
+}
+.back-link:hover{ color: var(--bone); }
+
+</style>
+<style>
+  .layout{
+    display:grid;
+    grid-template-columns: 1fr 380px;
+    gap: 1.4rem;
+    align-items:start;
+  }
+  @media (max-width: 900px){ .layout{ grid-template-columns: 1fr; } }
+
+  .category-tabs{ display:flex; gap: 0.5rem; flex-wrap:wrap; margin-bottom: 1.1rem; }
+  .cat-tab{
+    background: var(--char);
+    border: 1px solid var(--line);
+    color: var(--bone-faint);
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.5rem 0.9rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family:'Work Sans', sans-serif;
+  }
+  .cat-tab:hover{ color: var(--bone); border-color: var(--ember); }
+  .cat-tab.active{ background: var(--ember); border-color: var(--ember); color: var(--bone); font-weight:600; }
+
+  .item-grid{ display:flex; flex-direction:column; gap: 0.6rem; }
+  .item-row{
+    display:flex;
+    align-items:center;
+    gap: 0.9rem;
+    background: var(--char);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding: 0.8rem 0.9rem;
+  }
+  .item-icon{
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--char-3);
+    display:flex; align-items:center; justify-content:center;
+    font-size: 1.1rem;
+    flex-shrink:0;
+  }
+  .item-info{ flex:1; min-width:0; }
+  .item-name{ font-family:'Fraunces', serif; font-size: 0.95rem; }
+  .item-desc{ font-size: 0.72rem; color: var(--bone-faint); margin-top: 0.15rem; }
+  .item-price{ font-family:'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--gold); margin-top: 0.2rem; }
+  .item-add{
+    background: transparent;
+    border: 1px solid var(--ember);
+    color: var(--ember-bright);
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    line-height:1;
+    cursor: pointer;
+    flex-shrink:0;
+  }
+  .item-add:hover{ background: var(--ember); color: var(--bone); }
+
+  .cart-list{ list-style:none; margin: 0 0 1rem; padding:0; display:flex; flex-direction:column; gap: 0.5rem; }
+  .cart-list li{
+    display:flex; align-items:center; justify-content:space-between;
+    font-size: 0.85rem;
+    background: var(--char);
+    padding: 0.6rem 0.8rem;
+    border-radius: 2px;
+    border: 1px solid var(--line);
+  }
+  .cart-qty{ display:flex; align-items:center; gap: 0.5rem; }
+  .cart-qty button{
+    background: var(--char-3);
+    border: 1px solid var(--line);
+    color: var(--bone);
+    width: 22px; height:22px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.75rem;
+  }
+  .cart-empty{ font-size: 0.8rem; color: var(--bone-faint); font-style: italic; padding: 0.7rem 0; }
+  .cart-total{
+    display:flex; justify-content:space-between;
+    font-size: 1rem; font-weight:600;
+    padding: 0.8rem 0;
+    border-top: 1px solid var(--line);
+    margin-bottom: 0.8rem;
+  }
+  .cart-total span{ font-family:'JetBrains Mono', monospace; color: var(--ember-bright); }
+
+  .fire-btn{ width: 100%; }
+  .fire-btn:disabled{ background: var(--char-3); color: var(--bone-faint); cursor:not-allowed; }
+
+  .form-msg{ font-size: 0.78rem; color: var(--olive); min-height: 1.1rem; margin-top: 0.6rem; }
+
+  .fired-list{ display:flex; flex-direction:column; gap: 0.7rem; margin-top: 1.4rem; }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="brand">
+    <h1>Ember <em>&amp;</em> Ash</h1>
+    <span class="tag">New Order</span>
+  </div>
+  <div class="header-right">
+    <span class="role-pill">Front of House</span>
+    <span class="clock mono" id="clock"></span>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="layout">
+
+    <div class="panel">
+      <h2>Menu</h2>
+      <div class="category-tabs" id="categoryTabs"></div>
+      <div class="item-grid" id="itemGrid"></div>
+    </div>
+
+    <div class="panel">
+      <h2>New Ticket</h2>
+      <div class="field">
+        <label>Customer name</label>
+        <input type="text" id="custName" placeholder="e.g. Marisol Ibarra">
+      </div>
+      <div class="field">
+        <label>Phone</label>
+        <input type="text" id="custPhone" placeholder="e.g. 555-0182">
+      </div>
+
+      <h2 style="margin-top:1.6rem;">Cart</h2>
+      <ul class="cart-list" id="cartList"></ul>
+      <div class="cart-empty" id="cartEmptyMsg">No items added yet.</div>
+      <div class="cart-total">Total <span id="cartTotal">$0.00</span></div>
+      <button id="fireBtn" class="btn btn-ember fire-btn" disabled>Fire Order →</button>
+      <div class="form-msg" id="formMsg"></div>
+
+      <div class="fired-list" id="firedList"></div>
+    </div>
+
+  </div>
+
+  <a class="back-link" href="serverhome.html">← Back to server home</a>
+</div>
+
+<script>
+  // ---- mock menu data, matching your categories / menu_items tables ----
+  const CATEGORIES = [
+    { id: 1, name: "Starters" },
+    { id: 2, name: "Mains" },
+    { id: 3, name: "Drinks" },
+    { id: 4, name: "Desserts" }
+  ];
+
+  const MENU_ITEMS = [
+    { id: 1, category_id: 1, name: "Charred Leek", description: "Walnut, brown butter", price: 14, icon: "🌿" },
+    { id: 2, category_id: 1, name: "Smoked Trout", description: "Rye, horseradish", price: 16, icon: "🐟" },
+    { id: 3, category_id: 1, name: "Wood Oven Flatbread", description: "Cultured butter", price: 9, icon: "🥖" },
+    { id: 4, category_id: 2, name: "Grilled Hispi Cabbage", description: "Anchovy, chili", price: 15, icon: "🥬" },
+    { id: 5, category_id: 2, name: "Dry-Aged Ribeye", description: "Embers, bone marrow", price: 46, icon: "🥩" },
+    { id: 6, category_id: 2, name: "Whole Grilled Sea Bream", description: "Salsa verde", price: 38, icon: "🐠" },
+    { id: 7, category_id: 3, name: "House Red, Glass", description: "Southern Rhône blend", price: 12, icon: "🍷" },
+    { id: 8, category_id: 3, name: "Sparkling Water", description: "", price: 4, icon: "🥤" },
+    { id: 9, category_id: 4, name: "Burnt Honey Custard", description: "Smoked salt", price: 12, icon: "🍮" }
+  ];
+
+  let activeCategory = CATEGORIES[0].id;
+  let cart = [];
+  let firedOrders = [];
+  let ticketSeq = 106;
+
+  const categoryTabsEl = document.getElementById("categoryTabs");
+  const itemGridEl = document.getElementById("itemGrid");
+  const cartListEl = document.getElementById("cartList");
+  const cartEmptyMsgEl = document.getElementById("cartEmptyMsg");
+  const cartTotalEl = document.getElementById("cartTotal");
+  const fireBtn = document.getElementById("fireBtn");
+  const formMsgEl = document.getElementById("formMsg");
+  const firedListEl = document.getElementById("firedList");
+  const custNameEl = document.getElementById("custName");
+  const custPhoneEl = document.getElementById("custPhone");
+
+  function renderCategoryTabs(){
+    categoryTabsEl.innerHTML = "";
+    CATEGORIES.forEach(cat => {
+      const btn = document.createElement("button");
+      btn.className = "cat-tab" + (cat.id === activeCategory ? " active" : "");
+      btn.textContent = cat.name;
+      btn.onclick = () => { activeCategory = cat.id; renderCategoryTabs(); renderItemGrid(); };
+      categoryTabsEl.appendChild(btn);
+    });
+  }
+
+  function renderItemGrid(){
+    itemGridEl.innerHTML = "";
+    MENU_ITEMS.filter(i => i.category_id === activeCategory).forEach(item => {
+      const row = document.createElement("div");
+      row.className = "item-row";
+      row.innerHTML = `
+        <div class="item-icon">${item.icon}</div>
+        <div class="item-info">
+          <div class="item-name">${item.name}</div>
+          ${item.description ? `<div class="item-desc">${item.description}</div>` : ""}
+          <div class="item-price">$${item.price.toFixed(2)}</div>
+        </div>
+        <button class="item-add" title="Add to cart">+</button>
+      `;
+      row.querySelector(".item-add").onclick = () => addToCart(item);
+      itemGridEl.appendChild(row);
+    });
+  }
+
+  function addToCart(item){
+    const existing = cart.find(c => c.menu_item_id === item.id);
+    if (existing) existing.quantity += 1;
+    else cart.push({ menu_item_id: item.id, name: item.name, price: item.price, quantity: 1 });
+    renderCart();
+  }
+
+  function changeQty(menuItemId, delta){
+    const line = cart.find(c => c.menu_item_id === menuItemId);
+    if (!line) return;
+    line.quantity += delta;
+    if (line.quantity <= 0) cart = cart.filter(c => c.menu_item_id !== menuItemId);
+    renderCart();
+  }
+
+  function cartTotal(){ return cart.reduce((sum, c) => sum + c.price * c.quantity, 0); }
+
+  function renderCart(){
+    cartListEl.innerHTML = "";
+    cartEmptyMsgEl.style.display = cart.length === 0 ? "block" : "none";
+    cart.forEach(line => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <span>${line.name}</span>
+        <span class="cart-qty">
+          <button data-a="dec">−</button>
+          <span class="mono">${line.quantity}</span>
+          <button data-a="inc">+</button>
+        </span>
+      `;
+      li.querySelector('[data-a="dec"]').onclick = () => changeQty(line.menu_item_id, -1);
+      li.querySelector('[data-a="inc"]').onclick = () => changeQty(line.menu_item_id, 1);
+      cartListEl.appendChild(li);
+    });
+    cartTotalEl.textContent = "$" + cartTotal().toFixed(2);
+    fireBtn.disabled = cart.length === 0;
+  }
+
+  fireBtn.addEventListener("click", () => {
+    const name = custNameEl.value.trim();
+    if (!name){
+      formMsgEl.style.color = "var(--ember-bright)";
+      formMsgEl.textContent = "Add the customer's name before firing the order.";
+      return;
+    }
+    if (cart.length === 0) return;
+
+    const order = {
+      id: ticketSeq++,
+      customer_name: name,
+      phone: custPhoneEl.value.trim() || "—",
+      items: cart.map(c => ({ ...c })),
+      total: cartTotal(),
+      firedAt: new Date()
+    };
+    firedOrders.unshift(order);
+
+    cart = [];
+    custNameEl.value = "";
+    custPhoneEl.value = "";
+    renderCart();
+    formMsgEl.style.color = "var(--olive)";
+    formMsgEl.textContent = `Ticket #${order.id} sent to the kitchen rail.`;
+    setTimeout(() => { formMsgEl.textContent = ""; }, 2500);
+    renderFired();
+  });
+
+  function renderFired(){
+    firedListEl.innerHTML = "";
+    if (firedOrders.length === 0) return;
+    const heading = document.createElement("div");
+    heading.style.cssText = "font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--bone-faint);margin-bottom:0.3rem;";
+    heading.textContent = "Just fired";
+    firedListEl.appendChild(heading);
+    firedOrders.slice(0, 4).forEach(o => {
+      const row = document.createElement("div");
+      row.className = "ticket";
+      row.style.padding = "0.1rem 0";
+      row.innerHTML = `
+        <div class="ticket-top" style="padding:0.9rem 1rem;">
+          <div>
+            <div class="ticket-id">ORDER #${o.id}</div>
+            <div class="ticket-name" style="font-size:0.95rem;">${o.customer_name}</div>
+          </div>
+          <div class="ticket-total"><span class="cur">$</span>${o.total.toFixed(2)}</div>
+        </div>
+      `;
+      firedListEl.appendChild(row);
+    });
+  }
+
+  function tick(){
+    document.getElementById('clock').textContent = new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  renderCategoryTabs();
+  renderItemGrid();
+  renderCart();
+</script>
+</body>
+</html>

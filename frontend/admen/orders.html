@@ -1,0 +1,2858 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>The Marrow — Orders</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+
+    --charcoal:#221D19;
+    --charcoal-2:#2E2721;
+    --charcoal-3:#3A312A;
+
+    --cream:#F8F4EA;
+    --paper:#FFFFFF;
+
+    --ink:#2B2420;
+
+    --muted:#8A7F72;
+    --muted-2:#B4A995;
+
+    --ember:#D98A3D;
+    --ember-dark:#B86F2C;
+    --ember-tint:#FCEBD6;
+
+    --sage:#6F8A5E;
+    --sage-tint:#E7EEE2;
+
+    --rust:#A8442F;
+
+    --blue:#66758C;
+    --blue-tint:#E8ECF2;
+
+    --line:#E4DCC8;
+
+    --radius:3px;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+
+    background:var(--cream);
+
+    color:var(--ink);
+
+    font-family:'Inter',sans-serif;
+
+    -webkit-font-smoothing:antialiased;
+}
+
+.num{
+
+    font-family:'IBM Plex Mono',monospace;
+
+}
+
+
+/* =====================================================
+   APP
+===================================================== */
+
+.app{
+
+    display:grid;
+
+    grid-template-columns:236px 1fr;
+
+    min-height:100vh;
+}
+
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.sidebar{
+
+    background:var(--charcoal);
+
+    color:var(--cream);
+
+    padding:28px 22px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:36px;
+
+    min-height:100vh;
+}
+
+.brand{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:2px;
+
+    border-bottom:1px solid rgba(248,244,234,.12);
+
+    padding-bottom:20px;
+}
+
+.brand .mark{
+
+    font-family:'Fraunces',serif;
+
+    font-weight:700;
+
+    font-size:22px;
+}
+
+.brand .mark span{
+
+    color:var(--ember);
+}
+
+.brand .sub{
+
+    font-size:11px;
+
+    letter-spacing:.14em;
+
+    text-transform:uppercase;
+
+    color:var(--muted-2);
+}
+
+nav{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:3px;
+}
+
+.navlink{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:11px 12px;
+
+    border-radius:var(--radius);
+
+    color:var(--muted-2);
+
+    text-decoration:none;
+
+    font-size:14px;
+
+    font-weight:500;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.navlink:hover{
+
+    background:var(--charcoal-2);
+
+    color:var(--cream);
+}
+
+.navlink.active{
+
+    background:var(--charcoal-2);
+
+    color:var(--cream);
+
+    border-left:3px solid var(--ember);
+}
+
+.navlink svg{
+
+    width:17px;
+
+    height:17px;
+
+    flex-shrink:0;
+}
+
+.shift-card{
+
+    margin-top:auto;
+
+    background:var(--charcoal-2);
+
+    border:1px dashed rgba(248,244,234,.18);
+
+    border-radius:var(--radius);
+
+    padding:14px;
+
+    font-size:12px;
+
+    color:var(--muted-2);
+
+    line-height:1.5;
+}
+
+.shift-card strong{
+
+    color:var(--cream);
+
+    display:block;
+
+    font-size:13px;
+
+    margin-bottom:2px;
+}
+
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+.main{
+
+    padding:32px 40px 60px;
+
+    width:100%;
+
+    max-width:1250px;
+}
+
+
+/* =====================================================
+   TOP BAR
+===================================================== */
+
+.topbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-end;
+
+    margin-bottom:30px;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+}
+
+.topbar h1{
+
+    font-family:'Fraunces',serif;
+
+    font-weight:600;
+
+    font-size:30px;
+}
+
+.date{
+
+    color:var(--muted);
+
+    font-size:13px;
+
+    margin-top:5px;
+}
+
+.admin-profile{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+}
+
+.avatar{
+
+    width:38px;
+
+    height:38px;
+
+    border-radius:50%;
+
+    background:var(--charcoal);
+
+    color:white;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-weight:600;
+}
+
+.admin-info strong{
+
+    font-size:13px;
+
+    display:block;
+}
+
+.admin-info small{
+
+    font-size:11px;
+
+    color:var(--muted);
+}
+
+
+/* =====================================================
+   SUMMARY
+===================================================== */
+
+.summary{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:18px;
+
+    margin-bottom:28px;
+}
+
+.summary-card{
+
+    background:var(--paper);
+
+    border:1px solid var(--line);
+
+    padding:18px;
+}
+
+.summary-card .label{
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.1em;
+
+    margin-bottom:10px;
+}
+
+.summary-card .value{
+
+    font-family:'IBM Plex Mono',monospace;
+
+    font-size:25px;
+
+    font-weight:600;
+}
+
+.summary-card .small{
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    margin-top:6px;
+}
+
+
+/* =====================================================
+   TOOLBAR
+===================================================== */
+
+.toolbar{
+
+    background:var(--paper);
+
+    border:1px solid var(--line);
+
+    padding:18px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-bottom:18px;
+
+    flex-wrap:wrap;
+}
+
+.search{
+
+    flex:1;
+
+    min-width:220px;
+
+    position:relative;
+}
+
+.search input{
+
+    width:100%;
+
+    padding:11px 14px;
+
+    border:1px solid var(--line);
+
+    background:var(--cream);
+
+    outline:none;
+
+    font-family:'Inter',sans-serif;
+
+    font-size:13px;
+}
+
+.search input:focus{
+
+    border-color:var(--ember);
+}
+
+.filter{
+
+    padding:11px 14px;
+
+    border:1px solid var(--line);
+
+    background:var(--cream);
+
+    color:var(--ink);
+
+    font-family:'Inter',sans-serif;
+
+    font-size:13px;
+
+    cursor:pointer;
+}
+
+.filter:focus{
+
+    outline:none;
+
+    border-color:var(--ember);
+}
+
+
+/* =====================================================
+   STATUS TABS
+===================================================== */
+
+.tabs{
+
+    display:flex;
+
+    gap:5px;
+
+    margin-bottom:18px;
+
+    flex-wrap:wrap;
+}
+
+.tab{
+
+    border:1px solid var(--line);
+
+    background:var(--paper);
+
+    padding:9px 16px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    color:var(--muted);
+}
+
+.tab:hover{
+
+    background:var(--charcoal);
+
+    color:white;
+}
+
+.tab.active{
+
+    background:var(--charcoal);
+
+    color:white;
+
+    border-color:var(--charcoal);
+}
+
+
+/* =====================================================
+   ORDERS PANEL
+===================================================== */
+
+.orders-panel{
+
+    background:var(--paper);
+
+    border:1px solid var(--line);
+
+    padding:22px;
+}
+
+.panel-head{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:18px;
+}
+
+.panel-head h2{
+
+    font-family:'Fraunces',serif;
+
+    font-size:19px;
+}
+
+.panel-head span{
+
+    font-size:12px;
+
+    color:var(--muted);
+}
+
+
+/* =====================================================
+   ORDER CARD
+===================================================== */
+
+.order-card{
+
+    border:1px solid var(--line);
+
+    margin-bottom:12px;
+
+    background:#fff;
+
+    transition:.2s;
+}
+
+.order-card:hover{
+
+    box-shadow:0 3px 12px rgba(43,36,32,.06);
+}
+
+.order-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:15px 17px;
+
+    border-bottom:1px solid var(--line);
+
+    gap:15px;
+
+    flex-wrap:wrap;
+}
+
+.order-id{
+
+    font-family:'IBM Plex Mono',monospace;
+
+    font-size:13px;
+
+    font-weight:600;
+}
+
+.order-time{
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    margin-left:8px;
+}
+
+.order-body{
+
+    padding:16px 17px;
+
+    display:grid;
+
+    grid-template-columns:1.5fr 1fr 1fr 1fr;
+
+    gap:20px;
+
+    align-items:center;
+}
+
+.info-label{
+
+    font-size:10px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.08em;
+
+    color:var(--muted);
+
+    margin-bottom:5px;
+}
+
+.info-value{
+
+    font-size:13px;
+
+    font-weight:600;
+}
+
+.info-small{
+
+    font-size:11px;
+
+    color:var(--muted);
+
+    margin-top:3px;
+}
+
+
+/* =====================================================
+   ITEMS
+===================================================== */
+
+.items{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:5px;
+}
+
+.item{
+
+    font-size:13px;
+}
+
+.item span{
+
+    font-family:'IBM Plex Mono',monospace;
+
+    color:var(--muted);
+
+    margin-right:5px;
+}
+
+
+/* =====================================================
+   ORDER FOOTER
+===================================================== */
+
+.order-footer{
+
+    border-top:1px solid var(--line);
+
+    padding:12px 17px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+}
+
+.total{
+
+    font-family:'IBM Plex Mono',monospace;
+
+    font-weight:600;
+
+    font-size:15px;
+}
+
+.actions{
+
+    display:flex;
+
+    gap:7px;
+}
+
+.btn{
+
+    border:none;
+
+    padding:8px 12px;
+
+    font-size:11px;
+
+    font-weight:600;
+
+    cursor:pointer;
+}
+
+.btn-details{
+
+    background:var(--cream);
+
+    color:var(--ink);
+}
+
+.btn-details:hover{
+
+    background:var(--line);
+}
+
+.btn-status{
+
+    background:var(--charcoal);
+
+    color:white;
+}
+
+.btn-status:hover{
+
+    background:var(--ember-dark);
+}
+
+.btn-cancel{
+
+    background:#F5E3DE;
+
+    color:var(--rust);
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.status{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:5px;
+
+    padding:5px 10px;
+
+    border-radius:20px;
+
+    font-size:10px;
+
+    font-weight:600;
+
+    white-space:nowrap;
+}
+
+.status::before{
+
+    content:"";
+
+    width:6px;
+
+    height:6px;
+
+    border-radius:50%;
+
+    background:currentColor;
+}
+
+.pending{
+
+    background:var(--ember-tint);
+
+    color:var(--ember-dark);
+}
+
+.preparing{
+
+    background:var(--blue-tint);
+
+    color:var(--blue);
+}
+
+.ready{
+
+    background:var(--sage-tint);
+
+    color:var(--sage);
+}
+
+.completed{
+
+    background:#E9E7E3;
+
+    color:#625A52;
+}
+
+.cancelled{
+
+    background:#F5E3DE;
+
+    color:var(--rust);
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(34,29,25,.6);
+
+    z-index:100;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+}
+
+.modal.show{
+
+    display:flex;
+}
+
+.modal-content{
+
+    background:var(--paper);
+
+    width:100%;
+
+    max-width:600px;
+
+    max-height:90vh;
+
+    overflow:auto;
+
+    padding:25px;
+
+    border:1px solid var(--line);
+}
+
+.modal-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:22px;
+}
+
+.modal-header h2{
+
+    font-family:'Fraunces',serif;
+
+    font-size:21px;
+}
+
+.close{
+
+    border:none;
+
+    background:none;
+
+    font-size:24px;
+
+    cursor:pointer;
+
+    color:var(--muted);
+}
+
+.detail-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    padding:11px 0;
+
+    border-bottom:1px solid var(--line);
+
+    font-size:13px;
+}
+
+.detail-row span:first-child{
+
+    color:var(--muted);
+}
+
+.modal-items{
+
+    margin:20px 0;
+}
+
+.modal-item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    padding:9px 0;
+
+    border-bottom:1px solid var(--line);
+
+    font-size:13px;
+}
+
+.modal-total{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-top:20px;
+
+    font-family:'IBM Plex Mono',monospace;
+
+    font-size:17px;
+
+    font-weight:600;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:1000px){
+
+    .app{
+
+        grid-template-columns:1fr;
+    }
+
+    .sidebar{
+
+        min-height:auto;
+
+        flex-direction:row;
+
+        align-items:center;
+
+        overflow-x:auto;
+
+        padding:15px;
+    }
+
+    .brand{
+
+        border:none;
+
+        padding:0;
+    }
+
+    nav{
+
+        flex-direction:row;
+    }
+
+    .shift-card{
+
+        display:none;
+    }
+
+    .summary{
+
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .order-body{
+
+        grid-template-columns:1fr 1fr;
+    }
+
+    .main{
+
+        padding:25px 20px;
+    }
+}
+
+@media(max-width:600px){
+
+    .summary{
+
+        grid-template-columns:1fr;
+    }
+
+    .order-body{
+
+        grid-template-columns:1fr;
+    }
+
+    .toolbar{
+
+        flex-direction:column;
+
+        align-items:stretch;
+    }
+
+    .search{
+
+        min-width:100%;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+    <div class="brand">
+
+        <div class="mark">
+            The <span>Marrow</span>
+        </div>
+
+        <div class="sub">
+            Admin Panel
+        </div>
+
+    </div>
+
+
+    <nav>
+
+        <a class="navlink" href="home.html">
+
+            <svg viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2">
+
+                <rect x="3" y="3"
+                      width="7"
+                      height="9"/>
+
+                <rect x="14" y="3"
+                      width="7"
+                      height="5"/>
+
+                <rect x="14" y="12"
+                      width="7"
+                      height="9"/>
+
+                <rect x="3" y="16"
+                      width="7"
+                      height="5"/>
+
+            </svg>
+
+            Dashboard
+
+        </a>
+
+
+        <a class="navlink active"
+           href="orders.html">
+
+            <svg viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2">
+
+                <path d="M6 2h12"/>
+
+                <path d="M6 2v20"/>
+
+                <path d="M18 2v20"/>
+
+                <path d="M6 7h12"/>
+
+                <path d="M6 12h12"/>
+
+                <path d="M6 17h12"/>
+
+            </svg>
+
+            Orders
+
+        </a>
+
+
+        <a class="navlink"
+           href="staff.html">
+
+            <svg viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2">
+
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+
+                <circle cx="9"
+                        cy="7"
+                        r="4"/>
+
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+
+            </svg>
+
+            Staff
+
+        </a>
+
+
+        <a class="navlink"
+           href="menu.html">
+
+            <svg viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2">
+
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+
+            </svg>
+
+            Menu
+
+        </a>
+
+
+        <a class="navlink"
+           href="statistics.html">
+
+            <svg viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2">
+
+                <path d="M3 3v18h18"/>
+
+                <path d="M18 17V9"/>
+
+                <path d="M13 17V5"/>
+
+                <path d="M8 17v-3"/>
+
+            </svg>
+
+            Statistics
+
+        </a>
+
+
+        <a class="navlink"
+           href="settings.html">
+
+            <svg viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2">
+
+                <circle cx="12"
+                        cy="12"
+                        r="3"/>
+
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82"/>
+
+            </svg>
+
+            Settings
+
+        </a>
+
+
+        <a class="navlink"
+           href="#"
+           onclick="logout()">
+
+            Logout
+
+        </a>
+
+    </nav>
+
+
+    <div class="shift-card">
+
+        <strong>Evening service</strong>
+
+        Doors at 5:00 PM ·
+
+        <span>6 staff scheduled tonight</span>
+
+    </div>
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+
+<!-- TOPBAR -->
+
+<div class="topbar">
+
+    <div>
+
+        <h1>Orders</h1>
+
+        <div class="date"
+             id="today-date"></div>
+
+    </div>
+
+
+    <div class="admin-profile">
+
+        <div class="avatar">
+            A
+        </div>
+
+        <div class="admin-info">
+
+            <strong>Admin</strong>
+
+            <small>
+                Restaurant Manager
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     SUMMARY CARDS
+===================================================== -->
+
+<section class="summary">
+
+
+    <div class="summary-card">
+
+        <div class="label">
+            Total Orders
+        </div>
+
+        <div class="value"
+             id="total-orders">
+
+            128
+
+        </div>
+
+        <div class="small">
+            Today
+        </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <div class="label">
+            Pending
+        </div>
+
+        <div class="value"
+             id="pending-orders">
+
+            12
+
+        </div>
+
+        <div class="small">
+            Waiting for confirmation
+        </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <div class="label">
+            Preparing
+        </div>
+
+        <div class="value"
+             id="preparing-orders">
+
+            8
+
+        </div>
+
+        <div class="small">
+            In the kitchen
+        </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <div class="label">
+            Completed
+        </div>
+
+        <div class="value">
+
+            108
+
+        </div>
+
+        <div class="small">
+            Successfully served
+        </div>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     SEARCH + FILTER
+===================================================== -->
+
+<div class="toolbar">
+
+
+    <div class="search">
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search by order ID, customer or table..."
+        >
+
+    </div>
+
+
+    <select class="filter"
+            id="typeFilter">
+
+        <option value="all">
+            All types
+        </option>
+
+        <option value="dine-in">
+            Dine-in
+        </option>
+
+        <option value="takeout">
+            Takeout
+        </option>
+
+        <option value="delivery">
+            Delivery
+        </option>
+
+    </select>
+
+
+    <select class="filter"
+            id="paymentFilter">
+
+        <option value="all">
+            All payments
+        </option>
+
+        <option value="paid">
+            Paid
+        </option>
+
+        <option value="pending">
+            Payment pending
+        </option>
+
+    </select>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     STATUS TABS
+===================================================== -->
+
+<div class="tabs">
+
+    <button class="tab active"
+            data-status="all">
+
+        All
+
+    </button>
+
+    <button class="tab"
+            data-status="Pending">
+
+        Pending
+
+    </button>
+
+    <button class="tab"
+            data-status="Preparing">
+
+        Preparing
+
+    </button>
+
+    <button class="tab"
+            data-status="Ready">
+
+        Ready
+
+    </button>
+
+    <button class="tab"
+            data-status="Completed">
+
+        Completed
+
+    </button>
+
+    <button class="tab"
+            data-status="Cancelled">
+
+        Cancelled
+
+    </button>
+
+</div>
+
+
+
+<!-- =====================================================
+     ORDERS
+===================================================== -->
+
+<section class="orders-panel">
+
+
+    <div class="panel-head">
+
+        <h2>
+            Order List
+        </h2>
+
+        <span id="result-count">
+            6 orders
+        </span>
+
+    </div>
+
+
+    <div id="ordersContainer">
+
+
+
+<!-- ORDER 1 -->
+
+<div class="order-card"
+     data-status="Preparing"
+     data-type="dine-in"
+     data-payment="paid"
+     data-search="ORD-1024 Sarah Table 12">
+
+    <div class="order-header">
+
+        <div>
+
+            <span class="order-id">
+                #ORD-1024
+            </span>
+
+            <span class="order-time">
+                7:42 PM
+            </span>
+
+        </div>
+
+        <span class="status preparing">
+            Preparing
+        </span>
+
+    </div>
+
+
+    <div class="order-body">
+
+
+        <div>
+
+            <div class="info-label">
+                Customer
+            </div>
+
+            <div class="info-value">
+                Sarah Adams
+            </div>
+
+            <div class="info-small">
+                Dine-in · Table 12
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="info-label">
+                Items
+            </div>
+
+            <div class="items">
+
+                <div class="item">
+                    <span>2×</span>
+                    Braised Short Rib
+                </div>
+
+                <div class="item">
+                    <span>1×</span>
+                    Cheesecake
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="info-label">
+                Payment
+            </div>
+
+            <div class="info-value">
+                Paid
+            </div>
+
+            <div class="info-small">
+                Card
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="info-label">
+                Order Type
+            </div>
+
+            <div class="info-value">
+                Dine-in
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="order-footer">
+
+        <div class="total">
+            $76.00
+        </div>
+
+        <div class="actions">
+
+            <button
+                class="btn btn-details"
+                onclick="showDetails('ORD-1024')">
+
+                Details
+
+            </button>
+
+            <button
+                class="btn btn-status"
+                onclick="nextStatus(this)">
+
+                Update Status
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ORDER 2 -->
+
+<div class="order-card"
+     data-status="Pending"
+     data-type="takeout"
+     data-payment="pending"
+     data-search="ORD-1023 Michael Takeout">
+
+    <div class="order-header">
+
+        <div>
+
+            <span class="order-id">
+                #ORD-1023
+            </span>
+
+            <span class="order-time">
+                7:35 PM
+            </span>
+
+        </div>
+
+        <span class="status pending">
+            Pending
+        </span>
+
+    </div>
+
+
+    <div class="order-body">
+
+
+        <div>
+
+            <div class="info-label">
+                Customer
+            </div>
+
+            <div class="info-value">
+                Michael Brown
+            </div>
+
+            <div class="info-small">
+                Takeout
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="info-label">
+                Items
+            </div>
+
+            <div class="items">
+
+                <div class="item">
+                    <span>1×</span>
+                    Mushroom Risotto
+                </div>
+
+                <div class="item">
+                    <span>1×</span>
+                    Lemonade
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="info-label">
+                Payment
+            </div>
+
+            <div class="info-value">
+                Pending
+            </div>
+
+            <div class="info-small">
+                Cash
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="info-label">
+                Order Type
+            </div>
+
+            <div class="info-value">
+                Takeout
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="order-footer">
+
+        <div class="total">
+            $31.00
+        </div>
+
+        <div class="actions">
+
+            <button
+                class="btn btn-details"
+                onclick="showDetails('ORD-1023')">
+
+                Details
+
+            </button>
+
+            <button
+                class="btn btn-status"
+                onclick="nextStatus(this)">
+
+                Update Status
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ORDER 3 -->
+
+<div class="order-card"
+     data-status="Ready"
+     data-type="delivery"
+     data-payment="paid"
+     data-search="ORD-1022 David Delivery">
+
+    <div class="order-header">
+
+        <div>
+
+            <span class="order-id">
+                #ORD-1022
+            </span>
+
+            <span class="order-time">
+                7:20 PM
+            </span>
+
+        </div>
+
+        <span class="status ready">
+            Ready
+        </span>
+
+    </div>
+
+
+    <div class="order-body">
+
+
+        <div>
+
+            <div class="info-label">
+                Customer
+            </div>
+
+            <div class="info-value">
+                David Wilson
+            </div>
+
+            <div class="info-small">
+                Delivery
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="info-label">
+                Items
+            </div>
+
+            <div class="items">
+
+                <div class="item">
+                    <span>2×</span>
+                    Duck Confit
+                </div>
+
+                <div class="item">
+                    <span>1×</span>
+                    Salad
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="info-label">
+                Payment
+            </div>
+
+            <div class="info-value">
+                Paid
+            </div>
+
+            <div class="info-small">
+                Card
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="info-label">
+                Order Type
+            </div>
+
+            <div class="info-value">
+                Delivery
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="order-footer">
+
+        <div class="total">
+            $70.00
+        </div>
+
+        <div class="actions">
+
+            <button
+                class="btn btn-details"
+                onclick="showDetails('ORD-1022')">
+
+                Details
+
+            </button>
+
+            <button
+                class="btn btn-status"
+                onclick="nextStatus(this)">
+
+                Update Status
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ORDER 4 -->
+
+<div class="order-card"
+     data-status="Completed"
+     data-type="dine-in"
+     data-payment="paid"
+     data-search="ORD-1021 Emma Table 5">
+
+    <div class="order-header">
+
+        <div>
+
+            <span class="order-id">
+                #ORD-1021
+            </span>
+
+            <span class="order-time">
+                7:05 PM
+            </span>
+
+        </div>
+
+        <span class="status completed">
+            Completed
+        </span>
+
+    </div>
+
+
+    <div class="order-body">
+
+
+        <div>
+
+            <div class="info-label">
+                Customer
+            </div>
+
+            <div class="info-value">
+                Emma Stone
+            </div>
+
+            <div class="info-small">
+                Dine-in · Table 5
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="info-label">
+                Items
+            </div>
+
+            <div class="items">
+
+                <div class="item">
+                    <span>2×</span>
+                    Cheesecake
+                </div>
+
+                <div class="item">
+                    <span>2×</span>
+                    Coffee
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="info-label">
+                Payment
+            </div>
+
+            <div class="info-value">
+                Paid
+            </div>
+
+            <div class="info-small">
+                Card
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="info-label">
+                Order Type
+            </div>
+
+            <div class="info-value">
+                Dine-in
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="order-footer">
+
+        <div class="total">
+            $44.00
+        </div>
+
+        <div class="actions">
+
+            <button
+                class="btn btn-details"
+                onclick="showDetails('ORD-1021')">
+
+                Details
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ORDER 5 -->
+
+<div class="order-card"
+     data-status="Cancelled"
+     data-type="delivery"
+     data-payment="pending"
+     data-search="ORD-1020 James Delivery">
+
+    <div class="order-header">
+
+        <div>
+
+            <span class="order-id">
+                #ORD-1020
+            </span>
+
+            <span class="order-time">
+                6:48 PM
+            </span>
+
+        </div>
+
+        <span class="status cancelled">
+            Cancelled
+        </span>
+
+    </div>
+
+
+    <div class="order-body">
+
+
+        <div>
+
+            <div class="info-label">
+                Customer
+            </div>
+
+            <div class="info-value">
+                James Miller
+            </div>
+
+            <div class="info-small">
+                Delivery
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="info-label">
+                Items
+            </div>
+
+            <div class="items">
+
+                <div class="item">
+                    <span>1×</span>
+                    Charred Octopus
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="info-label">
+                Payment
+            </div>
+
+            <div class="info-value">
+                Pending
+            </div>
+
+            <div class="info-small">
+                Cash
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="info-label">
+                Order Type
+            </div>
+
+            <div class="info-value">
+                Delivery
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="order-footer">
+
+        <div class="total">
+            $29.00
+        </div>
+
+        <div class="actions">
+
+            <button
+                class="btn btn-details"
+                onclick="showDetails('ORD-1020')">
+
+                Details
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ORDER 6 -->
+
+<div class="order-card"
+     data-status="Preparing"
+     data-type="dine-in"
+     data-payment="paid"
+     data-search="ORD-1019 Olivia Table 8">
+
+    <div class="order-header">
+
+        <div>
+
+            <span class="order-id">
+                #ORD-1019
+            </span>
+
+            <span class="order-time">
+                6:40 PM
+            </span>
+
+        </div>
+
+        <span class="status preparing">
+            Preparing
+        </span>
+
+    </div>
+
+
+    <div class="order-body">
+
+
+        <div>
+
+            <div class="info-label">
+                Customer
+            </div>
+
+            <div class="info-value">
+                Olivia Davis
+            </div>
+
+            <div class="info-small">
+                Dine-in · Table 8
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="info-label">
+                Items
+            </div>
+
+            <div class="items">
+
+                <div class="item">
+                    <span>1×</span>
+                    Braised Short Rib
+                </div>
+
+                <div class="item">
+                    <span>1×</span>
+                    Salad
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="info-label">
+                Payment
+            </div>
+
+            <div class="info-value">
+                Paid
+            </div>
+
+            <div class="info-small">
+                Card
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <div class="info-label">
+                Order Type
+            </div>
+
+            <div class="info-value">
+                Dine-in
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="order-footer">
+
+        <div class="total">
+            $46.00
+        </div>
+
+        <div class="actions">
+
+            <button
+                class="btn btn-details"
+                onclick="showDetails('ORD-1019')">
+
+                Details
+
+            </button>
+
+            <button
+                class="btn btn-status"
+                onclick="nextStatus(this)">
+
+                Update Status
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+</main>
+
+</div>
+
+
+
+<!-- =====================================================
+     DETAILS MODAL
+===================================================== -->
+
+<div class="modal"
+     id="detailsModal">
+
+    <div class="modal-content">
+
+
+        <div class="modal-header">
+
+            <h2>
+                Order Details
+            </h2>
+
+            <button
+                class="close"
+                onclick="closeModal()">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span>
+                Order ID
+            </span>
+
+            <strong id="modalOrderId">
+                #ORD-1024
+            </strong>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span>
+                Customer
+            </span>
+
+            <strong>
+                Sarah Adams
+            </strong>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span>
+                Order Type
+            </span>
+
+            <strong>
+                Dine-in
+            </strong>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span>
+                Table
+            </span>
+
+            <strong>
+                12
+            </strong>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span>
+                Payment
+            </span>
+
+            <strong>
+                Paid
+            </strong>
+
+        </div>
+
+
+        <div class="modal-items">
+
+            <div class="modal-item">
+
+                <span>
+                    2 × Braised Short Rib
+                </span>
+
+                <strong>
+                    $64
+                </strong>
+
+            </div>
+
+
+            <div class="modal-item">
+
+                <span>
+                    1 × Cheesecake
+                </span>
+
+                <strong>
+                    $12
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-total">
+
+            <span>
+                Total
+            </span>
+
+            <span>
+                $76.00
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+/* =====================================================
+   DATE
+===================================================== */
+
+document.getElementById("today-date").textContent =
+    new Date().toLocaleDateString(
+        "en-US",
+        {
+            weekday:"long",
+            year:"numeric",
+            month:"long",
+            day:"numeric"
+        }
+    );
+
+
+/* =====================================================
+   FILTER VARIABLES
+===================================================== */
+
+let currentStatus = "all";
+
+
+/* =====================================================
+   STATUS TABS
+===================================================== */
+
+document
+.querySelectorAll(".tab")
+.forEach(tab => {
+
+    tab.addEventListener("click", function(){
+
+        document
+        .querySelectorAll(".tab")
+        .forEach(t => t.classList.remove("active"));
+
+        this.classList.add("active");
+
+        currentStatus =
+            this.dataset.status;
+
+        filterOrders();
+
+    });
+
+});
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+document
+.getElementById("searchInput")
+.addEventListener(
+    "input",
+    filterOrders
+);
+
+
+/* =====================================================
+   TYPE FILTER
+===================================================== */
+
+document
+.getElementById("typeFilter")
+.addEventListener(
+    "change",
+    filterOrders
+);
+
+
+/* =====================================================
+   PAYMENT FILTER
+===================================================== */
+
+document
+.getElementById("paymentFilter")
+.addEventListener(
+    "change",
+    filterOrders
+);
+
+
+/* =====================================================
+   FILTER ORDERS
+===================================================== */
+
+function filterOrders(){
+
+    const search =
+        document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase();
+
+    const type =
+        document
+        .getElementById("typeFilter")
+        .value;
+
+    const payment =
+        document
+        .getElementById("paymentFilter")
+        .value;
+
+
+    const orders =
+        document
+        .querySelectorAll(".order-card");
+
+
+    let visible = 0;
+
+
+    orders.forEach(order => {
+
+        const status =
+            order.dataset.status;
+
+        const orderType =
+            order.dataset.type;
+
+        const orderPayment =
+            order.dataset.payment;
+
+        const text =
+            order.dataset.search.toLowerCase();
+
+
+        const statusMatch =
+            currentStatus === "all" ||
+            status === currentStatus;
+
+
+        const typeMatch =
+            type === "all" ||
+            orderType === type;
+
+
+        const paymentMatch =
+            payment === "all" ||
+            orderPayment === payment;
+
+
+        const searchMatch =
+            text.includes(search);
+
+
+        if(
+            statusMatch &&
+            typeMatch &&
+            paymentMatch &&
+            searchMatch
+        ){
+
+            order.style.display =
+                "block";
+
+            visible++;
+
+        }
+        else{
+
+            order.style.display =
+                "none";
+
+        }
+
+    });
+
+
+    document
+    .getElementById("result-count")
+    .textContent =
+        visible + " orders";
+
+}
+
+
+/* =====================================================
+   UPDATE ORDER STATUS
+===================================================== */
+
+function nextStatus(button){
+
+    const card =
+        button.closest(".order-card");
+
+    const statusElement =
+        card.querySelector(".status");
+
+
+    const current =
+        card.dataset.status;
+
+
+    let next;
+
+
+    if(current === "Pending"){
+
+        next = "Preparing";
+
+    }
+
+    else if(current === "Preparing"){
+
+        next = "Ready";
+
+    }
+
+    else if(current === "Ready"){
+
+        next = "Completed";
+
+    }
+
+    else{
+
+        alert(
+            "This order cannot be updated further."
+        );
+
+        return;
+
+    }
+
+
+    card.dataset.status = next;
+
+
+    statusElement.textContent =
+        next;
+
+
+    statusElement.className =
+        "status " +
+        next.toLowerCase();
+
+
+    updateCounters();
+
+}
+
+
+/* =====================================================
+   UPDATE COUNTERS
+===================================================== */
+
+function updateCounters(){
+
+    const orders =
+        document
+        .querySelectorAll(".order-card");
+
+
+    let pending = 0;
+
+    let preparing = 0;
+
+
+    orders.forEach(order => {
+
+        if(
+            order.dataset.status ===
+            "Pending"
+        ){
+
+            pending++;
+
+        }
+
+
+        if(
+            order.dataset.status ===
+            "Preparing"
+        ){
+
+            preparing++;
+
+        }
+
+    });
+
+
+    document
+    .getElementById("pending-orders")
+    .textContent = pending;
+
+
+    document
+    .getElementById("preparing-orders")
+    .textContent = preparing;
+
+}
+
+
+/* =====================================================
+   SHOW DETAILS
+===================================================== */
+
+function showDetails(id){
+
+    document
+    .getElementById("modalOrderId")
+    .textContent =
+        "#" + id;
+
+
+    document
+    .getElementById("detailsModal")
+    .classList.add("show");
+
+}
+
+
+/* =====================================================
+   CLOSE MODAL
+===================================================== */
+
+function closeModal(){
+
+    document
+    .getElementById("detailsModal")
+    .classList.remove("show");
+
+}
+
+
+/* =====================================================
+   CLOSE MODAL WHEN CLICK OUTSIDE
+===================================================== */
+
+document
+.getElementById("detailsModal")
+.addEventListener(
+    "click",
+    function(event){
+
+        if(
+            event.target === this
+        ){
+
+            closeModal();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout(){
+
+    const confirmLogout =
+        confirm(
+            "Are you sure you want to logout?"
+        );
+
+
+    if(confirmLogout){
+
+        window.location.href =
+            "login.html";
+
+    }
+
+}
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+updateCounters();
+
+</script>
+
+
+</body>
+
+</html>

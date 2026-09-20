@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ember & Ash — Delivery Dispatch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   EMBER & ASH — shared theme
+   Used by: server-home.html, order-management.html,
+            chef-kitchen.html, delivery-dispatch.html
+   ============================================================ */
+
+:root{
+  --char: #1C1815;
+  --char-2: #241f1a;
+  --char-3: #2c2620;
+  --ember: #C1502E;       /* new / fired ticket */
+  --ember-bright: #E06B3F;
+  --gold: #B8935A;        /* preparing */
+  --olive: #6F8F63;       /* ready */
+  --smoke: #6E8CA0;       /* delivered / done */
+  --bone: #EDE6D6;
+  --bone-dim: rgba(237,230,214,0.55);
+  --bone-faint: rgba(237,230,214,0.35);
+  --line: rgba(237,230,214,0.14);
+}
+
+*{ box-sizing:border-box; }
+
+body{
+  margin:0;
+  background: var(--char);
+  color: var(--bone);
+  font-family:'Work Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  min-height:100vh;
+}
+
+.mono{ font-family:'JetBrains Mono', monospace; }
+.serif{ font-family:'Fraunces', serif; }
+
+a{ color: inherit; }
+
+/* ---- header (shared across all pages) ---- */
+header.site{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding: 1.6rem 3vw;
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top:0;
+  background: rgba(28,24,21,0.92);
+  backdrop-filter: blur(6px);
+  z-index: 10;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.brand{
+  display:flex;
+  align-items:baseline;
+  gap: 0.9rem;
+}
+.brand h1{
+  font-family:'Fraunces', serif;
+  font-weight: 400;
+  font-size: 1.4rem;
+  margin:0;
+}
+.brand h1 em{ font-style: italic; color: var(--ember-bright); }
+.brand .tag{
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+}
+.header-right{
+  display:flex;
+  align-items:center;
+  gap: 1.1rem;
+}
+.role-pill{
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  border: 1px solid var(--line);
+  padding: 0.4rem 0.9rem;
+  border-radius: 20px;
+}
+.clock{
+  font-size: 0.85rem;
+  color: var(--bone-dim);
+}
+
+.wrap{
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 2.4rem 3vw 4rem;
+}
+
+/* ---- buttons ---- */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.3rem;
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+  border-radius: 2px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-family:'Work Sans', sans-serif;
+  text-decoration:none;
+  transition: transform .15s ease, opacity .15s ease;
+}
+.btn:hover{ transform: translateY(-1px); }
+.btn:focus-visible{ outline: 2px solid var(--bone); outline-offset: 2px; }
+.btn-ember{ background: var(--ember); color: var(--bone); }
+.btn-gold{ background: var(--gold); color: var(--char); }
+.btn-olive{ background: var(--olive); color: var(--char); }
+.btn-smoke{ background: var(--smoke); color: var(--char); }
+.btn-ghost{
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--bone-dim);
+}
+.btn-ghost:hover{ border-color: var(--bone); color: var(--bone); }
+
+/* ---- generic panel/card ---- */
+.panel{
+  background: var(--char-2);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 1.6rem 1.5rem 1.8rem;
+}
+.panel h2{
+  font-family:'Fraunces', serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 1.1rem;
+  margin: 0 0 1.2rem;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+}
+.panel h2 a.see-all{
+  font-family:'Work Sans', sans-serif;
+  font-style: normal;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+  text-decoration:none;
+}
+.panel h2 a.see-all:hover{ color: var(--bone); }
+
+/* ---- stat cards ---- */
+.stat-card{
+  background: var(--char-2);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--stat-color, var(--ember));
+  border-radius: 3px;
+  padding: 1.1rem 1.2rem;
+}
+.stat-card .label{
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+  display:flex;
+  align-items:center;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+.stat-dot{ width:8px; height:8px; border-radius:50%; background: var(--stat-color, var(--ember)); }
+.stat-card .value{
+  font-family:'JetBrains Mono', monospace;
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+/* ---- ticket card (used on order/delivery pages too) ---- */
+.ticket{
+  background: var(--char-2);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  position: relative;
+  overflow: hidden;
+}
+.ticket::before{
+  content:'';
+  position:absolute;
+  top:0; left:0; right:0;
+  height: 6px;
+  background-image: radial-gradient(circle, var(--char) 2.5px, transparent 2.6px);
+  background-size: 14px 14px;
+  background-position: 0 -7px;
+}
+.ticket-top{
+  padding: 1.1rem 1.2rem 0.8rem;
+  display:flex;
+  justify-content: space-between;
+  align-items:flex-start;
+  gap: 0.8rem;
+}
+.ticket-id{
+  font-family:'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+}
+.ticket-name{
+  font-family:'Fraunces', serif;
+  font-size: 1.1rem;
+  margin-top: 0.3rem;
+}
+.ticket-phone{
+  font-family:'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--bone-faint);
+  margin-top: 0.25rem;
+}
+.ticket-total{
+  font-family:'JetBrains Mono', monospace;
+  font-size: 1rem;
+  color: var(--bone);
+  white-space: nowrap;
+}
+.ticket-total .cur{ color: var(--bone-faint); font-size:0.72rem; }
+
+.empty-note{
+  font-size: 0.85rem;
+  color: var(--bone-faint);
+  font-style: italic;
+  font-family:'Fraunces', serif;
+  padding: 1rem 0;
+}
+
+/* ---- inputs ---- */
+.field{
+  display:flex;
+  flex-direction:column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+.field label{
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+}
+.field input{
+  background: var(--char);
+  border: 1px solid var(--line);
+  color: var(--bone);
+  padding: 0.75rem 0.8rem;
+  border-radius: 2px;
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+.field input:focus{
+  outline:none;
+  border-color: var(--ember);
+  box-shadow: 0 0 0 3px rgba(193,80,46,0.2);
+}
+
+.back-link{
+  display:inline-block;
+  margin-top: 1.8rem;
+  font-size: 0.78rem;
+  color: var(--bone-faint);
+  text-decoration:none;
+  letter-spacing: 0.04em;
+}
+.back-link:hover{ color: var(--bone); }
+
+</style>
+<style>
+  .stats{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  @media (max-width: 700px){ .stats{ grid-template-columns: 1fr; } }
+
+  .ready-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+
+  .ticket.ready-ticket{ border-left: 3px solid var(--olive); }
+  .ticket-items{ list-style:none; margin: 0 0 0.8rem; padding: 0 1.2rem; font-size: 0.82rem; }
+  .ticket-items li{ display:flex; justify-content:space-between; padding: 0.2rem 0; color: var(--bone-dim); }
+  .ticket-items .qty{ font-family:'JetBrains Mono', monospace; color: var(--gold); margin-right: 0.4rem; }
+  .deliver-btn{ margin: 0 1.2rem 1.2rem; width: calc(100% - 2.4rem); }
+
+  .log-row{
+    display:grid;
+    grid-template-columns: 70px 1fr auto;
+    align-items:center;
+    gap: 1rem;
+    background: var(--char);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding: 0.7rem 1rem;
+    font-size: 0.82rem;
+    margin-bottom: 0.5rem;
+  }
+  .log-row .num{ font-family:'JetBrains Mono', monospace; color: var(--smoke); font-weight:600; }
+  .log-row .when{ color: var(--bone-faint); font-family:'JetBrains Mono', monospace; text-align:right; }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="brand">
+    <h1>Ember <em>&amp;</em> Ash</h1>
+    <span class="tag">Delivery Dispatch</span>
+  </div>
+  <div class="header-right">
+    <span class="role-pill">Dispatch</span>
+    <span class="clock mono" id="clock"></span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="stats">
+    <div class="stat-card" style="--stat-color:var(--olive);">
+      <div class="label"><span class="stat-dot"></span>Ready for Pickup</div>
+      <div class="value" id="countReady">0</div>
+    </div>
+    <div class="stat-card" style="--stat-color:var(--smoke);">
+      <div class="label"><span class="stat-dot"></span>Delivered Today</div>
+      <div class="value" id="countDelivered">0</div>
+    </div>
+    <div class="stat-card" style="--stat-color:var(--gold);">
+      <div class="label"><span class="stat-dot"></span>Avg. Wait for Delivery</div>
+      <div class="value">7 min</div>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-bottom:1.4rem;">
+    <h2>Ready to Go Out</h2>
+    <div class="ready-grid" id="readyGrid"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Delivered Log</h2>
+    <div id="logList"></div>
+  </div>
+
+  <a class="back-link" href="serverhome.html">← Back to server home</a>
+</div>
+
+<script>
+  // Mock seed data — a real build would fetch orders where status = 'ready',
+  // and log rows the moment a status flips to 'delivered'.
+  let READY_ORDERS = [
+    { id: 105, customer_name: "Elin Sorby", phone: "555-0908",
+      items: [{ qty: 2, name: "Whole Grilled Sea Bream" }, { qty: 1, name: "Wood Oven Flatbread" }],
+      total: 84, readyAt: new Date(Date.now() - 2*60000) }
+  ];
+
+  let DELIVERED_LOG = [
+    { id: 100, customer_name: "Karim D.", when: "24 min ago" },
+    { id: 98,  customer_name: "Nadia S.", when: "38 min ago" },
+    { id: 95,  customer_name: "Foued R.", when: "1 hr ago" }
+  ];
+
+  let deliveredToday = 14;
+
+  function formatTime(d){ return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }); }
+
+  function buildTicket(order){
+    const el = document.createElement("div");
+    el.className = "ticket ready-ticket";
+    const itemsHtml = order.items.map(it => `
+      <li><span><span class="qty">×${it.qty}</span>${it.name}</span></li>
+    `).join("");
+    el.innerHTML = `
+      <div class="ticket-top">
+        <div>
+          <div class="ticket-id">ORDER #${order.id}</div>
+          <div class="ticket-name">${order.customer_name}</div>
+          <div class="ticket-phone">${order.phone}</div>
+        </div>
+        <div class="ticket-total"><span class="cur">$</span>${order.total.toFixed(2)}</div>
+      </div>
+      <ul class="ticket-items">${itemsHtml}</ul>
+      <div style="padding:0 1.2rem 0.6rem; font-size:0.7rem; color:var(--bone-faint);">ready ${formatTime(order.readyAt)}</div>
+      <button class="btn btn-smoke deliver-btn">Mark Delivered →</button>
+    `;
+    el.querySelector(".deliver-btn").onclick = () => markDelivered(order.id);
+    return el;
+  }
+
+  function markDelivered(orderId){
+    const order = READY_ORDERS.find(o => o.id === orderId);
+    if (!order) return;
+    READY_ORDERS = READY_ORDERS.filter(o => o.id !== orderId);
+    DELIVERED_LOG.unshift({ id: order.id, customer_name: order.customer_name, when: "just now" });
+    deliveredToday += 1;
+    render();
+  }
+
+  function render(){
+    document.getElementById("countReady").textContent = READY_ORDERS.length;
+    document.getElementById("countDelivered").textContent = deliveredToday;
+
+    const grid = document.getElementById("readyGrid");
+    grid.innerHTML = "";
+    if (READY_ORDERS.length === 0){
+      grid.innerHTML = `<div class="empty-note">Nothing waiting to go out right now.</div>`;
+    } else {
+      READY_ORDERS.forEach(o => grid.appendChild(buildTicket(o)));
+    }
+
+    const logList = document.getElementById("logList");
+    logList.innerHTML = "";
+    DELIVERED_LOG.slice(0, 8).forEach(l => {
+      const row = document.createElement("div");
+      row.className = "log-row";
+      row.innerHTML = `<span class="num">#${l.id}</span><span>${l.customer_name}</span><span class="when">${l.when}</span>`;
+      logList.appendChild(row);
+    });
+  }
+
+  function tick(){
+    document.getElementById('clock').textContent = new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  render();
+</script>
+</body>
+</html>

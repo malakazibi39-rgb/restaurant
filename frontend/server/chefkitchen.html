@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ember & Ash — Kitchen Rail</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   EMBER & ASH — shared theme
+   Used by: server-home.html, order-management.html,
+            chef-kitchen.html, delivery-dispatch.html
+   ============================================================ */
+
+:root{
+  --char: #1C1815;
+  --char-2: #241f1a;
+  --char-3: #2c2620;
+  --ember: #C1502E;       /* new / fired ticket */
+  --ember-bright: #E06B3F;
+  --gold: #B8935A;        /* preparing */
+  --olive: #6F8F63;       /* ready */
+  --smoke: #6E8CA0;       /* delivered / done */
+  --bone: #EDE6D6;
+  --bone-dim: rgba(237,230,214,0.55);
+  --bone-faint: rgba(237,230,214,0.35);
+  --line: rgba(237,230,214,0.14);
+}
+
+*{ box-sizing:border-box; }
+
+body{
+  margin:0;
+  background: var(--char);
+  color: var(--bone);
+  font-family:'Work Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  min-height:100vh;
+}
+
+.mono{ font-family:'JetBrains Mono', monospace; }
+.serif{ font-family:'Fraunces', serif; }
+
+a{ color: inherit; }
+
+/* ---- header (shared across all pages) ---- */
+header.site{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding: 1.6rem 3vw;
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top:0;
+  background: rgba(28,24,21,0.92);
+  backdrop-filter: blur(6px);
+  z-index: 10;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.brand{
+  display:flex;
+  align-items:baseline;
+  gap: 0.9rem;
+}
+.brand h1{
+  font-family:'Fraunces', serif;
+  font-weight: 400;
+  font-size: 1.4rem;
+  margin:0;
+}
+.brand h1 em{ font-style: italic; color: var(--ember-bright); }
+.brand .tag{
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+}
+.header-right{
+  display:flex;
+  align-items:center;
+  gap: 1.1rem;
+}
+.role-pill{
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  border: 1px solid var(--line);
+  padding: 0.4rem 0.9rem;
+  border-radius: 20px;
+}
+.clock{
+  font-size: 0.85rem;
+  color: var(--bone-dim);
+}
+
+.wrap{
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 2.4rem 3vw 4rem;
+}
+
+/* ---- buttons ---- */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.3rem;
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+  border-radius: 2px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-family:'Work Sans', sans-serif;
+  text-decoration:none;
+  transition: transform .15s ease, opacity .15s ease;
+}
+.btn:hover{ transform: translateY(-1px); }
+.btn:focus-visible{ outline: 2px solid var(--bone); outline-offset: 2px; }
+.btn-ember{ background: var(--ember); color: var(--bone); }
+.btn-gold{ background: var(--gold); color: var(--char); }
+.btn-olive{ background: var(--olive); color: var(--char); }
+.btn-smoke{ background: var(--smoke); color: var(--char); }
+.btn-ghost{
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--bone-dim);
+}
+.btn-ghost:hover{ border-color: var(--bone); color: var(--bone); }
+
+/* ---- generic panel/card ---- */
+.panel{
+  background: var(--char-2);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 1.6rem 1.5rem 1.8rem;
+}
+.panel h2{
+  font-family:'Fraunces', serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 1.1rem;
+  margin: 0 0 1.2rem;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+}
+.panel h2 a.see-all{
+  font-family:'Work Sans', sans-serif;
+  font-style: normal;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+  text-decoration:none;
+}
+.panel h2 a.see-all:hover{ color: var(--bone); }
+
+/* ---- stat cards ---- */
+.stat-card{
+  background: var(--char-2);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--stat-color, var(--ember));
+  border-radius: 3px;
+  padding: 1.1rem 1.2rem;
+}
+.stat-card .label{
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+  display:flex;
+  align-items:center;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+.stat-dot{ width:8px; height:8px; border-radius:50%; background: var(--stat-color, var(--ember)); }
+.stat-card .value{
+  font-family:'JetBrains Mono', monospace;
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+/* ---- ticket card (used on order/delivery pages too) ---- */
+.ticket{
+  background: var(--char-2);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  position: relative;
+  overflow: hidden;
+}
+.ticket::before{
+  content:'';
+  position:absolute;
+  top:0; left:0; right:0;
+  height: 6px;
+  background-image: radial-gradient(circle, var(--char) 2.5px, transparent 2.6px);
+  background-size: 14px 14px;
+  background-position: 0 -7px;
+}
+.ticket-top{
+  padding: 1.1rem 1.2rem 0.8rem;
+  display:flex;
+  justify-content: space-between;
+  align-items:flex-start;
+  gap: 0.8rem;
+}
+.ticket-id{
+  font-family:'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+}
+.ticket-name{
+  font-family:'Fraunces', serif;
+  font-size: 1.1rem;
+  margin-top: 0.3rem;
+}
+.ticket-phone{
+  font-family:'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--bone-faint);
+  margin-top: 0.25rem;
+}
+.ticket-total{
+  font-family:'JetBrains Mono', monospace;
+  font-size: 1rem;
+  color: var(--bone);
+  white-space: nowrap;
+}
+.ticket-total .cur{ color: var(--bone-faint); font-size:0.72rem; }
+
+.empty-note{
+  font-size: 0.85rem;
+  color: var(--bone-faint);
+  font-style: italic;
+  font-family:'Fraunces', serif;
+  padding: 1rem 0;
+}
+
+/* ---- inputs ---- */
+.field{
+  display:flex;
+  flex-direction:column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+.field label{
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+}
+.field input{
+  background: var(--char);
+  border: 1px solid var(--line);
+  color: var(--bone);
+  padding: 0.75rem 0.8rem;
+  border-radius: 2px;
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+.field input:focus{
+  outline:none;
+  border-color: var(--ember);
+  box-shadow: 0 0 0 3px rgba(193,80,46,0.2);
+}
+
+.back-link{
+  display:inline-block;
+  margin-top: 1.8rem;
+  font-size: 0.78rem;
+  color: var(--bone-faint);
+  text-decoration:none;
+  letter-spacing: 0.04em;
+}
+.back-link:hover{ color: var(--bone); }
+
+</style>
+<style>
+  /* ---- board (page-specific) ---- */
+  .board{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    min-height: calc(100vh - 78px);
+  }
+  @media (max-width: 900px){
+    .board{ grid-template-columns: 1fr; }
+  }
+  .column{
+    background: var(--char);
+    padding: 1.6rem 1.3rem 3rem;
+    display:flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+  .col-head{
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+    margin-bottom: 0.4rem;
+    border-bottom: 2px solid transparent;
+  }
+  .col-head h2{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-style: italic;
+    font-size: 1.15rem;
+    letter-spacing: 0.01em;
+    margin:0;
+  }
+  .col-head .count{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--char);
+    background: var(--bone);
+    padding: 0.15rem 0.55rem;
+    border-radius: 20px;
+  }
+  .column.new .col-head{ border-color: var(--ember); }
+  .column.new .col-head .count{ background: var(--ember); color: var(--bone); }
+  .column.preparing .col-head{ border-color: var(--gold); }
+  .column.preparing .col-head .count{ background: var(--gold); color: var(--char); }
+  .column.ready .col-head{ border-color: var(--olive); }
+  .column.ready .col-head .count{ background: var(--olive); color: var(--char); }
+
+  .column.new .ticket{ border-left: 3px solid var(--ember); }
+  .column.preparing .ticket{ border-left: 3px solid var(--gold); }
+  .column.ready .ticket{ border-left: 3px solid var(--olive); }
+
+  .ticket-summary{
+    padding: 0 1.2rem 1rem;
+    font-size: 0.82rem;
+    color: var(--bone-dim);
+    font-weight: 300;
+  }
+
+  .toggle-details{
+    width:100%;
+    text-align:left;
+    background: none;
+    border: none;
+    border-top: 1px dashed var(--line);
+    color: var(--gold);
+    font-family:'Work Sans', sans-serif;
+    font-size: 0.74rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.8rem 1.2rem;
+    cursor: pointer;
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+  }
+  .toggle-details:hover, .toggle-details:focus-visible{ color: var(--ember-bright); }
+  .toggle-details .arrow{ transition: transform .2s ease; }
+  .toggle-details.open .arrow{ transform: rotate(180deg); }
+
+  .dish-list{
+    display:none;
+    padding: 0 1.2rem 1.1rem;
+    border-top: 1px solid var(--line);
+  }
+  .dish-list.open{ display:block; }
+  .dish-row{
+    display:flex;
+    justify-content: space-between;
+    gap: 0.8rem;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.85rem;
+  }
+  .dish-row:last-child{ border-bottom: none; }
+  .dish-row .qty{
+    font-family:'JetBrains Mono', monospace;
+    color: var(--ember-bright);
+    min-width: 2.2rem;
+  }
+  .dish-row .dname{ flex:1; font-weight:400; }
+  .dish-row .dprice{
+    font-family:'JetBrains Mono', monospace;
+    color: var(--bone-dim);
+    white-space: nowrap;
+  }
+
+  .ticket-actions{
+    display:flex;
+    gap: 0.6rem;
+    padding: 1rem 1.2rem 1.2rem;
+  }
+  .btn-action{
+    flex:1;
+    padding: 0.7rem 0.8rem;
+    font-size: 0.74rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+    border-radius: 2px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    font-family:'Work Sans', sans-serif;
+    transition: transform .15s ease, opacity .15s ease;
+  }
+  .btn-action:hover{ transform: translateY(-1px); }
+  .btn-action:focus-visible{ outline: 2px solid var(--bone); outline-offset: 2px; }
+  .btn-prepare{ background: var(--gold); color: var(--char); }
+  .btn-ready{ background: var(--olive); color: var(--char); }
+
+  .status-badge{
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 1.2rem 0.9rem;
+    color: var(--bone-faint);
+  }
+
+  .footer-link{
+    padding: 0 3vw 2rem;
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="brand">
+    <h1>Ember <em>&amp;</em> Ash</h1>
+    <span class="tag">Kitchen Rail</span>
+  </div>
+  <div class="header-right">
+    <span class="role-pill">Kitchen · Chef View</span>
+    <span class="clock mono" id="clock"></span>
+  </div>
+</header>
+
+<div class="board" id="board"></div>
+<div class="footer-link">
+  <a class="back-link" href="serverhome.html">← Back to server home</a>
+</div>
+
+<script>
+  // ---- sample data, matching schema ----
+  // orders: id, customer_name, phone, total_price, status
+  // order_items: id, order_id, menu_item_id, quantity, price
+  // Note: a real build would fetch orders where status IN ('new','preparing') from your database
+  // instead of reading this in-memory array.
+
+  const menuItems = {
+    1: "Charred leek, walnut, brown butter",
+    2: "Smoked trout, rye, horseradish",
+    3: "Wood oven flatbread, cultured butter",
+    4: "Grilled hispi cabbage, anchovy, chili",
+    5: "Dry-aged ribeye, embers, bone marrow",
+    6: "Whole grilled sea bream, salsa verde",
+    7: "Burnt honey custard, smoked salt"
+  };
+
+  let orders = [
+    { id: 101, customer_name: "Marisol Ibarra", phone: "555-0182", total_price: 96, status: "new" },
+    { id: 102, customer_name: "Dean Whitlock",  phone: "555-0417", total_price: 61, status: "new" },
+    { id: 103, customer_name: "Priya Nandan",   phone: "555-0339", total_price: 138, status: "preparing" },
+    { id: 104, customer_name: "Tomas Reyes",    phone: "555-0255", total_price: 47, status: "preparing" },
+    { id: 105, customer_name: "Elin Sorby",     phone: "555-0908", total_price: 84, status: "ready" }
+  ];
+
+  let orderItems = [
+    { id: 1, order_id: 101, menu_item_id: 5, quantity: 1, price: 46 },
+    { id: 2, order_id: 101, menu_item_id: 6, quantity: 1, price: 38 },
+    { id: 3, order_id: 101, menu_item_id: 3, quantity: 1, price: 9 },
+    { id: 4, order_id: 101, menu_item_id: 7, quantity: 1, price: 12 },
+
+    { id: 5, order_id: 102, menu_item_id: 5, quantity: 1, price: 46 },
+    { id: 6, order_id: 102, menu_item_id: 1, quantity: 1, price: 14 },
+
+    { id: 7, order_id: 103, menu_item_id: 5, quantity: 2, price: 92 },
+    { id: 8, order_id: 103, menu_item_id: 4, quantity: 2, price: 30 },
+    { id: 9, order_id: 103, menu_item_id: 7, quantity: 1, price: 12 },
+    { id: 10, order_id: 103, menu_item_id: 3, quantity: 0.5, price: 4 },
+
+    { id: 11, order_id: 104, menu_item_id: 6, quantity: 1, price: 38 },
+    { id: 12, order_id: 104, menu_item_id: 2, quantity: 0.5, price: 9 },
+
+    { id: 13, order_id: 105, menu_item_id: 6, quantity: 2, price: 76 },
+    { id: 14, order_id: 105, menu_item_id: 3, quantity: 1, price: 9 }
+  ];
+
+  let openTicket = null; // id of ticket with details expanded
+
+  const columns = [
+    { key: "new",       label: "New Orders", note: "No new tickets on the rail." },
+    { key: "preparing", label: "Preparing",  note: "Nothing on the fire right now." },
+    { key: "ready",     label: "Ready",      note: "Nothing plated and waiting." }
+  ];
+
+  function fmt(n){
+    return Number(n).toFixed(2);
+  }
+
+  function dishesFor(orderId){
+    return orderItems
+      .filter(i => i.order_id === orderId)
+      .map(i => ({ ...i, name: menuItems[i.menu_item_id] || "Unlisted item" }));
+  }
+
+  function nextAction(status){
+    if(status === "new") return { label: "Start preparing", cls: "btn-prepare", to: "preparing" };
+    if(status === "preparing") return { label: "Mark ready", cls: "btn-ready", to: "ready" };
+    return null;
+  }
+
+  function renderTicket(order){
+    const items = dishesFor(order.id);
+    const action = nextAction(order.status);
+    const isOpen = openTicket === order.id;
+
+    return `
+      <div class="ticket" data-id="${order.id}">
+        <div class="ticket-top">
+          <div>
+            <div class="ticket-id">ORDER #${order.id}</div>
+            <div class="ticket-name">${order.customer_name}</div>
+            <div class="ticket-phone">${order.phone}</div>
+          </div>
+          <div class="ticket-total"><span class="cur">$</span>${fmt(order.total_price)}</div>
+        </div>
+        <div class="ticket-summary">${items.length} dish${items.length !== 1 ? "es" : ""} on this ticket</div>
+
+        <button class="toggle-details ${isOpen ? "open" : ""}" onclick="toggleTicket(${order.id})">
+          <span>${isOpen ? "Hide dish details" : "View dish details"}</span>
+          <span class="arrow">⌄</span>
+        </button>
+        <div class="dish-list ${isOpen ? "open" : ""}">
+          ${items.map(i => `
+            <div class="dish-row">
+              <span class="qty">×${i.quantity}</span>
+              <span class="dname">${i.name}</span>
+              <span class="dprice">$${fmt(i.price)}</span>
+            </div>
+          `).join("")}
+        </div>
+
+        ${action ? `
+          <div class="ticket-actions">
+            <button class="btn-action ${action.cls}" onclick="updateStatus(${order.id}, '${action.to}')">${action.label}</button>
+          </div>
+        ` : `<div class="status-badge">Plated and waiting for pickup</div>`}
+      </div>
+    `;
+  }
+
+  function render(){
+    const board = document.getElementById("board");
+    board.innerHTML = columns.map(col => {
+      const list = orders.filter(o => o.status === col.key);
+      return `
+        <div class="column ${col.key}">
+          <div class="col-head">
+            <h2>${col.label}</h2>
+            <span class="count mono">${list.length}</span>
+          </div>
+          ${list.length
+            ? list.map(renderTicket).join("")
+            : `<div class="empty-note">${col.note}</div>`}
+        </div>
+      `;
+    }).join("");
+  }
+
+  function updateStatus(id, to){
+    const order = orders.find(o => o.id === id);
+    if(order){
+      order.status = to;
+      if(openTicket === id) openTicket = null;
+      render();
+    }
+  }
+
+  function toggleTicket(id){
+    openTicket = openTicket === id ? null : id;
+    render();
+  }
+
+  function tickClock(){
+    const el = document.getElementById("clock");
+    const now = new Date();
+    el.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute:'2-digit', second:'2-digit' });
+  }
+
+  tickClock();
+  setInterval(tickClock, 1000);
+  render();
+</script>
+
+</body>
+</html>

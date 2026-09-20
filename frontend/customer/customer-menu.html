@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Restaurant Menu</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f7f7f7;
+            color: #333;
+        }
+
+        header {
+            background: #222;
+            color: white;
+            padding: 20px 40px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 24px;
+        }
+
+        .cart-btn {
+            background: #ff9800;
+            color: white;
+
+            padding: 12px 20px;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .title h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        #message {
+            text-align: center;
+            margin: 20px;
+            font-size: 18px;
+        }
+
+        .menu-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(250px, 1fr));
+
+            gap: 25px;
+        }
+
+        .menu-card {
+            background: white;
+
+            border-radius: 12px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-card img {
+            width: 100%;
+            height: 180px;
+
+            object-fit: cover;
+
+            background: #eee;
+        }
+
+        .menu-content {
+            padding: 18px;
+        }
+
+        .menu-content h3 {
+            margin-bottom: 10px;
+            font-size: 21px;
+        }
+
+        .description {
+            color: #777;
+
+            min-height: 45px;
+
+            margin-bottom: 12px;
+        }
+
+        .price {
+            font-size: 20px;
+
+            font-weight: bold;
+
+            margin-bottom: 15px;
+        }
+
+        .add-btn {
+            width: 100%;
+
+            padding: 12px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #ff9800;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .add-btn:hover {
+            background: #e68900;
+        }
+
+        .category {
+            display: inline-block;
+
+            background: #eee;
+
+            padding: 5px 10px;
+
+            border-radius: 15px;
+
+            font-size: 12px;
+
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <h1>🍽️ Restaurant Menu</h1>
+
+    <a href="customer-cart.html" class="cart-btn">
+        🛒 Cart (<span id="cartCount">0</span>)
+    </a>
+
+</header>
+
+
+<div class="container">
+
+    <div class="title">
+
+        <h2>Our Menu</h2>
+
+        <p>Choose your favorite dishes</p>
+
+    </div>
+
+    <div id="message"></div>
+
+    <div id="menuContainer" class="menu-grid"></div>
+
+</div>
+
+
+<script>
+
+const API_URL = "http://localhost:5000/api/menu";
+
+let cart =
+    JSON.parse(localStorage.getItem("cart")) || [];
+
+
+// ======================================
+// LOAD MENU
+// ======================================
+
+async function loadMenu() {
+
+    const container =
+        document.getElementById("menuContainer");
+
+    const message =
+        document.getElementById("message");
+
+    try {
+
+        message.textContent =
+            "Loading menu...";
+
+
+        const response =
+            await fetch(API_URL);
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Could not load menu"
+            );
+
+        }
+
+
+        const menuItems =
+            await response.json();
+
+
+        console.log(
+            "✅ Menu received:",
+            menuItems
+        );
+
+
+        message.textContent = "";
+
+
+        if (
+            !Array.isArray(menuItems) ||
+            menuItems.length === 0
+        ) {
+
+            message.textContent =
+                "No menu items available.";
+
+            return;
+        }
+
+
+        container.innerHTML = "";
+
+
+        menuItems.forEach(item => {
+
+            console.log(
+                "Menu item ID:",
+                item.id
+            );
+
+
+            const card =
+                document.createElement("div");
+
+
+            card.className =
+                "menu-card";
+
+
+            const image =
+                item.image ||
+                "https://via.placeholder.com/400x250?text=Food";
+
+
+            card.innerHTML = `
+
+                <img
+                    src="${escapeHtml(image)}"
+                    alt="${escapeHtml(item.name)}"
+                >
+
+                <div class="menu-content">
+
+                    <span class="category">
+                        ${escapeHtml(
+                            item.category || "Food"
+                        )}
+                    </span>
+
+                    <h3>
+                        ${escapeHtml(item.name)}
+                    </h3>
+
+                    <p class="description">
+                        ${escapeHtml(
+                            item.description ||
+                            "Delicious restaurant dish"
+                        )}
+                    </p>
+
+                    <div class="price">
+                        ${Number(item.price).toFixed(2)} DA
+                    </div>
+
+                    <button
+                        class="add-btn"
+                    >
+                        ➕ Add to Cart
+                    </button>
+
+                </div>
+
+            `;
+
+
+            const button =
+                card.querySelector(".add-btn");
+
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    addToCart(
+
+                        Number(item.id),
+
+                        item.name,
+
+                        Number(item.price),
+
+                        item.image || ""
+
+                    );
+
+                }
+            );
+
+
+            container.appendChild(card);
+
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "❌ Menu error:",
+            error
+        );
+
+
+        message.textContent =
+            "❌ Cannot connect to the restaurant server.";
+
+    }
+
+}
+
+
+// ======================================
+// ADD TO CART
+// ======================================
+
+function addToCart(
+    id,
+    name,
+    price,
+    image
+) {
+
+    if (
+        !id ||
+        Number.isNaN(Number(id))
+    ) {
+
+        console.error(
+            "❌ Invalid product ID:",
+            id
+        );
+
+        alert(
+            "❌ This product has no valid ID."
+        );
+
+        return;
+    }
+
+
+    const existingItem =
+        cart.find(
+            item =>
+                Number(item.id) === Number(id)
+        );
+
+
+    if (existingItem) {
+
+        existingItem.quantity =
+            Number(existingItem.quantity) + 1;
+
+    } else {
+
+        cart.push({
+
+            id: Number(id),
+
+            menu_item_id: Number(id),
+
+            name: name,
+
+            price: Number(price),
+
+            image: image,
+
+            quantity: 1
+
+        });
+
+    }
+
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+
+    console.log(
+        "✅ Cart saved:",
+        cart
+    );
+
+
+    updateCartCount();
+
+
+    alert(
+        `✅ ${name} added to cart!`
+    );
+
+}
+
+
+// ======================================
+// CART COUNT
+// ======================================
+
+function updateCartCount() {
+
+    const count =
+        cart.reduce(
+            (total, item) =>
+                total +
+                Number(item.quantity || 0),
+            0
+        );
+
+
+    document.getElementById(
+        "cartCount"
+    ).textContent = count;
+
+}
+
+
+// ======================================
+// ESCAPE HTML
+// ======================================
+
+function escapeHtml(text) {
+
+    return String(text)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+// ======================================
+// START
+// ======================================
+
+loadMenu();
+
+updateCartCount();
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,399 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Staff Login</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background: #f4f1eb;
+        }
+
+        .login-container {
+            width: 400px;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #3a312a;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #3a312a;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #d5d0c8;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #3a312a;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #3a312a;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #51453b;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            margin-top: 18px;
+            text-align: center;
+            font-size: 14px;
+            min-height: 20px;
+        }
+
+        .message.error {
+            color: #c0392b;
+        }
+
+        .message.success {
+            color: #27ae60;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #777;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back:hover {
+            color: #3a312a;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <div class="logo">🍽️</div>
+
+        <h1>Staff Login</h1>
+
+        <p class="subtitle">
+            Restaurant Management System
+        </p>
+
+        <form id="loginForm">
+
+            <div class="form-group">
+                <label for="email">Email</label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter your password"
+                    required
+                >
+            </div>
+
+            <button type="submit" id="submitBtn">
+                Punch In
+            </button>
+
+            <div id="message" class="message"></div>
+
+        </form>
+
+        <a href="#" class="back">
+            Restaurant Management System
+        </a>
+
+    </div>
+
+
+    <script>
+
+        // ==========================================
+        // FORM ELEMENTS
+        // ==========================================
+
+        const form = document.getElementById("loginForm");
+        const emailInput = document.getElementById("email");
+        const passwordInput = document.getElementById("password");
+        const submitBtn = document.getElementById("submitBtn");
+        const messageEl = document.getElementById("message");
+
+
+        // ==========================================
+        // ROLE → PAGE
+        // ==========================================
+const dashboardByRole = {
+    admin: "/frontend/admen/home.html",
+    chef: "/frontend/chef/kitchen.html",
+    server: "/frontend/server/waiter.html",
+    cashier: "/frontend/cashier/cashier.html"
+};
+
+        // ==========================================
+        // LOGIN
+        // ==========================================
+
+        form.addEventListener("submit", async function (e) {
+
+            e.preventDefault();
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            // Clear old message
+            messageEl.textContent = "";
+            messageEl.className = "message";
+
+            // Disable button
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Logging in...";
+
+
+            try {
+
+                // ==================================
+                // SEND LOGIN REQUEST
+                // ==================================
+
+                const response = await fetch(
+                    "http://localhost:5000/api/auth/login",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            email: email,
+                            password: password
+                        })
+                    }
+                );
+
+
+                // ==================================
+                // READ SERVER RESPONSE
+                // ==================================
+
+                const data = await response.json();
+
+
+                // ==================================
+                // LOGIN ERROR
+                // ==================================
+
+                if (!response.ok) {
+
+                    messageEl.textContent =
+                        data.message ||
+                        "Invalid email or password.";
+
+                    messageEl.className =
+                        "message error";
+
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "Punch In";
+
+                    return;
+                }
+
+
+                // ==================================
+                // CHECK USER DATA
+                // ==================================
+
+                if (!data.user || !data.user.role) {
+
+                    console.error(
+                        "Invalid login response:",
+                        data
+                    );
+
+                    messageEl.textContent =
+                        "Unexpected server response.";
+
+                    messageEl.className =
+                        "message error";
+
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "Punch In";
+
+                    return;
+                }
+
+
+                // ==================================
+                // GET ROLE
+                // ==================================
+
+                const role =
+                    String(data.user.role)
+                        .trim()
+                        .toLowerCase();
+
+
+                // ==================================
+                // SAVE TOKEN
+                // ==================================
+
+                if (data.token) {
+
+                    localStorage.setItem(
+                        "token",
+                        data.token
+                    );
+                }
+
+
+                // ==================================
+                // SAVE USER
+                // ==================================
+
+                localStorage.setItem(
+                    "user",
+                    JSON.stringify(data.user)
+                );
+
+
+                // ==================================
+                // SUCCESS MESSAGE
+                // ==================================
+
+                messageEl.textContent =
+                    `Welcome, ${data.user.name}!`;
+
+                messageEl.className =
+                    "message success";
+
+
+                // ==================================
+                // FIND DASHBOARD
+                // ==================================
+
+                const target =
+                    dashboardByRole[role];
+
+
+                if (!target) {
+
+                    messageEl.textContent =
+                        `Logged in, but no page is configured for role "${data.user.role}".`;
+
+                    messageEl.className =
+                        "message error";
+
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "Punch In";
+
+                    return;
+                }
+
+
+                // ==================================
+                // REDIRECT
+                // ==================================
+
+                setTimeout(function () {
+
+                    window.location.href = target;
+
+                }, 700);
+
+
+            } catch (error) {
+
+                console.error(
+                    "Login error:",
+                    error
+                );
+
+
+                messageEl.textContent =
+                    "Network error. Is the Node.js server running?";
+
+                messageEl.className =
+                    "message error";
+
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Punch In";
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
+
+
+  

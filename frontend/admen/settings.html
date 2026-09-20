@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>The Marrow — Settings</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f6f7f9;
+            color: #222;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            width: 240px;
+            background: #171717;
+            color: white;
+
+            padding: 25px 18px;
+
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+
+            margin-bottom: 40px;
+        }
+
+        .logo span {
+            color: #c89b3c;
+        }
+
+        .nav a {
+            display: block;
+
+            color: #ccc;
+            text-decoration: none;
+
+            padding: 13px 15px;
+            margin-bottom: 8px;
+
+            border-radius: 8px;
+
+            transition: 0.3s;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            background: #c89b3c;
+            color: white;
+        }
+
+        .logout {
+            position: absolute;
+
+            bottom: 25px;
+            left: 18px;
+            right: 18px;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            margin-left: 240px;
+
+            width: calc(100% - 240px);
+
+            padding: 30px;
+        }
+
+
+        /* =========================
+           TOPBAR
+        ========================= */
+
+        .topbar {
+            display: flex;
+
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 30px;
+        }
+
+        .topbar h1 {
+            font-size: 30px;
+        }
+
+        .topbar p {
+            color: #777;
+            margin-top: 6px;
+        }
+
+        .admin {
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+        }
+
+        .admin-info {
+            text-align: right;
+        }
+
+        .admin-info p {
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .avatar {
+            width: 45px;
+            height: 45px;
+
+            background: #c89b3c;
+
+            color: white;
+
+            border-radius: 50%;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           SETTINGS LAYOUT
+        ========================= */
+
+        .settings-layout {
+            display: grid;
+
+            grid-template-columns: 220px 1fr;
+
+            gap: 25px;
+        }
+
+
+        /* =========================
+           SETTINGS MENU
+        ========================= */
+
+        .settings-menu {
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 12px;
+
+            height: fit-content;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .settings-menu button {
+            width: 100%;
+
+            border: none;
+
+            background: transparent;
+
+            text-align: left;
+
+            padding: 13px 14px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            color: #555;
+
+            margin-bottom: 5px;
+
+            font-size: 14px;
+        }
+
+        .settings-menu button:hover,
+        .settings-menu button.active {
+            background: #f5ead3;
+
+            color: #a27624;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           SETTINGS CONTENT
+        ========================= */
+
+        .settings-content {
+            background: white;
+
+            border-radius: 12px;
+
+            padding: 30px;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .settings-section {
+            display: none;
+        }
+
+        .settings-section.active {
+            display: block;
+        }
+
+        .section-title {
+            margin-bottom: 25px;
+
+            padding-bottom: 18px;
+
+            border-bottom: 1px solid #eee;
+        }
+
+        .section-title h2 {
+            font-size: 21px;
+        }
+
+        .section-title p {
+            color: #888;
+
+            font-size: 13px;
+
+            margin-top: 6px;
+        }
+
+
+        /* =========================
+           FORMS
+        ========================= */
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 7px;
+
+            outline: none;
+
+            font-size: 14px;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #c89b3c;
+        }
+
+        textarea {
+            resize: vertical;
+
+            min-height: 100px;
+        }
+
+
+        /* =========================
+           PROFILE
+        ========================= */
+
+        .profile-header {
+            display: flex;
+
+            align-items: center;
+
+            gap: 20px;
+
+            margin-bottom: 25px;
+        }
+
+        .big-avatar {
+            width: 80px;
+            height: 80px;
+
+            background: #c89b3c;
+
+            color: white;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 28px;
+
+            font-weight: bold;
+        }
+
+        .profile-info h3 {
+            margin-bottom: 5px;
+        }
+
+        .profile-info p {
+            color: #888;
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           TOGGLE
+        ========================= */
+
+        .option {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 18px 0;
+
+            border-bottom: 1px solid #eee;
+        }
+
+        .option:last-child {
+            border-bottom: none;
+        }
+
+        .option-info strong {
+            display: block;
+
+            margin-bottom: 5px;
+
+            font-size: 14px;
+        }
+
+        .option-info span {
+            color: #888;
+
+            font-size: 12px;
+        }
+
+        .switch {
+            position: relative;
+
+            width: 48px;
+            height: 25px;
+        }
+
+        .switch input {
+            opacity: 0;
+
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+
+            cursor: pointer;
+
+            inset: 0;
+
+            background: #ccc;
+
+            border-radius: 25px;
+
+            transition: 0.3s;
+        }
+
+        .slider:before {
+            content: "";
+
+            position: absolute;
+
+            width: 19px;
+            height: 19px;
+
+            left: 3px;
+            top: 3px;
+
+            background: white;
+
+            border-radius: 50%;
+
+            transition: 0.3s;
+        }
+
+        .switch input:checked + .slider {
+            background: #c89b3c;
+        }
+
+        .switch input:checked + .slider:before {
+            transform: translateX(23px);
+        }
+
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .buttons {
+            display: flex;
+
+            justify-content: flex-end;
+
+            gap: 10px;
+
+            margin-top: 25px;
+
+            padding-top: 20px;
+
+            border-top: 1px solid #eee;
+        }
+
+        button {
+            border: none;
+
+            cursor: pointer;
+
+            border-radius: 7px;
+
+            padding: 12px 20px;
+
+            font-weight: bold;
+        }
+
+        .save-btn {
+            background: #c89b3c;
+
+            color: white;
+        }
+
+        .save-btn:hover {
+            background: #a97f2f;
+        }
+
+        .cancel-btn {
+            background: #eee;
+
+            color: #333;
+        }
+
+
+        /* =========================
+           DANGER ZONE
+        ========================= */
+
+        .danger {
+            margin-top: 30px;
+
+            padding: 20px;
+
+            border: 1px solid #f0caca;
+
+            background: #fff8f8;
+
+            border-radius: 10px;
+        }
+
+        .danger h3 {
+            color: #c0392b;
+
+            margin-bottom: 8px;
+        }
+
+        .danger p {
+            color: #777;
+
+            font-size: 13px;
+
+            margin-bottom: 15px;
+        }
+
+        .danger-btn {
+            background: #c0392b;
+
+            color: white;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+                width: 190px;
+            }
+
+            .main {
+                margin-left: 190px;
+
+                width: calc(100% - 190px);
+            }
+
+            .settings-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .settings-menu {
+                display: grid;
+
+                grid-template-columns:
+                    repeat(3, 1fr);
+
+                gap: 5px;
+            }
+
+        }
+
+
+        @media (max-width: 650px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+
+                width: 100%;
+
+                padding: 15px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .settings-menu {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .admin-info {
+                display: none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            The <span>Marrow</span>
+        </div>
+
+
+        <nav class="nav">
+
+            <a href="home.html">
+                🏠 Dashboard
+            </a>
+
+            <a href="orders.html">
+                🛒 Orders
+            </a>
+
+            <a href="staff.html">
+                👥 Staff
+            </a>
+
+            <a href="menu.html">
+                🍽 Menu
+            </a>
+
+            <a href="statistics.html">
+                📊 Statistics
+            </a>
+
+            <a href="settings.html" class="active">
+                ⚙ Settings
+            </a>
+
+        </nav>
+
+
+        <div class="logout">
+
+            <a href="login.html">
+                🚪 Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main class="main">
+
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+            <div>
+
+                <h1>
+                    Settings
+                </h1>
+
+                <p>
+                    Manage your restaurant and account settings
+                </p>
+
+            </div>
+
+
+            <div class="admin">
+
+                <div class="admin-info">
+
+                    <strong>
+                        Admin
+                    </strong>
+
+                    <p>
+                        Administrator
+                    </p>
+
+                </div>
+
+
+                <div class="avatar">
+                    A
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             SETTINGS
+        ========================= -->
+
+        <div class="settings-layout">
+
+
+            <!-- SETTINGS MENU -->
+
+            <div class="settings-menu">
+
+                <button
+                    class="tab-btn active"
+                    onclick="showTab('restaurant', this)"
+                >
+                    🏪 Restaurant
+                </button>
+
+
+                <button
+                    class="tab-btn"
+                    onclick="showTab('profile', this)"
+                >
+                    👤 Profile
+                </button>
+
+
+                <button
+                    class="tab-btn"
+                    onclick="showTab('notifications', this)"
+                >
+                    🔔 Notifications
+                </button>
+
+
+                <button
+                    class="tab-btn"
+                    onclick="showTab('orders', this)"
+                >
+                    🛒 Orders
+                </button>
+
+
+                <button
+                    class="tab-btn"
+                    onclick="showTab('security', this)"
+                >
+                    🔐 Security
+                </button>
+
+
+                <button
+                    class="tab-btn"
+                    onclick="showTab('danger', this)"
+                >
+                    ⚠️ Advanced
+                </button>
+
+            </div>
+
+
+
+            <!-- SETTINGS CONTENT -->
+
+            <div class="settings-content">
+
+
+                <!-- =========================
+                     RESTAURANT
+                ========================= -->
+
+                <section
+                    id="restaurant"
+                    class="settings-section active"
+                >
+
+                    <div class="section-title">
+
+                        <h2>
+                            Restaurant Information
+                        </h2>
+
+                        <p>
+                            Manage your restaurant's basic information.
+                        </p>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Restaurant Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="restaurantName"
+                                value="The Marrow"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Phone Number
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="restaurantPhone"
+                                value="+213 555 123 456"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Email
+                            </label>
+
+                            <input
+                                type="email"
+                                id="restaurantEmail"
+                                value="contact@themarrow.com"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Currency
+                            </label>
+
+                            <select id="currency">
+
+                                <option value="DZD">
+                                    Algerian Dinar (DA)
+                                </option>
+
+                                <option value="EUR">
+                                    Euro (€)
+                                </option>
+
+                                <option value="USD">
+                                    US Dollar ($)
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Opening Time
+                            </label>
+
+                            <input
+                                type="time"
+                                value="08:00"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Closing Time
+                            </label>
+
+                            <input
+                                type="time"
+                                value="23:00"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group full">
+
+                            <label>
+                                Address
+                            </label>
+
+                            <textarea>Blida, Algeria</textarea>
+
+                        </div>
+
+
+                        <div class="form-group full">
+
+                            <label>
+                                Restaurant Description
+                            </label>
+
+                            <textarea>The Marrow is a modern restaurant offering delicious food and a comfortable dining experience.</textarea>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="buttons">
+
+                        <button
+                            class="cancel-btn"
+                            onclick="resetRestaurant()"
+                        >
+                            Cancel
+                        </button>
+
+                        <button
+                            class="save-btn"
+                            onclick="saveRestaurant()"
+                        >
+                            Save Changes
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =========================
+                     PROFILE
+                ========================= -->
+
+                <section
+                    id="profile"
+                    class="settings-section"
+                >
+
+                    <div class="section-title">
+
+                        <h2>
+                            Admin Profile
+                        </h2>
+
+                        <p>
+                            Manage your administrator account information.
+                        </p>
+
+                    </div>
+
+
+                    <div class="profile-header">
+
+                        <div class="big-avatar">
+                            A
+                        </div>
+
+                        <div class="profile-info">
+
+                            <h3>
+                                Admin
+                            </h3>
+
+                            <p>
+                                Restaurant Administrator
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label>
+                                First Name
+                            </label>
+
+                            <input
+                                type="text"
+                                value="Admin"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Last Name
+                            </label>
+
+                            <input
+                                type="text"
+                                value="Manager"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Email
+                            </label>
+
+                            <input
+                                type="email"
+                                value="admin@themarrow.com"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Phone
+                            </label>
+
+                            <input
+                                type="tel"
+                                value="+213 555 000 000"
+                            >
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="buttons">
+
+                        <button
+                            class="save-btn"
+                            onclick="showMessage('Profile updated successfully!')"
+                        >
+                            Save Profile
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =========================
+                     NOTIFICATIONS
+                ========================= -->
+
+                <section
+                    id="notifications"
+                    class="settings-section"
+                >
+
+                    <div class="section-title">
+
+                        <h2>
+                            Notifications
+                        </h2>
+
+                        <p>
+                            Choose which notifications you want to receive.
+                        </p>
+
+                    </div>
+
+
+                    <div class="option">
+
+                        <div class="option-info">
+
+                            <strong>
+                                New Orders
+                            </strong>
+
+                            <span>
+                                Receive a notification when a new order is placed.
+                            </span>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="option">
+
+                        <div class="option-info">
+
+                            <strong>
+                                Order Status
+                            </strong>
+
+                            <span>
+                                Get notified when an order changes status.
+                            </span>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="option">
+
+                        <div class="option-info">
+
+                            <strong>
+                                Low Stock
+                            </strong>
+
+                            <span>
+                                Receive alerts when ingredients are running low.
+                            </span>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="option">
+
+                        <div class="option-info">
+
+                            <strong>
+                                Staff Updates
+                            </strong>
+
+                            <span>
+                                Get notifications about staff changes.
+                            </span>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="option">
+
+                        <div class="option-info">
+
+                            <strong>
+                                Email Notifications
+                            </strong>
+
+                            <span>
+                                Receive important restaurant updates by email.
+                            </span>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="buttons">
+
+                        <button
+                            class="save-btn"
+                            onclick="showMessage('Notification settings saved!')"
+                        >
+                            Save Settings
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =========================
+                     ORDERS SETTINGS
+                ========================= -->
+
+                <section
+                    id="orders"
+                    class="settings-section"
+                >
+
+                    <div class="section-title">
+
+                        <h2>
+                            Order Settings
+                        </h2>
+
+                        <p>
+                            Configure how restaurant orders are handled.
+                        </p>
+
+                    </div>
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Minimum Order Amount
+                            </label>
+
+                            <input
+                                type="number"
+                                value="500"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Estimated Preparation Time
+                            </label>
+
+                            <select>
+
+                                <option>
+                                    15 minutes
+                                </option>
+
+                                <option selected>
+                                    30 minutes
+                                </option>
+
+                                <option>
+                                    45 minutes
+                                </option>
+
+                                <option>
+                                    60 minutes
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Order Type
+                            </label>
+
+                            <select>
+
+                                <option selected>
+                                    Dine In
+                                </option>
+
+                                <option>
+                                    Take Away
+                                </option>
+
+                                <option>
+                                    Both
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Default Tax (%)
+                            </label>
+
+                            <input
+                                type="number"
+                                value="9"
+                            >
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="option">
+
+                        <div class="option-info">
+
+                            <strong>
+                                Accept New Orders
+                            </strong>
+
+                            <span>
+                                Allow customers to place new orders.
+                            </span>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="option">
+
+                        <div class="option-info">
+
+                            <strong>
+                                Automatic Order Confirmation
+                            </strong>
+
+                            <span>
+                                Automatically confirm new orders.
+                            </span>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="buttons">
+
+                        <button
+                            class="save-btn"
+                            onclick="showMessage('Order settings saved!')"
+                        >
+                            Save Settings
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =========================
+                     SECURITY
+                ========================= -->
+
+                <section
+                    id="security"
+                    class="settings-section"
+                >
+
+                    <div class="section-title">
+
+                        <h2>
+                            Security
+                        </h2>
+
+                        <p>
+                            Protect your administrator account.
+                        </p>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Current Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="currentPassword"
+                            placeholder="Enter current password"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            New Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="newPassword"
+                            placeholder="Enter new password"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Confirm New Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            placeholder="Confirm new password"
+                        >
+
+                    </div>
+
+
+                    <div class="buttons">
+
+                        <button
+                            class="save-btn"
+                            onclick="changePassword()"
+                        >
+                            Change Password
+                        </button>
+
+                    </div>
+
+
+                    <div class="danger">
+
+                        <h3>
+                            Login Security
+                        </h3>
+
+                        <p>
+                            For security, always log out when using a shared computer.
+                        </p>
+
+                        <button
+                            class="cancel-btn"
+                            onclick="window.location.href='login.html'"
+                        >
+                            Logout
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =========================
+                     ADVANCED
+                ========================= -->
+
+                <section
+                    id="danger"
+                    class="settings-section"
+                >
+
+                    <div class="section-title">
+
+                        <h2>
+                            Advanced Settings
+                        </h2>
+
+                        <p>
+                            Advanced options for your restaurant management system.
+                        </p>
+
+                    </div>
+
+
+                    <div class="option">
+
+                        <div class="option-info">
+
+                            <strong>
+                                Maintenance Mode
+                            </strong>
+
+                            <span>
+                                Temporarily disable customer orders.
+                            </span>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                id="maintenanceMode"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="option">
+
+                        <div class="option-info">
+
+                            <strong>
+                                Customer Ordering
+                            </strong>
+
+                            <span>
+                                Allow customers to browse the menu and place orders.
+                            </span>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                checked
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="danger">
+
+                        <h3>
+                            Danger Zone
+                        </h3>
+
+                        <p>
+                            These actions can affect your restaurant data.
+                            Use them carefully.
+                        </p>
+
+
+                        <button
+                            class="danger-btn"
+                            onclick="clearDemoData()"
+                        >
+                            Reset Demo Data
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+            </div>
+
+        </div>
+
+
+    </main>
+
+
+
+    <script>
+
+        /* =========================
+           SHOW SETTINGS TAB
+        ========================= */
+
+        function showTab(tabId, button) {
+
+            const sections =
+                document.querySelectorAll(".settings-section");
+
+            sections.forEach(section => {
+
+                section.classList.remove("active");
+
+            });
+
+
+            const buttons =
+                document.querySelectorAll(".tab-btn");
+
+            buttons.forEach(btn => {
+
+                btn.classList.remove("active");
+
+            });
+
+
+            document
+                .getElementById(tabId)
+                .classList.add("active");
+
+
+            button.classList.add("active");
+
+        }
+
+
+
+        /* =========================
+           SAVE RESTAURANT
+        ========================= */
+
+        function saveRestaurant() {
+
+            const name =
+                document
+                .getElementById("restaurantName")
+                .value;
+
+
+            if (!name.trim()) {
+
+                alert("Please enter the restaurant name.");
+
+                return;
+
+            }
+
+
+            showMessage(
+                "Restaurant information saved successfully!"
+            );
+
+        }
+
+
+
+        /* =========================
+           RESET RESTAURANT
+        ========================= */
+
+        function resetRestaurant() {
+
+            document
+                .getElementById("restaurantName")
+                .value = "The Marrow";
+
+
+            document
+                .getElementById("restaurantPhone")
+                .value = "+213 555 123 456";
+
+
+            document
+                .getElementById("restaurantEmail")
+                .value = "contact@themarrow.com";
+
+        }
+
+
+
+        /* =========================
+           CHANGE PASSWORD
+        ========================= */
+
+        function changePassword() {
+
+            const current =
+                document
+                .getElementById("currentPassword")
+                .value;
+
+
+            const newPassword =
+                document
+                .getElementById("newPassword")
+                .value;
+
+
+            const confirm =
+                document
+                .getElementById("confirmPassword")
+                .value;
+
+
+            if (!current || !newPassword || !confirm) {
+
+                alert(
+                    "Please fill in all password fields."
+                );
+
+                return;
+
+            }
+
+
+            if (newPassword.length < 6) {
+
+                alert(
+                    "New password must contain at least 6 characters."
+                );
+
+                return;
+
+            }
+
+
+            if (newPassword !== confirm) {
+
+                alert(
+                    "Passwords do not match."
+                );
+
+                return;
+
+            }
+
+
+            showMessage(
+                "Password changed successfully!"
+            );
+
+
+            document
+                .getElementById("currentPassword")
+                .value = "";
+
+
+            document
+                .getElementById("newPassword")
+                .value = "";
+
+
+            document
+                .getElementById("confirmPassword")
+                .value = "";
+
+        }
+
+
+
+        /* =========================
+           MESSAGE
+        ========================= */
+
+        function showMessage(message) {
+
+            alert(message);
+
+        }
+
+
+
+        /* =========================
+           RESET DEMO DATA
+        ========================= */
+
+        function clearDemoData() {
+
+            const confirmation =
+                confirm(
+                    "Are you sure you want to reset the demo data?"
+                );
+
+
+            if (!confirmation) {
+
+                return;
+
+            }
+
+
+            alert(
+                "Demo data has been reset."
+            );
+
+        }
+
+
+
+        /* =========================
+           MAINTENANCE MODE
+        ========================= */
+
+        document
+            .getElementById("maintenanceMode")
+            .addEventListener(
+                "change",
+                function() {
+
+                    if (this.checked) {
+
+                        alert(
+                            "Maintenance mode enabled."
+                        );
+
+                    } else {
+
+                        alert(
+                            "Maintenance mode disabled."
+                        );
+
+                    }
+
+                }
+            );
+
+    </script>
+
+
+</body>
+
+</html>

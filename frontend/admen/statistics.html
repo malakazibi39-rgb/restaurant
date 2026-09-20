@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Marrow — Statistics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --charcoal:#221D19;
+    --charcoal-2:#2E2721;
+    --charcoal-3:#3A312A;
+    --cream:#F8F4EA;
+    --paper:#FFFFFF;
+    --ink:#2B2420;
+    --muted:#8A7F72;
+    --muted-2:#B4A995;
+    --ember:#D98A3D;
+    --ember-dark:#B86F2C;
+    --ember-tint:#FCEBD6;
+    --sage:#6F8A5E;
+    --sage-tint:#E7EEE2;
+    --rust:#A8442F;
+    --line:#E4DCC8;
+    --radius:3px;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .num{font-family:'IBM Plex Mono', monospace;}
+
+  .app{
+    display:grid;
+    grid-template-columns:236px 1fr;
+    min-height:100vh;
+  }
+
+  /* ===== SIDEBAR (identical to dashboard) ===== */
+  .sidebar{
+    background:var(--charcoal);
+    color:var(--cream);
+    padding:28px 22px;
+    display:flex;
+    flex-direction:column;
+    gap:36px;
+  }
+  .brand{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    border-bottom:1px solid rgba(248,244,234,0.12);
+    padding-bottom:20px;
+  }
+  .brand .mark{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:22px;
+    letter-spacing:0.01em;
+  }
+  .brand .mark span{color:var(--ember);}
+  .brand .sub{
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--muted-2);
+  }
+  nav{display:flex; flex-direction:column; gap:2px;}
+  .navlink{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:11px 12px;
+    border-radius:var(--radius);
+    color:var(--muted-2);
+    text-decoration:none;
+    font-size:14px;
+    font-weight:500;
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease;
+  }
+  .navlink svg{width:16px; height:16px; flex-shrink:0; opacity:0.8;}
+  .navlink:hover{background:var(--charcoal-2); color:var(--cream);}
+  .navlink.active{background:var(--charcoal-2); color:var(--cream);}
+  .navlink.active svg{opacity:1; color:var(--ember);}
+  .shift-card{
+    margin-top:auto;
+    background:var(--charcoal-2);
+    border:1px dashed rgba(248,244,234,0.18);
+    border-radius:var(--radius);
+    padding:14px;
+    font-size:12px;
+    color:var(--muted-2);
+    line-height:1.5;
+  }
+  .shift-card strong{color:var(--cream); display:block; font-size:13px; margin-bottom:2px;}
+
+  /* ===== MAIN ===== */
+  .main{padding:32px 40px 60px; max-width:1180px;}
+
+  .topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:30px;
+    flex-wrap:wrap;
+    gap:16px;
+  }
+  .topbar h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:28px;
+  }
+  .topbar .date{
+    color:var(--muted);
+    font-size:13px;
+    margin-top:4px;
+  }
+
+  .range-tabs{
+    display:inline-flex;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:3px;
+    gap:2px;
+  }
+  .range-tab{
+    padding:8px 16px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:600;
+    color:var(--muted);
+    cursor:pointer;
+    border:none;
+    background:none;
+  }
+  .range-tab.active{background:var(--charcoal); color:var(--cream);}
+
+  /* ===== TICKET RAIL ===== */
+  .rail{
+    position:relative;
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:22px;
+    margin-bottom:38px;
+  }
+  .rail::before{
+    content:"";
+    position:absolute;
+    top:-14px; left:0; right:0;
+    height:1px;
+    background-image:linear-gradient(to right, var(--muted-2) 60%, transparent 0%);
+    background-size:10px 1px;
+    background-repeat:repeat-x;
+    opacity:0.5;
+  }
+  .ticket{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:18px 18px 16px;
+    position:relative;
+    box-shadow:0 1px 0 rgba(43,36,32,0.03);
+  }
+  .ticket::before{
+    content:"";
+    position:absolute;
+    top:-6px; left:50%;
+    transform:translateX(-50%);
+    width:12px; height:12px;
+    background:var(--cream);
+    border:1px solid var(--line);
+    border-radius:50%;
+  }
+  .ticket .label{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--muted);
+    font-weight:600;
+    margin-bottom:10px;
+  }
+  .ticket .value{
+    font-size:28px;
+    font-weight:600;
+    line-height:1;
+    display:flex;
+    align-items:baseline;
+    gap:6px;
+  }
+  .ticket .value .unit{font-size:14px; color:var(--muted); font-weight:500;}
+  .ticket .delta{
+    margin-top:10px;
+    font-size:12px;
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    padding:3px 8px;
+    border-radius:20px;
+    font-weight:600;
+  }
+  .delta.up{background:var(--sage-tint); color:var(--sage);}
+  .delta.down{background:#F5E3DE; color:var(--rust);}
+
+  /* ===== PANELS ===== */
+  .panel-row{
+    display:grid;
+    grid-template-columns:1.4fr 1fr;
+    gap:22px;
+    margin-bottom:22px;
+  }
+  .panel{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:22px 24px 24px;
+  }
+  .panel-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:20px;
+  }
+  .panel-head h2{
+    font-family:'Fraunces', serif;
+    font-size:17px;
+    font-weight:600;
+  }
+  .panel-head .note{font-size:12px; color:var(--muted);}
+
+  /* bar chart */
+  .bars{
+    display:flex;
+    align-items:flex-end;
+    gap:10px;
+    height:170px;
+    padding-top:10px;
+  }
+  .bar-col{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+    height:100%;
+    justify-content:flex-end;
+  }
+  .bar{
+    width:100%;
+    max-width:30px;
+    background:linear-gradient(to top, var(--ember) 0%, #E7A75F 100%);
+    border-radius:3px 3px 0 0;
+  }
+  .bar.peak{background:linear-gradient(to top, var(--charcoal) 0%, var(--charcoal-3) 100%);}
+  .bar-day{font-size:10.5px; color:var(--muted); font-weight:600; text-transform:uppercase;}
+
+  /* order channel breakdown */
+  .breakdown-row{margin-bottom:16px;}
+  .breakdown-row:last-child{margin-bottom:0;}
+  .breakdown-top{display:flex; justify-content:space-between; font-size:13px; margin-bottom:7px;}
+  .breakdown-top .name{font-weight:600;}
+  .breakdown-top .pct{font-family:'IBM Plex Mono', monospace; color:var(--muted);}
+  .track{height:8px; background:var(--cream); border-radius:20px; overflow:hidden;}
+  .fill{height:100%; border-radius:20px;}
+  .fill.dine{background:var(--ember);}
+  .fill.takeout{background:var(--sage);}
+  .fill.delivery{background:#6E7F9C;}
+
+  /* top dishes list */
+  .dish-row{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:12px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .dish-row:last-child{border-bottom:none; padding-bottom:0;}
+  .dish-row:first-child{padding-top:0;}
+  .dish-rank{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--muted-2);
+    width:16px;
+    flex-shrink:0;
+  }
+  .dish-info{flex:1; min-width:0;}
+  .dish-name{font-weight:600; font-size:14px;}
+  .dish-meta{font-size:12px; color:var(--muted); margin-top:1px;}
+  .dish-revenue{
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:600;
+    font-size:14px;
+    white-space:nowrap;
+  }
+
+  /* peak hours heatmap */
+  .heatmap{
+    display:grid;
+    grid-template-columns:44px repeat(7, 1fr);
+    gap:4px;
+    font-size:10.5px;
+  }
+  .heatmap .row-label{
+    color:var(--muted);
+    display:flex;
+    align-items:center;
+    font-weight:600;
+    font-family:'IBM Plex Mono', monospace;
+  }
+  .heatmap .col-label{
+    text-align:center;
+    color:var(--muted);
+    font-weight:600;
+    text-transform:uppercase;
+    padding-bottom:6px;
+  }
+  .heat-cell{
+    aspect-ratio:1;
+    border-radius:3px;
+    background:var(--ember);
+  }
+
+  .two-col{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px;
+  }
+
+  @media (max-width:900px){
+    .app{grid-template-columns:1fr;}
+    .sidebar{flex-direction:row; align-items:center; padding:16px 20px; gap:16px; overflow-x:auto;}
+    .brand{border:none; padding:0;}
+    nav{flex-direction:row;}
+    .shift-card{display:none;}
+    .rail{grid-template-columns:repeat(2,1fr);}
+    .panel-row, .two-col{grid-template-columns:1fr;}
+    .main{padding:22px 18px 40px;}
+    .heatmap{font-size:9px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="mark">The <span>Marrow</span></div>
+      <div class="sub">Back of House</div>
+    </div>
+    <nav>
+      <a class="navlink" href="home.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+        Dashboard
+      </a>
+      <a class="navlink" href="staff.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Staff
+      </a>
+      <a class="navlink active" href="statistics.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+        Statistics
+      </a>
+      <a class="navlink" href="menu.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        Menu
+      </a>
+      <a class="navlink" href="settings.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Settings
+      </a>
+    </nav>
+    <div class="shift-card">
+      <strong>Evening service</strong>
+      Doors at 5:00 PM · 6 staff scheduled tonight
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <div class="topbar">
+      <div>
+        <h1>Statistics</h1>
+        <div class="date" id="today-date">Wednesday, July 8</div>
+      </div>
+      <div class="range-tabs">
+        <button class="range-tab" data-range="7">7 days</button>
+        <button class="range-tab active" data-range="30">30 days</button>
+        <button class="range-tab" data-range="90">90 days</button>
+      </div>
+    </div>
+
+    <!-- SUMMARY TICKETS -->
+    <section class="rail">
+      <div class="ticket">
+        <div class="label">Revenue (30d)</div>
+        <div class="value num">$94,860</div>
+        <span class="delta up">↑ 9% vs prior 30d</span>
+      </div>
+      <div class="ticket">
+        <div class="label">Total covers</div>
+        <div class="value num">5,214<span class="unit">guests</span></div>
+        <span class="delta up">↑ 6%</span>
+      </div>
+      <div class="ticket">
+        <div class="label">Avg. check size</div>
+        <div class="value num">$38<span class="unit">.20</span></div>
+        <span class="delta up">↑ 3%</span>
+      </div>
+      <div class="ticket">
+        <div class="label">Repeat guests</div>
+        <div class="value num">41<span class="unit">%</span></div>
+        <span class="delta down">↓ 2 pts</span>
+      </div>
+    </section>
+
+    <!-- REVENUE TREND + CHANNELS -->
+    <section class="panel-row">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Revenue — last 4 weeks</h2>
+          <span class="note">Weekly totals</span>
+        </div>
+        <div class="bars">
+          <div class="bar-col"><div class="bar" style="height:58%"></div><span class="bar-day">Wk 1</span></div>
+          <div class="bar-col"><div class="bar" style="height:66%"></div><span class="bar-day">Wk 2</span></div>
+          <div class="bar-col"><div class="bar" style="height:74%"></div><span class="bar-day">Wk 3</span></div>
+          <div class="bar-col"><div class="bar peak" style="height:100%"></div><span class="bar-day">Wk 4</span></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Order channels</h2>
+          <span class="note">30 days</span>
+        </div>
+        <div class="breakdown-row">
+          <div class="breakdown-top"><span class="name">Dine-in</span><span class="pct num">54%</span></div>
+          <div class="track"><div class="fill dine" style="width:54%"></div></div>
+        </div>
+        <div class="breakdown-row">
+          <div class="breakdown-top"><span class="name">Takeout</span><span class="pct num">31%</span></div>
+          <div class="track"><div class="fill takeout" style="width:31%"></div></div>
+        </div>
+        <div class="breakdown-row">
+          <div class="breakdown-top"><span class="name">Delivery</span><span class="pct num">15%</span></div>
+          <div class="track"><div class="fill delivery" style="width:15%"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOP DISHES + PEAK HOURS -->
+    <section class="two-col">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Top dishes</h2>
+          <span class="note">By revenue</span>
+        </div>
+        <div class="dish-row">
+          <span class="dish-rank">01</span>
+          <div class="dish-info">
+            <div class="dish-name">Braised Short Rib</div>
+            <div class="dish-meta">312 orders</div>
+          </div>
+          <div class="dish-revenue num">$9,984</div>
+        </div>
+        <div class="dish-row">
+          <span class="dish-rank">02</span>
+          <div class="dish-info">
+            <div class="dish-name">Charred Octopus</div>
+            <div class="dish-meta">248 orders</div>
+          </div>
+          <div class="dish-revenue num">$7,192</div>
+        </div>
+        <div class="dish-row">
+          <span class="dish-rank">03</span>
+          <div class="dish-info">
+            <div class="dish-name">Wild Mushroom Risotto</div>
+            <div class="dish-meta">201 orders</div>
+          </div>
+          <div class="dish-revenue num">$5,225</div>
+        </div>
+        <div class="dish-row">
+          <span class="dish-rank">04</span>
+          <div class="dish-info">
+            <div class="dish-name">Duck Confit</div>
+            <div class="dish-meta">176 orders</div>
+          </div>
+          <div class="dish-revenue num">$4,928</div>
+        </div>
+        <div class="dish-row">
+          <span class="dish-rank">05</span>
+          <div class="dish-info">
+            <div class="dish-name">Burnt Basque Cheesecake</div>
+            <div class="dish-meta">289 orders</div>
+          </div>
+          <div class="dish-revenue num">$3,468</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Peak hours</h2>
+          <span class="note">Busiest = darker</span>
+        </div>
+        <div class="heatmap" id="heatmap"></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  const dateEl = document.getElementById('today-date');
+  dateEl.textContent = new Date().toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' });
+
+  // ----- range tabs (visual only for now) -----
+  document.querySelectorAll('.range-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.range-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+
+  // ----- peak hours heatmap (demo intensity data) -----
+  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const hours = ['11a','1p','3p','5p','7p','9p'];
+  // rough dinner-rush shape: quiet midday, busy evenings, weekends busiest
+  const intensity = [
+    [0.15,0.30,0.10,0.35,0.75,0.55], // Mon
+    [0.15,0.32,0.12,0.38,0.78,0.58], // Tue
+    [0.18,0.35,0.14,0.42,0.82,0.62], // Wed
+    [0.20,0.38,0.16,0.46,0.86,0.68], // Thu
+    [0.25,0.45,0.20,0.55,0.95,0.85], // Fri
+    [0.30,0.50,0.25,0.60,1.00,0.92], // Sat
+    [0.22,0.40,0.18,0.48,0.80,0.50], // Sun
+  ];
+
+  const heatmap = document.getElementById('heatmap');
+  let html = '<div></div>';
+  hours.forEach(h => html += `<div class="col-label">${h}</div>`);
+  days.forEach((day, dIdx) => {
+    html += `<div class="row-label">${day}</div>`;
+    hours.forEach((h, hIdx) => {
+      const val = intensity[dIdx][hIdx];
+      html += `<div class="heat-cell" style="opacity:${val}" title="${day} ${h}: ${Math.round(val*100)}% busy"></div>`;
+    });
+  });
+  heatmap.innerHTML = html;
+</script>
+
+</body>
+</html>

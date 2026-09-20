@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ember & Ash — Server Home</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   EMBER & ASH — shared theme
+   Used by: server-home.html, order-management.html,
+            chef-kitchen.html, delivery-dispatch.html
+   ============================================================ */
+
+:root{
+  --char: #1C1815;
+  --char-2: #241f1a;
+  --char-3: #2c2620;
+  --ember: #C1502E;       /* new / fired ticket */
+  --ember-bright: #E06B3F;
+  --gold: #B8935A;        /* preparing */
+  --olive: #6F8F63;       /* ready */
+  --smoke: #6E8CA0;       /* delivered / done */
+  --bone: #EDE6D6;
+  --bone-dim: rgba(237,230,214,0.55);
+  --bone-faint: rgba(237,230,214,0.35);
+  --line: rgba(237,230,214,0.14);
+}
+
+*{ box-sizing:border-box; }
+
+body{
+  margin:0;
+  background: var(--char);
+  color: var(--bone);
+  font-family:'Work Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  min-height:100vh;
+}
+
+.mono{ font-family:'JetBrains Mono', monospace; }
+.serif{ font-family:'Fraunces', serif; }
+
+a{ color: inherit; }
+
+/* ---- header (shared across all pages) ---- */
+header.site{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding: 1.6rem 3vw;
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top:0;
+  background: rgba(28,24,21,0.92);
+  backdrop-filter: blur(6px);
+  z-index: 10;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.brand{
+  display:flex;
+  align-items:baseline;
+  gap: 0.9rem;
+}
+.brand h1{
+  font-family:'Fraunces', serif;
+  font-weight: 400;
+  font-size: 1.4rem;
+  margin:0;
+}
+.brand h1 em{ font-style: italic; color: var(--ember-bright); }
+.brand .tag{
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+}
+.header-right{
+  display:flex;
+  align-items:center;
+  gap: 1.1rem;
+}
+.role-pill{
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  border: 1px solid var(--line);
+  padding: 0.4rem 0.9rem;
+  border-radius: 20px;
+}
+.clock{
+  font-size: 0.85rem;
+  color: var(--bone-dim);
+}
+
+.wrap{
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 2.4rem 3vw 4rem;
+}
+
+/* ---- buttons ---- */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.3rem;
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+  border-radius: 2px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-family:'Work Sans', sans-serif;
+  text-decoration:none;
+  transition: transform .15s ease, opacity .15s ease;
+}
+.btn:hover{ transform: translateY(-1px); }
+.btn:focus-visible{ outline: 2px solid var(--bone); outline-offset: 2px; }
+.btn-ember{ background: var(--ember); color: var(--bone); }
+.btn-gold{ background: var(--gold); color: var(--char); }
+.btn-olive{ background: var(--olive); color: var(--char); }
+.btn-smoke{ background: var(--smoke); color: var(--char); }
+.btn-ghost{
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--bone-dim);
+}
+.btn-ghost:hover{ border-color: var(--bone); color: var(--bone); }
+
+/* ---- generic panel/card ---- */
+.panel{
+  background: var(--char-2);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 1.6rem 1.5rem 1.8rem;
+}
+.panel h2{
+  font-family:'Fraunces', serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 1.1rem;
+  margin: 0 0 1.2rem;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+}
+.panel h2 a.see-all{
+  font-family:'Work Sans', sans-serif;
+  font-style: normal;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+  text-decoration:none;
+}
+.panel h2 a.see-all:hover{ color: var(--bone); }
+
+/* ---- stat cards ---- */
+.stat-card{
+  background: var(--char-2);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--stat-color, var(--ember));
+  border-radius: 3px;
+  padding: 1.1rem 1.2rem;
+}
+.stat-card .label{
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+  display:flex;
+  align-items:center;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+.stat-dot{ width:8px; height:8px; border-radius:50%; background: var(--stat-color, var(--ember)); }
+.stat-card .value{
+  font-family:'JetBrains Mono', monospace;
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+/* ---- ticket card (used on order/delivery pages too) ---- */
+.ticket{
+  background: var(--char-2);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  position: relative;
+  overflow: hidden;
+}
+.ticket::before{
+  content:'';
+  position:absolute;
+  top:0; left:0; right:0;
+  height: 6px;
+  background-image: radial-gradient(circle, var(--char) 2.5px, transparent 2.6px);
+  background-size: 14px 14px;
+  background-position: 0 -7px;
+}
+.ticket-top{
+  padding: 1.1rem 1.2rem 0.8rem;
+  display:flex;
+  justify-content: space-between;
+  align-items:flex-start;
+  gap: 0.8rem;
+}
+.ticket-id{
+  font-family:'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+}
+.ticket-name{
+  font-family:'Fraunces', serif;
+  font-size: 1.1rem;
+  margin-top: 0.3rem;
+}
+.ticket-phone{
+  font-family:'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--bone-faint);
+  margin-top: 0.25rem;
+}
+.ticket-total{
+  font-family:'JetBrains Mono', monospace;
+  font-size: 1rem;
+  color: var(--bone);
+  white-space: nowrap;
+}
+.ticket-total .cur{ color: var(--bone-faint); font-size:0.72rem; }
+
+.empty-note{
+  font-size: 0.85rem;
+  color: var(--bone-faint);
+  font-style: italic;
+  font-family:'Fraunces', serif;
+  padding: 1rem 0;
+}
+
+/* ---- inputs ---- */
+.field{
+  display:flex;
+  flex-direction:column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+.field label{
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bone-faint);
+}
+.field input{
+  background: var(--char);
+  border: 1px solid var(--line);
+  color: var(--bone);
+  padding: 0.75rem 0.8rem;
+  border-radius: 2px;
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+.field input:focus{
+  outline:none;
+  border-color: var(--ember);
+  box-shadow: 0 0 0 3px rgba(193,80,46,0.2);
+}
+
+.back-link{
+  display:inline-block;
+  margin-top: 1.8rem;
+  font-size: 0.78rem;
+  color: var(--bone-faint);
+  text-decoration:none;
+  letter-spacing: 0.04em;
+}
+.back-link:hover{ color: var(--bone); }
+
+</style>
+<style>
+  .hero{
+    display:grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 1.4rem;
+    margin-bottom: 2.2rem;
+  }
+  @media (max-width: 820px){ .hero{ grid-template-columns: 1fr; } }
+
+  .hero-greet{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding: 2rem 1.8rem;
+  }
+  .eyebrow{
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ember-bright);
+    margin-bottom: 0.7rem;
+  }
+  .hero-greet h1{
+    font-family:'Fraunces', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1.9rem;
+    margin: 0 0 0.6rem;
+  }
+  .hero-greet p{
+    margin: 0 0 1.5rem;
+    color: var(--bone-dim);
+    font-size: 0.92rem;
+    max-width: 46ch;
+    line-height: 1.55;
+  }
+  .hero-actions{ display:flex; gap: 0.8rem; flex-wrap: wrap; }
+
+  .stamp{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    position: relative;
+    padding: 1.8rem 1.8rem;
+  }
+  .stamp-ring{
+    position:absolute;
+    top: 1.3rem; right: 1.3rem;
+    width: 56px; height: 56px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    opacity: 0.5;
+    transform: rotate(-10deg);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .stamp-ring span{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  .stamp-label{
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bone-faint);
+    margin-bottom: 0.4rem;
+  }
+  .stamp-number{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 2.8rem;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--ember-bright);
+  }
+  .stamp-sub{ font-size: 0.78rem; color: var(--bone-dim); margin-top: 0.5rem; }
+
+  .stats{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 2.2rem;
+  }
+  @media (max-width: 820px){ .stats{ grid-template-columns: repeat(2,1fr); } }
+
+  .main-grid{
+    display:grid;
+    grid-template-columns: 1fr 340px;
+    gap: 1.4rem;
+  }
+  @media (max-width: 900px){ .main-grid{ grid-template-columns: 1fr; } }
+
+  .activity-row{
+    display:grid;
+    grid-template-columns: 70px 1fr auto auto;
+    align-items:center;
+    gap: 1rem;
+    background: var(--char);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding: 0.85rem 1rem;
+    margin-bottom: 0.6rem;
+  }
+  @media (max-width: 600px){ .activity-row{ grid-template-columns: 1fr; gap:0.3rem; } }
+  .activity-row .num{ font-family:'JetBrains Mono', monospace; font-weight:600; color: var(--gold); font-size: 0.85rem; }
+  .activity-row .who{ font-size: 0.88rem; font-weight:500; font-family:'Fraunces', serif; }
+  .activity-row .when{ font-size: 0.72rem; color: var(--bone-faint); font-family:'JetBrains Mono', monospace; }
+
+  .status-chip{
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .status-chip[data-s="new"]{ background: var(--ember); color: var(--bone); }
+  .status-chip[data-s="preparing"]{ background: var(--gold); color: var(--char); }
+  .status-chip[data-s="ready"]{ background: var(--olive); color: var(--char); }
+  .status-chip[data-s="delivered"]{ background: var(--smoke); color: var(--char); }
+
+  .quick-links{ display:flex; flex-direction:column; gap: 0.8rem; }
+  .quick-link{
+    display:flex;
+    align-items:center;
+    gap: 0.9rem;
+    background: var(--char);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding: 0.9rem 1rem;
+    text-decoration:none;
+    color: var(--bone);
+    transition: border-color .15s ease;
+  }
+  .quick-link:hover{ border-color: var(--ember); }
+  .quick-link .qicon{
+    width: 34px; height:34px;
+    border-radius: 50%;
+    background: var(--char-3);
+    display:flex; align-items:center; justify-content:center;
+    font-size: 1rem;
+    flex-shrink:0;
+  }
+  .quick-link .qtext strong{ display:block; font-size: 0.85rem; font-family:'Fraunces', serif; font-weight: 500; }
+  .quick-link .qtext span{ font-size: 0.72rem; color: var(--bone-faint); }
+
+  .shift-note{
+    margin-top: 1.2rem;
+    font-size: 0.76rem;
+    color: var(--bone-faint);
+    border-top: 1px dashed var(--line);
+    padding-top: 1rem;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="brand">
+    <h1>Ember <em>&amp;</em> Ash</h1>
+    <span class="tag">Server Home</span>
+  </div>
+  <div class="header-right">
+    <span class="role-pill">Front of House</span>
+    <span class="clock mono" id="clock"></span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="panel hero-greet">
+      <div class="eyebrow">Floor · Shift 11:00–19:00</div>
+      <h1 id="greeting">Good day, Sara.</h1>
+      <p>Six tables open, two tickets waiting on the chef. Start a new order, or check the rail to see what's ready to go out.</p>
+      <div class="hero-actions">
+        <a class="btn btn-ember" href="ordermanagement.html">＋ New Order</a>
+        <a class="btn btn-ghost" href="chefkitchen.html">Kitchen Rail</a>
+      </div>
+    </div>
+    <div class="panel stamp">
+      <div class="stamp-ring"><span>Today</span></div>
+      <div class="stamp-label">Tickets fired today</div>
+      <div class="stamp-number">18</div>
+      <div class="stamp-sub">4 active · 14 delivered</div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat-card" style="--stat-color:var(--ember);">
+      <div class="label"><span class="stat-dot"></span>New</div>
+      <div class="value">2</div>
+    </div>
+    <div class="stat-card" style="--stat-color:var(--gold);">
+      <div class="label"><span class="stat-dot"></span>Preparing</div>
+      <div class="value">3</div>
+    </div>
+    <div class="stat-card" style="--stat-color:var(--olive);">
+      <div class="label"><span class="stat-dot"></span>Ready</div>
+      <div class="value">1</div>
+    </div>
+    <div class="stat-card" style="--stat-color:var(--smoke);">
+      <div class="label"><span class="stat-dot"></span>Today's Total</div>
+      <div class="value">$486</div>
+    </div>
+  </div>
+
+  <div class="main-grid">
+    <div class="panel">
+      <h2>Recent Activity <a class="see-all" href="chefkitchen.html">Open kitchen rail →</a></h2>
+      <div id="activityList"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Quick Links</h2>
+      <div class="quick-links">
+        <a class="quick-link" href="ordermangement.html">
+          <span class="qicon">🧾</span>
+          <span class="qtext"><strong>New Order</strong><span>Take a customer's order</span></span>
+        </a>
+        <a class="quick-link" href="chefkitchen.html">
+          <span class="qicon">🔥</span>
+          <span class="qtext"><strong>Kitchen Rail</strong><span>Follow up with the chef</span></span>
+        </a>
+        <a class="quick-link" href="delivery dispatch.html">
+          <span class="qicon">🚚</span>
+          <span class="qtext"><strong>Delivery</strong><span>Send finished orders out</span></span>
+        </a>
+      </div>
+      <div class="shift-note">Prices and counts on this page are placeholders — connect them to your <span class="mono">orders</span> table to show live numbers.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function tick(){
+    document.getElementById('clock').textContent = new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  (function(){
+    const h = new Date().getHours();
+    const period = h < 12 ? "morning" : (h < 18 ? "afternoon" : "evening");
+    document.getElementById('greeting').textContent = `Good ${period}, Sara.`;
+  })();
+
+  // Placeholder feed — wire to your real `orders` table, ordered by most recent status change.
+  const RECENT = [
+    { id: 105, name: "Elin Sorby",     status: "ready",      when: "2 min ago" },
+    { id: 104, name: "Tomas Reyes",    status: "preparing",  when: "6 min ago" },
+    { id: 103, name: "Priya Nandan",   status: "preparing",  when: "11 min ago" },
+    { id: 102, name: "Dean Whitlock",  status: "new",        when: "18 min ago" },
+    { id: 99,  name: "Karim D.",       status: "delivered",  when: "38 min ago" }
+  ];
+
+  const list = document.getElementById('activityList');
+  RECENT.forEach(r => {
+    const row = document.createElement('div');
+    row.className = 'activity-row';
+    row.innerHTML = `
+      <span class="num">#${r.id}</span>
+      <span class="who">${r.name}</span>
+      <span class="when">${r.when}</span>
+      <span class="status-chip" data-s="${r.status}">${r.status}</span>
+    `;
+    list.appendChild(row);
+  });
+</script>
+</body>
+</html>
