@@ -1,939 +1,436 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kitchen | Restaurant Management</title>
 
-    <title>Kitchen | Restaurant Management</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:Arial,sans-serif;background:#f5f2ed;color:#302923;}
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+/* ================= SIDEBAR ================= */
+.sidebar{position:fixed;left:0;top:0;width:240px;height:100vh;background:#302923;color:white;padding:25px 15px;}
+.logo{text-align:center;font-size:24px;font-weight:bold;margin-bottom:35px;}
+.logo span{display:block;font-size:35px;margin-bottom:8px;}
+.nav{list-style:none;}
+.nav li{margin-bottom:10px;}
+.nav a{display:block;color:#ddd;text-decoration:none;padding:13px 15px;border-radius:8px;transition:0.2s;}
+.nav a:hover,.nav a.active{background:#51453b;color:white;}
+.logout{position:absolute;bottom:25px;left:15px;right:15px;}
+.logout button{width:100%;padding:12px;border:1px solid #777;background:transparent;color:white;border-radius:8px;cursor:pointer;}
+.logout button:hover{background:#51453b;}
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f2ed;
-            color: #302923;
-        }
+/* ================= MAIN ================= */
+.main{margin-left:240px;padding:30px;}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px;}
+.header h1{font-size:30px;}
+.chef-info{background:white;padding:10px 16px;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
 
-        /* =========================
-           SIDEBAR
-        ========================= */
+/* ================= STATS ================= */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:30px;}
+.stat{background:white;padding:22px;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
+.stat-icon{font-size:28px;margin-bottom:10px;}
+.stat h3{font-size:28px;margin-bottom:5px;}
+.stat p{color:#777;}
 
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 240px;
-            height: 100vh;
-            background: #302923;
-            color: white;
-            padding: 25px 15px;
-        }
+/* ================= TOOLBAR ================= */
+.toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
+.toolbar h2{font-size:22px;}
+.filters{display:flex;gap:10px;}
+.filters button{border:none;padding:10px 15px;border-radius:7px;cursor:pointer;background:white;color:#302923;border:1px solid #ddd;}
+.filters button.active,.filters button:hover{background:#302923;color:white;}
 
-        .logo {
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 35px;
-        }
+/* ================= ORDERS ================= */
+.orders{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+.order-card{background:white;border-radius:12px;padding:22px;box-shadow:0 2px 10px rgba(0,0,0,0.07);}
+.order-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;}
+.order-id{font-size:20px;font-weight:bold;}
+.status{padding:6px 11px;border-radius:20px;font-size:12px;font-weight:bold;}
+.status.pending{background:#fff3cd;color:#856404;}
+.status.preparing{background:#dbeafe;color:#1e40af;}
+.status.ready{background:#dcfce7;color:#166534;}
+.status.delivered{background:#e5e7eb;color:#374151;}
+.customer{color:#666;margin-bottom:15px;}
+.items{border-top:1px solid #eee;border-bottom:1px solid #eee;padding:15px 0;margin-bottom:15px;}
+.item{display:flex;justify-content:space-between;padding:6px 0;}
+.quantity{font-weight:bold;}
+.order-bottom{display:flex;justify-content:space-between;align-items:center;}
+.total{font-weight:bold;font-size:17px;}
+.actions{display:flex;gap:8px;}
+.actions button{border:none;padding:9px 12px;border-radius:7px;cursor:pointer;font-weight:bold;}
+.start-btn{background:#302923;color:white;}
+.ready-btn{background:#e8f5e9;color:#166534;}
+.actions button:hover{opacity:0.8;}
 
-        .logo span {
-            display: block;
-            font-size: 35px;
-            margin-bottom: 8px;
-        }
+/* ================= EMPTY ================= */
+.empty{grid-column:1 / -1;text-align:center;padding:60px;background:white;border-radius:12px;color:#777;}
 
-        .nav {
-            list-style: none;
-        }
-
-        .nav li {
-            margin-bottom: 10px;
-        }
-
-        .nav a {
-            display: block;
-            color: #ddd;
-            text-decoration: none;
-            padding: 13px 15px;
-            border-radius: 8px;
-            transition: 0.2s;
-        }
-
-        .nav a:hover,
-        .nav a.active {
-            background: #51453b;
-            color: white;
-        }
-
-        .logout {
-            position: absolute;
-            bottom: 25px;
-            left: 15px;
-            right: 15px;
-        }
-
-        .logout button {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #777;
-            background: transparent;
-            color: white;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        .logout button:hover {
-            background: #51453b;
-        }
-
-        /* =========================
-           MAIN
-        ========================= */
-
-        .main {
-            margin-left: 240px;
-            padding: 30px;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-
-        .header h1 {
-            font-size: 30px;
-        }
-
-        .chef-info {
-            background: white;
-            padding: 10px 16px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-        }
-
-        /* =========================
-           STATS
-        ========================= */
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 18px;
-            margin-bottom: 30px;
-        }
-
-        .stat {
-            background: white;
-            padding: 22px;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-        }
-
-        .stat-icon {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-
-        .stat h3 {
-            font-size: 28px;
-            margin-bottom: 5px;
-        }
-
-        .stat p {
-            color: #777;
-        }
-
-        /* =========================
-           TOOLBAR
-        ========================= */
-
-        .toolbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .toolbar h2 {
-            font-size: 22px;
-        }
-
-        .filters {
-            display: flex;
-            gap: 10px;
-        }
-
-        .filters button {
-            border: none;
-            padding: 10px 15px;
-            border-radius: 7px;
-            cursor: pointer;
-            background: white;
-            color: #302923;
-            border: 1px solid #ddd;
-        }
-
-        .filters button.active,
-        .filters button:hover {
-            background: #302923;
-            color: white;
-        }
-
-        /* =========================
-           ORDERS
-        ========================= */
-
-        .orders {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-
-        .order-card {
-            background: white;
-            border-radius: 12px;
-            padding: 22px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
-        }
-
-        .order-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .order-id {
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        .status {
-            padding: 6px 11px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .status.pending {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .status.preparing {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-
-        .status.ready {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .status.delivered {
-            background: #e5e7eb;
-            color: #374151;
-        }
-
-        .customer {
-            color: #666;
-            margin-bottom: 15px;
-        }
-
-        .items {
-            border-top: 1px solid #eee;
-            border-bottom: 1px solid #eee;
-            padding: 15px 0;
-            margin-bottom: 15px;
-        }
-
-        .item {
-            display: flex;
-            justify-content: space-between;
-            padding: 6px 0;
-        }
-
-        .quantity {
-            font-weight: bold;
-        }
-
-        .order-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .total {
-            font-weight: bold;
-            font-size: 17px;
-        }
-
-        .actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .actions button {
-            border: none;
-            padding: 9px 12px;
-            border-radius: 7px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .start-btn {
-            background: #302923;
-            color: white;
-        }
-
-        .ready-btn {
-            background: #e8f5e9;
-            color: #166534;
-        }
-
-        .actions button:hover {
-            opacity: 0.8;
-        }
-
-        /* =========================
-           EMPTY
-        ========================= */
-
-        .empty {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 60px;
-            background: white;
-            border-radius: 12px;
-            color: #777;
-        }
-
-        /* =========================
-           RESPONSIVE
-        ========================= */
-
-        @media (max-width: 1000px) {
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .orders {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 700px) {
-            .sidebar {
-                width: 190px;
-            }
-
-            .main {
-                margin-left: 190px;
-                padding: 20px;
-            }
-
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-
-            .toolbar {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-
-            .filters {
-                flex-wrap: wrap;
-            }
-        }
-    </style>
+/* ================= RESPONSIVE ================= */
+@media(max-width:1000px){
+    .stats{grid-template-columns:repeat(2,1fr);}
+    .orders{grid-template-columns:1fr;}
+}
+@media(max-width:700px){
+    .sidebar{width:190px;}
+    .main{margin-left:190px;padding:20px;}
+    .header{flex-direction:column;align-items:flex-start;gap:15px;}
+    .toolbar{flex-direction:column;align-items:flex-start;gap:15px;}
+    .filters{flex-wrap:wrap;}
+}
+</style>
 </head>
 
 <body>
 
-    <!-- =========================
-         SIDEBAR
-    ========================== -->
+<!-- ================= SIDEBAR ================= -->
+<aside class="sidebar">
 
-    <aside class="sidebar">
+    <div class="logo">
+        <span>👨‍🍳</span>
+        Kitchen
+    </div>
 
-        <div class="logo">
-            <span>👨‍🍳</span>
-            Kitchen
+    <ul class="nav">
+        <li><a href="chef.html">🏠 Dashboard</a></li>
+        <li><a href="kitchen.html" class="active">🍳 Kitchen</a></li>
+        <li><a href="chef-orders.html">📋 Orders</a></li>
+        <li><a href="chef-menu.html">🍽️ Menu</a></li>
+    </ul>
+
+    <div class="logout">
+        <button onclick="logout()">🚪 Logout</button>
+    </div>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+<main class="main">
+
+    <div class="header">
+
+        <div>
+            <h1>Kitchen</h1>
+            <p>Manage and prepare restaurant orders</p>
         </div>
 
-        <ul class="nav">
-
-            <li>
-                <a href="chef.html">
-                    🏠 Dashboard
-                </a>
-            </li>
-
-            <li>
-                <a href="kitchen.html" class="active">
-                    🍳 Kitchen
-                </a>
-            </li>
-
-            <li>
-                <a href="chef-orders.html">
-                    📋 Orders
-                </a>
-            </li>
-
-            <li>
-                <a href="chef-menu.html">
-                    🍽️ Menu
-                </a>
-            </li>
-
-        </ul>
-
-        <div class="logout">
-            <button onclick="logout()">
-                🚪 Logout
-            </button>
+        <div class="chef-info">
+            👨‍🍳 <span id="chefName">Chef</span>
         </div>
 
-    </aside>
+    </div>
 
 
-    <!-- =========================
-         MAIN
-    ========================== -->
+    <!-- STATS -->
+    <section class="stats">
+        <div class="stat"><div class="stat-icon">🕐</div><h3 id="pendingCount">0</h3><p>Pending</p></div>
+        <div class="stat"><div class="stat-icon">🔥</div><h3 id="preparingCount">0</h3><p>Preparing</p></div>
+        <div class="stat"><div class="stat-icon">✅</div><h3 id="readyCount">0</h3><p>Ready</p></div>
+        <div class="stat"><div class="stat-icon">🍽️</div><h3 id="totalCount">0</h3><p>Total Orders</p></div>
+    </section>
 
-    <main class="main">
 
-        <div class="header">
+    <!-- TOOLBAR -->
+    <div class="toolbar">
 
-            <div>
-                <h1>Kitchen</h1>
-                <p>Manage and prepare restaurant orders</p>
-            </div>
+        <h2>Kitchen Orders</h2>
 
-            <div class="chef-info">
-                👨‍🍳 <span id="chefName">Chef</span>
-            </div>
-
+        <div class="filters">
+            <button class="active" onclick="filterOrders('all', this)">All</button>
+            <button onclick="filterOrders('Pending', this)">Pending</button>
+            <button onclick="filterOrders('Preparing', this)">Preparing</button>
+            <button onclick="filterOrders('Ready', this)">Ready</button>
         </div>
 
-
-        <!-- =========================
-             STATS
-        ========================== -->
-
-        <section class="stats">
-
-            <div class="stat">
-                <div class="stat-icon">🕐</div>
-                <h3 id="pendingCount">0</h3>
-                <p>Pending</p>
-            </div>
-
-            <div class="stat">
-                <div class="stat-icon">🔥</div>
-                <h3 id="preparingCount">0</h3>
-                <p>Preparing</p>
-            </div>
-
-            <div class="stat">
-                <div class="stat-icon">✅</div>
-                <h3 id="readyCount">0</h3>
-                <p>Ready</p>
-            </div>
-
-            <div class="stat">
-                <div class="stat-icon">🍽️</div>
-                <h3 id="totalCount">0</h3>
-                <p>Total Orders</p>
-            </div>
-
-        </section>
+    </div>
 
 
-        <!-- =========================
-             TOOLBAR
-        ========================== -->
+    <!-- ORDERS -->
+    <section class="orders" id="ordersContainer">
+        <div class="empty">Loading orders...</div>
+    </section>
 
-        <div class="toolbar">
-
-            <h2>Kitchen Orders</h2>
-
-            <div class="filters">
-
-                <button
-                    class="active"
-                    onclick="filterOrders('all', this)">
-                    All
-                </button>
-
-                <button
-                    onclick="filterOrders('Pending', this)">
-                    Pending
-                </button>
-
-                <button
-                    onclick="filterOrders('Preparing', this)">
-                    Preparing
-                </button>
-
-                <button
-                    onclick="filterOrders('Ready', this)">
-                    Ready
-                </button>
-
-            </div>
-
-        </div>
+</main>
 
 
-        <!-- =========================
-             ORDERS
-        ========================== -->
+<script>
 
-        <section class="orders" id="ordersContainer">
+const API_URL = "http://localhost:5000/api";
 
+let allOrders = [];
+let currentFilter = "all";
+
+
+// ==========================================
+// GET USER
+// ==========================================
+
+const userData = localStorage.getItem("user");
+
+if(userData){
+
+    try{
+
+        const user = JSON.parse(userData);
+
+        document.getElementById("chefName").textContent = user.name || "Chef";
+
+    }
+    catch(error){
+
+        console.error("Invalid user data");
+
+    }
+
+}
+
+
+// ==========================================
+// GET TOKEN
+// ==========================================
+
+const token = localStorage.getItem("token");
+
+
+// ==========================================
+// LOAD ORDERS
+// ==========================================
+
+async function loadOrders(){
+
+    try{
+
+        const response = await fetch(`${API_URL}/orders`, {
+            headers: token ? { "Authorization": `Bearer ${token}` } : {}
+        });
+
+        if(!response.ok){
+            throw new Error("Failed to load orders");
+        }
+
+        allOrders = await response.json();
+
+        updateStats();
+
+        displayOrders();
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        document.getElementById("ordersContainer").innerHTML = `
             <div class="empty">
-                Loading orders...
+                ❌ Unable to load orders.
+                <br><br>
+                Make sure the Node.js server is running.
             </div>
+        `;
 
-        </section>
+    }
 
-    </main>
+}
 
 
-    <script>
+// ==========================================
+// UPDATE STATISTICS
+// ==========================================
 
-        const API_URL = "http://localhost:5000/api";
+function countByStatus(name){
+    return allOrders.filter(order => String(order.status).toLowerCase() === name).length;
+}
 
-        let allOrders = [];
-        let currentFilter = "all";
+function updateStats(){
 
+    document.getElementById("pendingCount").textContent = countByStatus("pending");
+    document.getElementById("preparingCount").textContent = countByStatus("preparing");
+    document.getElementById("readyCount").textContent = countByStatus("ready");
+    document.getElementById("totalCount").textContent = allOrders.length;
 
-        // ==========================================
-        // GET USER
-        // ==========================================
+}
 
-        const userData = localStorage.getItem("user");
 
-        if (userData) {
+// ==========================================
+// DISPLAY ORDERS
+// ==========================================
 
-            try {
+function displayOrders(){
 
-                const user = JSON.parse(userData);
+    const container = document.getElementById("ordersContainer");
 
-                document.getElementById("chefName").textContent =
-                    user.name || "Chef";
+    let orders = allOrders;
 
-            } catch (error) {
+    if(currentFilter !== "all"){
 
-                console.error("Invalid user data");
-
-            }
-        }
-
-
-        // ==========================================
-        // GET TOKEN
-        // ==========================================
-
-        const token = localStorage.getItem("token");
-
-
-        // ==========================================
-        // LOAD ORDERS
-        // ==========================================
-
-        async function loadOrders() {
-
-            try {
-
-                const response = await fetch(
-                    `${API_URL}/orders`,
-                    {
-                        headers: token
-                            ? {
-                                "Authorization":
-                                    `Bearer ${token}`
-                            }
-                            : {}
-                    }
-                );
-
-                if (!response.ok) {
-                    throw new Error("Failed to load orders");
-                }
-
-                allOrders = await response.json();
-
-                updateStats();
-
-                displayOrders();
-
-            } catch (error) {
-
-                console.error(error);
-
-                document.getElementById(
-                    "ordersContainer"
-                ).innerHTML = `
-                    <div class="empty">
-                        ❌ Unable to load orders.
-                        <br><br>
-                        Make sure the Node.js server is running.
-                    </div>
-                `;
-            }
-        }
-
-
-        // ==========================================
-        // UPDATE STATISTICS
-        // ==========================================
-
-        function updateStats() {
-
-            const pending =
-                allOrders.filter(
-                    order =>
-                        String(order.status).toLowerCase()
-                        === "pending"
-                ).length;
-
-            const preparing =
-                allOrders.filter(
-                    order =>
-                        String(order.status).toLowerCase()
-                        === "preparing"
-                ).length;
-
-            const ready =
-                allOrders.filter(
-                    order =>
-                        String(order.status).toLowerCase()
-                        === "ready"
-                ).length;
-
-
-            document.getElementById(
-                "pendingCount"
-            ).textContent = pending;
-
-            document.getElementById(
-                "preparingCount"
-            ).textContent = preparing;
-
-            document.getElementById(
-                "readyCount"
-            ).textContent = ready;
-
-            document.getElementById(
-                "totalCount"
-            ).textContent = allOrders.length;
-        }
-
-
-        // ==========================================
-        // DISPLAY ORDERS
-        // ==========================================
-
-        function displayOrders() {
-
-            const container =
-                document.getElementById(
-                    "ordersContainer"
-                );
-
-
-            let orders = allOrders;
-
-
-            if (currentFilter !== "all") {
-
-                orders = allOrders.filter(
-                    order =>
-                        String(order.status).toLowerCase()
-                        === currentFilter.toLowerCase()
-                );
-            }
-
-
-            if (orders.length === 0) {
-
-                container.innerHTML = `
-                    <div class="empty">
-                        🍽️ No orders found.
-                    </div>
-                `;
-
-                return;
-            }
-
-
-            container.innerHTML =
-                orders.map(order => {
-
-                    const status =
-                        String(
-                            order.status || "Pending"
-                        );
-
-                    const statusClass =
-                        status.toLowerCase();
-
-
-                    return `
-                        <div class="order-card">
-
-                            <div class="order-top">
-
-                                <div class="order-id">
-                                    Order #${order.id}
-                                </div>
-
-                                <span class="status ${statusClass}">
-                                    ${status}
-                                </span>
-
-                            </div>
-
-
-                            <div class="customer">
-                                👤 ${order.customer_name || "Customer"}
-                                <br>
-                                📞 ${order.phone || "No phone"}
-                            </div>
-
-
-                            <div class="items">
-
-                                ${
-                                    order.items
-                                    ? order.items.map(item => `
-                                        <div class="item">
-                                            <span>
-                                                <span class="quantity">
-                                                    ${item.quantity} ×
-                                                </span>
-                                                ${item.name || "Item"}
-                                            </span>
-
-                                            <span>
-                                                ${Number(item.price || 0).toFixed(2)} DA
-                                            </span>
-                                        </div>
-                                    `).join("")
-                                    : `
-                                        <div class="item">
-                                            <span>Order items</span>
-                                        </div>
-                                    `
-                                }
-
-                            </div>
-
-
-                            <div class="order-bottom">
-
-                                <div class="total">
-                                    Total:
-                                    ${Number(
-                                        order.total_price || 0
-                                    ).toFixed(2)}
-                                    DA
-                                </div>
-
-
-                                <div class="actions">
-
-                                    ${
-                                        status.toLowerCase()
-                                        === "pending"
-
-                                        ? `
-                                            <button
-                                                class="start-btn"
-                                                onclick="updateStatus(
-                                                    ${order.id},
-                                                    'Preparing'
-                                                )">
-                                                🔥 Start
-                                            </button>
-                                        `
-
-                                        : ""
-                                    }
-
-
-                                    ${
-                                        status.toLowerCase()
-                                        === "preparing"
-
-                                        ? `
-                                            <button
-                                                class="ready-btn"
-                                                onclick="updateStatus(
-                                                    ${order.id},
-                                                    'Ready'
-                                                )">
-                                                ✅ Ready
-                                            </button>
-                                        `
-
-                                        : ""
-                                    }
-
-
-                                    ${
-                                        status.toLowerCase()
-                                        === "ready"
-
-                                        ? `
-                                            <span>
-                                                🛎️ Waiting for waiter
-                                            </span>
-                                        `
-
-                                        : ""
-                                    }
-
-                                </div>
-
-                            </div>
-
-                        </div>
-                    `;
-
-                }).join("");
-        }
-
-
-        // ==========================================
-        // UPDATE ORDER STATUS
-        // ==========================================
-
-        async function updateStatus(orderId, newStatus) {
-
-            try {
-
-                const response = await fetch(
-                    `${API_URL}/orders/${orderId}/status`,
-                    {
-                        method: "PUT",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json",
-
-                            ...(token
-                                ? {
-                                    "Authorization":
-                                        `Bearer ${token}`
-                                }
-                                : {})
-                        },
-
-                        body: JSON.stringify({
-                            status: newStatus
-                        })
-                    }
-                );
-
-
-                if (!response.ok) {
-
-                    const error =
-                        await response.json()
-                        .catch(() => ({}));
-
-                    alert(
-                        error.message ||
-                        "Unable to update order."
-                    );
-
-                    return;
-                }
-
-
-                // Reload orders
-
-                await loadOrders();
-
-
-            } catch (error) {
-
-                console.error(error);
-
-                alert(
-                    "Network error. Check your Node.js server."
-                );
-            }
-        }
-
-
-        // ==========================================
-        // FILTER
-        // ==========================================
-
-        function filterOrders(status, button) {
-
-            currentFilter = status;
-
-
-            document
-                .querySelectorAll(".filters button")
-                .forEach(btn => {
-                    btn.classList.remove("active");
-                });
-
-
-            button.classList.add("active");
-
-
-            displayOrders();
-        }
-
-
-        // ==========================================
-        // LOGOUT
-        // ==========================================
-
-        function logout() {
-
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-
-            window.location.href =
-                "../login.html";
-        }
-
-
-        // ==========================================
-        // INITIAL LOAD
-        // ==========================================
-
-        loadOrders();
-
-
-        // Refresh every 10 seconds
-
-        setInterval(
-            loadOrders,
-            10000
+        orders = allOrders.filter(order =>
+            String(order.status).toLowerCase() === currentFilter.toLowerCase()
         );
 
-    </script>
+    }
+
+    if(orders.length === 0){
+
+        container.innerHTML = `<div class="empty">🍽️ No orders found.</div>`;
+
+        return;
+
+    }
+
+    container.innerHTML = orders.map(order => {
+
+        const status = String(order.status || "Pending");
+        const statusClass = status.toLowerCase();
+
+        const itemsHTML = order.items
+            ? order.items.map(item => `
+                <div class="item">
+                    <span>
+                        <span class="quantity">${item.quantity} ×</span>
+                        ${item.name || "Item"}
+                    </span>
+                    <span>${Number(item.price || 0).toFixed(2)} DA</span>
+                </div>
+            `).join("")
+            : `<div class="item"><span>Order items</span></div>`;
+
+        let actionHTML = "";
+
+        if(statusClass === "pending"){
+            actionHTML = `
+                <button class="start-btn" onclick="updateStatus(${order.id}, 'Preparing')">
+                    🔥 Start
+                </button>
+            `;
+        }
+        else if(statusClass === "preparing"){
+            actionHTML = `
+                <button class="ready-btn" onclick="updateStatus(${order.id}, 'Ready')">
+                    ✅ Ready
+                </button>
+            `;
+        }
+        else if(statusClass === "ready"){
+            actionHTML = `<span>🛎️ Waiting for waiter</span>`;
+        }
+
+        return `
+            <div class="order-card">
+
+                <div class="order-top">
+                    <div class="order-id">Order #${order.id}</div>
+                    <span class="status ${statusClass}">${status}</span>
+                </div>
+
+                <div class="customer">
+                    👤 ${order.customer_name || "Customer"}
+                    <br>
+                    📞 ${order.phone || "No phone"}
+                </div>
+
+                <div class="items">${itemsHTML}</div>
+
+                <div class="order-bottom">
+                    <div class="total">
+                        Total: ${Number(order.total_price || 0).toFixed(2)} DA
+                    </div>
+
+                    <div class="actions">${actionHTML}</div>
+                </div>
+
+            </div>
+        `;
+
+    }).join("");
+
+}
+
+
+// ==========================================
+// UPDATE ORDER STATUS
+// ==========================================
+
+async function updateStatus(orderId, newStatus){
+
+    try{
+
+        const response = await fetch(`${API_URL}/orders/${orderId}/status`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                ...(token ? { "Authorization": `Bearer ${token}` } : {})
+            },
+            body: JSON.stringify({ status: newStatus })
+        });
+
+        if(!response.ok){
+
+            const error = await response.json().catch(() => ({}));
+
+            alert(error.message || "Unable to update order.");
+
+            return;
+
+        }
+
+        // Reload orders
+        await loadOrders();
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        alert("Network error. Check your Node.js server.");
+
+    }
+
+}
+
+
+// ==========================================
+// FILTER
+// ==========================================
+
+function filterOrders(status, button){
+
+    currentFilter = status;
+
+    document.querySelectorAll(".filters button").forEach(btn => btn.classList.remove("active"));
+
+    button.classList.add("active");
+
+    displayOrders();
+
+}
+
+
+// ==========================================
+// LOGOUT
+// ==========================================
+
+function logout(){
+
+    // Clear saved login data
+    localStorage.clear();
+    sessionStorage.clear();
+
+    // Adjust this path to where your login.html really is
+    window.location.href = "../login.html";
+
+}
+
+
+// ==========================================
+// INITIAL LOAD
+// ==========================================
+
+loadOrders();
+
+// Refresh every 10 seconds
+setInterval(loadOrders, 10000);
+
+</script>
 
 </body>
 </html>

@@ -2,15 +2,22 @@ const express = require("express");
 const router = express.Router();
 const db = require("../config/db");
 
-// Get all categories
+// ==========================================
+// GET ALL CATEGORIES
+// ==========================================
 router.get("/", (req, res) => {
 
-    const sql = "SELECT * FROM categories ORDER BY id DESC";
+    const sql = `
+        SELECT id, name
+        FROM categories
+        ORDER BY id DESC
+    `;
 
     db.query(sql, (err, results) => {
 
         if (err) {
-            console.error(err);
+            console.error("Error fetching categories:", err);
+
             return res.status(500).json({
                 message: "Error fetching categories"
             });
@@ -20,14 +27,23 @@ router.get("/", (req, res) => {
     });
 });
 
-// Get category by ID
+
+// ==========================================
+// GET CATEGORY BY ID
+// ==========================================
 router.get("/:id", (req, res) => {
 
-    const sql = "SELECT * FROM categories WHERE id = ?";
+    const sql = `
+        SELECT id, name
+        FROM categories
+        WHERE id = ?
+    `;
 
     db.query(sql, [req.params.id], (err, results) => {
 
         if (err) {
+            console.error("Error fetching category:", err);
+
             return res.status(500).json({
                 message: "Error fetching category"
             });
@@ -43,22 +59,34 @@ router.get("/:id", (req, res) => {
     });
 });
 
-// Create category
+
+// ==========================================
+// CREATE CATEGORY
+// ==========================================
 router.post("/", (req, res) => {
 
     const { name } = req.body;
 
-    if (!name) {
+    // Check name
+    if (!name || !name.trim()) {
+
         return res.status(400).json({
             message: "Category name is required"
         });
     }
 
-    const sql = "INSERT INTO categories (name) VALUES (?)";
+    const categoryName = name.trim();
 
-    db.query(sql, [name], (err, result) => {
+    const sql = `
+        INSERT INTO categories (name)
+        VALUES (?)
+    `;
+
+    db.query(sql, [categoryName], (err, result) => {
 
         if (err) {
+            console.error("Error creating category:", err);
+
             return res.status(500).json({
                 message: "Error creating category"
             });
@@ -71,37 +99,82 @@ router.post("/", (req, res) => {
     });
 });
 
-// Update category
+
+// ==========================================
+// UPDATE CATEGORY
+// ==========================================
 router.put("/:id", (req, res) => {
 
     const { name } = req.body;
 
-    const sql = "UPDATE categories SET name = ? WHERE id = ?";
+    if (!name || !name.trim()) {
 
-    db.query(sql, [name, req.params.id], (err) => {
+        return res.status(400).json({
+            message: "Category name is required"
+        });
+    }
+
+    const categoryName = name.trim();
+
+    const sql = `
+        UPDATE categories
+        SET name = ?
+        WHERE id = ?
+    `;
+
+    db.query(
+        sql,
+        [categoryName, req.params.id],
+        (err, result) => {
+
+            if (err) {
+                console.error("Error updating category:", err);
+
+                return res.status(500).json({
+                    message: "Error updating category"
+                });
+            }
+
+            if (result.affectedRows === 0) {
+
+                return res.status(404).json({
+                    message: "Category not found"
+                });
+            }
+
+            res.json({
+                message: "Category updated successfully"
+            });
+        }
+    );
+});
+
+
+// ==========================================
+// DELETE CATEGORY
+// ==========================================
+router.delete("/:id", (req, res) => {
+
+    const sql = `
+        DELETE FROM categories
+        WHERE id = ?
+    `;
+
+    db.query(sql, [req.params.id], (err, result) => {
 
         if (err) {
-            return res.status(500).json({
-                message: "Error updating category"
+            console.error("Error deleting category:", err);
+
+            return res.status(400).json({
+                message:
+                    "Cannot delete this category because it is used by menu items."
             });
         }
 
-        res.json({
-            message: "Category updated successfully"
-        });
-    });
-});
+        if (result.affectedRows === 0) {
 
-// Delete category
-router.delete("/:id", (req, res) => {
-
-    const sql = "DELETE FROM categories WHERE id = ?";
-
-    db.query(sql, [req.params.id], (err) => {
-
-        if (err) {
-            return res.status(500).json({
-                message: "Cannot delete category. It may contain menu items."
+            return res.status(404).json({
+                message: "Category not found"
             });
         }
 
@@ -110,5 +183,6 @@ router.delete("/:id", (req, res) => {
         });
     });
 });
+
 
 module.exports = router;

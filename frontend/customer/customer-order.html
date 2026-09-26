@@ -123,6 +123,18 @@
         }
 
 
+        input[readonly] {
+
+            background: #f5f5f5;
+
+            color: #e65100;
+
+            font-weight: bold;
+
+            text-align: center;
+        }
+
+
         .items {
 
             background: #f7f7f7;
@@ -144,6 +156,12 @@
             padding: 8px 0;
 
             border-bottom: 1px solid #ddd;
+        }
+
+
+        .item:last-child {
+
+            border-bottom: none;
         }
 
 
@@ -185,6 +203,14 @@
         }
 
 
+        button:disabled {
+
+            background: #aaa;
+
+            cursor: not-allowed;
+        }
+
+
         #message {
 
             margin-bottom: 20px;
@@ -222,11 +248,34 @@
         <div id="message"></div>
 
 
+        <!-- ==========================================
+             TABLE NUMBER
+        =========================================== -->
+
+        <label>
+            Table Number
+        </label>
+
+        <input
+            type="number"
+            id="tableNumber"
+            readonly
+        >
+
+
+        <!-- ==========================================
+             ORDER ITEMS
+        =========================================== -->
+
         <div
             id="items"
             class="items"
         ></div>
 
+
+        <!-- ==========================================
+             CUSTOMER NAME
+        =========================================== -->
 
         <label>
             Customer Name
@@ -239,6 +288,10 @@
         >
 
 
+        <!-- ==========================================
+             PHONE
+        =========================================== -->
+
         <label>
             Phone
         </label>
@@ -249,6 +302,10 @@
             placeholder="Enter your phone"
         >
 
+
+        <!-- ==========================================
+             PAYMENT
+        =========================================== -->
 
         <label>
             Payment Method
@@ -267,6 +324,10 @@
         </select>
 
 
+        <!-- ==========================================
+             TOTAL
+        =========================================== -->
+
         <div class="total">
 
             Total:
@@ -280,7 +341,12 @@
         </div>
 
 
+        <!-- ==========================================
+             PLACE ORDER
+        =========================================== -->
+
         <button
+            id="placeOrderButton"
             onclick="placeOrder()"
         >
             ✅ Place Order
@@ -294,6 +360,10 @@
 <script>
 
 
+// =====================================================
+// API
+// =====================================================
+
 const API_URL =
     "http://localhost:5000/api/orders";
 
@@ -302,18 +372,64 @@ const MENU_API =
     "http://localhost:5000/api/menu";
 
 
+// =====================================================
+// LOAD CART
+// =====================================================
+
 let cart =
-    JSON.parse(localStorage.getItem("cart")) || [];
+    JSON.parse(
+        localStorage.getItem("cart")
+    ) || [];
 
 
-// ======================================
+// =====================================================
+// LOAD TABLE NUMBER
+// =====================================================
+
+const savedTable =
+    localStorage.getItem(
+        "tableNumber"
+    );
+
+
+const tableInput =
+    document.getElementById(
+        "tableNumber"
+    );
+
+
+if (
+    savedTable &&
+    Number(savedTable) > 0
+) {
+
+    tableInput.value =
+        Number(savedTable);
+
+} else {
+
+    document.getElementById(
+        "message"
+    ).textContent =
+        "❌ Table number is missing. Please go back to the menu.";
+
+    document.getElementById(
+        "placeOrderButton"
+    ).disabled = true;
+
+}
+
+
+// =====================================================
 // DISPLAY ITEMS
-// ======================================
+// =====================================================
 
 function displayItems() {
 
     const container =
-        document.getElementById("items");
+        document.getElementById(
+            "items"
+        );
 
 
     if (
@@ -324,56 +440,80 @@ function displayItems() {
         container.innerHTML =
             "<p>Your cart is empty.</p>";
 
+        document.getElementById(
+            "placeOrderButton"
+        ).disabled = true;
+
         return;
+
     }
 
 
     let total = 0;
 
 
-    container.innerHTML = "";
+    container.innerHTML =
+        "";
 
 
-    cart.forEach(item => {
+    cart.forEach(
+        item => {
 
-        const quantity =
-            Number(item.quantity) || 1;
-
-
-        const price =
-            Number(item.price) || 0;
-
-
-        total +=
-            price * quantity;
+            const quantity =
+                Number(
+                    item.quantity
+                ) || 1;
 
 
-        const div =
-            document.createElement("div");
+            const price =
+                Number(
+                    item.price
+                ) || 0;
 
 
-        div.className =
-            "item";
+            total +=
+                price * quantity;
 
 
-        div.innerHTML = `
-
-            <span>
-                ${escapeHtml(item.name)}
-                × ${quantity}
-            </span>
-
-            <strong>
-                ${(price * quantity).toFixed(2)}
-                DA
-            </strong>
-
-        `;
+            const div =
+                document.createElement(
+                    "div"
+                );
 
 
-        container.appendChild(div);
+            div.className =
+                "item";
 
-    });
+
+            div.innerHTML = `
+
+                <span>
+
+                    ${escapeHtml(
+                        item.name
+                    )}
+
+                    × ${quantity}
+
+                </span>
+
+
+                <strong>
+
+                    ${(price * quantity).toFixed(2)}
+                    DA
+
+                </strong>
+
+            `;
+
+
+            container.appendChild(
+                div
+            );
+
+        }
+    );
 
 
     document.getElementById(
@@ -384,9 +524,9 @@ function displayItems() {
 }
 
 
-// ======================================
-// FIND MENU ITEM ID
-// ======================================
+// =====================================================
+// PREPARE ITEMS
+// =====================================================
 
 async function prepareItems() {
 
@@ -396,12 +536,14 @@ async function prepareItems() {
     );
 
 
-    // ----------------------------------
-    // Load menu from database
-    // ----------------------------------
+    // -------------------------------------------------
+    // LOAD MENU
+    // -------------------------------------------------
 
     const response =
-        await fetch(MENU_API);
+        await fetch(
+            MENU_API
+        );
 
 
     if (!response.ok) {
@@ -417,37 +559,49 @@ async function prepareItems() {
         await response.json();
 
 
-    const formattedItems = [];
+    const formattedItems =
+        [];
 
 
-    // ----------------------------------
-    // Process every cart item
-    // ----------------------------------
+    // -------------------------------------------------
+    // PROCESS CART
+    // -------------------------------------------------
 
-    for (const item of cart) {
+    for (
+        const item of cart
+    ) {
 
         let menuItemId =
             item.menu_item_id ||
             item.id;
 
 
-        // ----------------------------------
-        // If ID is missing, find by name
-        // ----------------------------------
+        // -------------------------------------------------
+        // FIND ID BY NAME IF NEEDED
+        // -------------------------------------------------
 
         if (
             !menuItemId ||
-            Number.isNaN(Number(menuItemId))
+            Number.isNaN(
+                Number(menuItemId)
+            )
         ) {
 
             const found =
                 menuItems.find(
                     menuItem =>
-                        String(menuItem.name)
+
+                        String(
+                            menuItem.name
+                        )
                             .trim()
                             .toLowerCase()
+
                         ===
-                        String(item.name)
+
+                        String(
+                            item.name
+                        )
                             .trim()
                             .toLowerCase()
                 );
@@ -463,17 +617,21 @@ async function prepareItems() {
         }
 
 
-        // ----------------------------------
-        // Still missing
-        // ----------------------------------
+        // -------------------------------------------------
+        // ID STILL MISSING
+        // -------------------------------------------------
 
         if (
             !menuItemId ||
-            Number.isNaN(Number(menuItemId))
+            Number.isNaN(
+                Number(menuItemId)
+            )
         ) {
 
             throw new Error(
+
                 `Menu item "${item.name}" was not found in the database.`
+
             );
 
         }
@@ -482,16 +640,22 @@ async function prepareItems() {
         formattedItems.push({
 
             menu_item_id:
-                Number(menuItemId),
+                Number(
+                    menuItemId
+                ),
 
             name:
                 item.name,
 
             quantity:
-                Number(item.quantity) || 1,
+                Number(
+                    item.quantity
+                ) || 1,
 
             price:
-                Number(item.price) || 0
+                Number(
+                    item.price
+                ) || 0
 
         });
 
@@ -509,9 +673,9 @@ async function prepareItems() {
 }
 
 
-// ======================================
+// =====================================================
 // PLACE ORDER
-// ======================================
+// =====================================================
 
 async function placeOrder() {
 
@@ -520,6 +684,54 @@ async function placeOrder() {
             "message"
         );
 
+
+    const button =
+        document.getElementById(
+            "placeOrderButton"
+        );
+
+
+    // =================================================
+    // GET TABLE NUMBER
+    // =================================================
+
+    const tableNumber =
+        localStorage.getItem(
+            "tableNumber"
+        );
+
+
+    console.log(
+        "🪑 Table number from localStorage:",
+        tableNumber
+    );
+
+
+    // =================================================
+    // VALIDATE TABLE NUMBER
+    // =================================================
+
+    if (
+        !tableNumber ||
+        Number(tableNumber) <= 0
+    ) {
+
+        message.textContent =
+            "❌ Please enter your table number first.";
+
+
+        window.location.href =
+            "customer-menu.html";
+
+
+        return;
+
+    }
+
+
+    // =================================================
+    // GET CUSTOMER DATA
+    // =================================================
 
     const customerName =
         document.getElementById(
@@ -539,14 +751,23 @@ async function placeOrder() {
         ).value;
 
 
+    // =================================================
+    // VALIDATE CUSTOMER NAME
+    // =================================================
+
     if (!customerName) {
 
         message.textContent =
             "❌ Please enter your name.";
 
         return;
+
     }
 
+
+    // =================================================
+    // VALIDATE CART
+    // =================================================
 
     if (
         !Array.isArray(cart) ||
@@ -557,76 +778,127 @@ async function placeOrder() {
             "❌ Your cart is empty.";
 
         return;
+
     }
 
 
     try {
 
+        button.disabled = true;
+
         message.textContent =
             "⏳ Sending order...";
 
 
-        // ----------------------------------
-        // Prepare products
-        // ----------------------------------
+        // =================================================
+        // PREPARE PRODUCTS
+        // =================================================
 
         const formattedItems =
             await prepareItems();
 
 
-        // ----------------------------------
-        // Calculate total
-        // ----------------------------------
+        // =================================================
+        // CALCULATE TOTAL
+        // =================================================
 
         const totalPrice =
             formattedItems.reduce(
-                (total, item) =>
+
+                (
+                    total,
+                    item
+                ) =>
+
                     total +
                     (
                         item.price *
                         item.quantity
                     ),
+
                 0
+
             );
 
 
-        // ----------------------------------
-        // Send to backend
-        // ----------------------------------
+        // =================================================
+        // CREATE ORDER DATA
+        // =================================================
+
+        const orderData = {
+
+            customer_name:
+                customerName,
+
+            phone:
+                phone || null,
+
+            // IMPORTANT
+            // This was missing before
+
+            table_number:
+                Number(
+                    tableNumber
+                ),
+
+            total_price:
+                totalPrice,
+
+            payment_method:
+                paymentMethod,
+
+            items:
+                formattedItems
+
+        };
+
+
+        // =================================================
+        // DEBUG
+        // =================================================
+
+        console.log(
+            "📤 ORDER DATA:",
+            orderData
+        );
+
+
+        console.log(
+            "🪑 Sending table_number:",
+            orderData.table_number
+        );
+
+
+        // =================================================
+        // SEND ORDER TO BACKEND
+        // =================================================
 
         const response =
-            await fetch(API_URL, {
+            await fetch(
+                API_URL,
+                {
 
-                method: "POST",
+                    method: "POST",
 
-                headers: {
+                    headers: {
 
-                    "Content-Type":
-                        "application/json"
+                        "Content-Type":
+                            "application/json"
 
-                },
+                    },
 
-                body: JSON.stringify({
+                    body:
+                        JSON.stringify(
+                            orderData
+                        )
 
-                    customer_name:
-                        customerName,
+                }
+            );
 
-                    phone:
-                        phone,
 
-                    total_price:
-                        totalPrice,
-
-                    payment_method:
-                        paymentMethod,
-
-                    items:
-                        formattedItems
-
-                })
-
-            });
-
+        // =================================================
+        // SERVER RESPONSE
+        // =================================================
 
         const data =
             await response.json();
@@ -638,25 +910,40 @@ async function placeOrder() {
         );
 
 
+        // =================================================
+        // ERROR
+        // =================================================
+
         if (!response.ok) {
 
             throw new Error(
+
                 data.message ||
                 "Error creating order"
+
             );
 
         }
 
 
-        // ----------------------------------
+        // =================================================
         // SUCCESS
-        // ----------------------------------
+        // =================================================
 
         message.textContent =
+
             `✅ Order #${data.order_id} created successfully!`;
 
 
-        // Empty cart
+        console.log(
+            "✅ Order created:",
+            data
+        );
+
+
+        // =================================================
+        // CLEAR CART
+        // =================================================
 
         localStorage.removeItem(
             "cart"
@@ -666,12 +953,19 @@ async function placeOrder() {
         cart = [];
 
 
-        setTimeout(() => {
+        // =================================================
+        // REDIRECT
+        // =================================================
 
-            window.location.href =
-                "customer-menu.html";
+        setTimeout(
+            () => {
 
-        }, 2000);
+                window.location.href =
+                    "customer-menu.html";
+
+            },
+            2000
+        );
 
 
     } catch (error) {
@@ -685,18 +979,24 @@ async function placeOrder() {
         message.textContent =
             "❌ " + error.message;
 
+
+        button.disabled =
+            false;
+
     }
 
 }
 
 
-// ======================================
+// =====================================================
 // ESCAPE HTML
-// ======================================
+// =====================================================
 
 function escapeHtml(text) {
 
-    return String(text)
+    return String(
+        text ?? ""
+    )
 
         .replace(
             /&/g,
@@ -726,9 +1026,9 @@ function escapeHtml(text) {
 }
 
 
-// ======================================
+// =====================================================
 // START
-// ======================================
+// =====================================================
 
 displayItems();
 

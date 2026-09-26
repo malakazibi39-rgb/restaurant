@@ -1,3 +1,6 @@
+
+
+
 const express = require("express");
 const router = express.Router();
 const db = require("../config/db");
@@ -18,15 +21,36 @@ router.get("/", (req, res) => {
     db.query(sql, (err, results) => {
 
         if (err) {
-            console.error("❌ Error fetching orders:", err);
+
+            console.error(
+                "❌ Error fetching orders:",
+                err
+            );
 
             return res.status(500).json({
-                message: "Error fetching orders"
+
+                success: false,
+
+                message:
+                    "Error fetching orders",
+
+                error:
+                    err.message
+
             });
         }
 
+
+        console.log(
+            `✅ Orders fetched: ${results.length}`
+        );
+
+
+        // The frontend can directly use this array
         res.json(results);
+
     });
+
 });
 
 
@@ -38,65 +62,115 @@ router.get("/:id", (req, res) => {
 
     const orderId = req.params.id;
 
+
+    // -------------------------------------------------
+    // GET ORDER
+    // -------------------------------------------------
+
     const orderSQL = `
         SELECT *
         FROM orders
         WHERE id = ?
     `;
 
-    db.query(orderSQL, [orderId], (err, orders) => {
 
-        if (err) {
-            console.error(err);
-
-            return res.status(500).json({
-                message: "Error fetching order"
-            });
-        }
-
-        if (orders.length === 0) {
-
-            return res.status(404).json({
-                message: "Order not found"
-            });
-        }
-
-
-        const itemsSQL = `
-            SELECT
-                order_items.id,
-                order_items.menu_item_id,
-                order_items.quantity,
-                order_items.price,
-                menu_items.name,
-                menu_items.image
-            FROM order_items
-            JOIN menu_items
-                ON order_items.menu_item_id = menu_items.id
-            WHERE order_items.order_id = ?
-        `;
-
-
-        db.query(itemsSQL, [orderId], (err, items) => {
+    db.query(
+        orderSQL,
+        [orderId],
+        (err, orders) => {
 
             if (err) {
 
-                console.error(err);
+                console.error(
+                    "❌ Error fetching order:",
+                    err
+                );
 
                 return res.status(500).json({
-                    message: "Error fetching order items"
+
+                    message:
+                        "Error fetching order",
+
+                    error:
+                        err.message
+
                 });
+
             }
 
 
-            res.json({
-                order: orders[0],
-                items: items
-            });
+            if (orders.length === 0) {
 
-        });
+                return res.status(404).json({
 
-    });
+                    message:
+                        "Order not found"
+
+                });
+
+            }
+
+
+            // -------------------------------------------------
+            // GET ORDER ITEMS
+            // -------------------------------------------------
+
+            const itemsSQL = `
+                SELECT
+                    order_items.id,
+                    order_items.order_id,
+                    order_items.menu_item_id,
+                    order_items.quantity,
+                    order_items.price,
+                    menu_items.name,
+                    menu_items.image
+                FROM order_items
+                LEFT JOIN menu_items
+                    ON order_items.menu_item_id = menu_items.id
+                WHERE order_items.order_id = ?
+            `;
+
+
+            db.query(
+                itemsSQL,
+                [orderId],
+                (err, items) => {
+
+                    if (err) {
+
+                        console.error(
+                            "❌ Error fetching order items:",
+                            err
+                        );
+
+                        return res.status(500).json({
+
+                            message:
+                                "Error fetching order items",
+
+                            error:
+                                err.message
+
+                        });
+
+                    }
+
+
+                    res.json({
+
+                        order:
+                            orders[0],
+
+                        items:
+                            items
+
+                    });
+
+                }
+            );
+
+        }
+    );
 
 });
 
@@ -108,49 +182,100 @@ router.get("/:id", (req, res) => {
 router.post("/", async (req, res) => {
 
     const {
+
         customer_name,
         phone,
+        table_number,
         total_price,
         payment_method,
         items
+
     } = req.body;
 
 
     console.log("=================================");
     console.log("📦 NEW ORDER RECEIVED");
     console.log("Customer:", customer_name);
+    console.log("Phone:", phone);
+    console.log("Table:", table_number);
+    console.log("Total:", total_price);
+    console.log("Payment:", payment_method);
     console.log("Items:", items);
     console.log("=================================");
 
 
-    // -------------------------------------------------
-    // Validate customer
-    // -------------------------------------------------
+    // =================================================
+    // VALIDATE CUSTOMER
+    // =================================================
 
-    if (!customer_name) {
+    if (
+        !customer_name ||
+        !String(customer_name).trim()
+    ) {
 
         return res.status(400).json({
-            message: "Customer name is required"
+
+            message:
+                "Customer name is required"
+
         });
+
     }
 
 
-    // -------------------------------------------------
-    // Validate items
-    // -------------------------------------------------
+    // =================================================
+    // VALIDATE TABLE
+    // =================================================
 
-    if (!Array.isArray(items) || items.length === 0) {
+    if (
+
+        table_number === undefined ||
+
+        table_number === null ||
+
+        table_number === "" ||
+
+        Number(table_number) <= 0
+
+    ) {
 
         return res.status(400).json({
-            message: "Order items are required"
+
+            message:
+                "Table number is required"
+
         });
+
+    }
+
+
+    const tableNumber =
+        Number(table_number);
+
+
+    // =================================================
+    // VALIDATE ITEMS
+    // =================================================
+
+    if (
+        !Array.isArray(items) ||
+        items.length === 0
+    ) {
+
+        return res.status(400).json({
+
+            message:
+                "Order items are required"
+
+        });
+
     }
 
 
     try {
 
         // =================================================
-        // FIND MENU ITEM IDs
+        // FIX MENU ITEMS
         // =================================================
 
         const fixedItems = [];
@@ -163,11 +288,14 @@ router.post("/", async (req, res) => {
                 item.id;
 
 
-            // ---------------------------------------------
-            // If ID doesn't exist, search by name
-            // ---------------------------------------------
+            // -------------------------------------------------
+            // SEARCH MENU ITEM BY NAME
+            // -------------------------------------------------
 
-            if (!menuItemId && item.name) {
+            if (
+                !menuItemId &&
+                item.name
+            ) {
 
                 const searchSQL = `
                     SELECT id
@@ -178,10 +306,12 @@ router.post("/", async (req, res) => {
 
 
                 const [rows] =
-                    await db.promise().query(
-                        searchSQL,
-                        [item.name]
-                    );
+                    await db
+                        .promise()
+                        .query(
+                            searchSQL,
+                            [item.name]
+                        );
 
 
                 if (rows.length > 0) {
@@ -194,9 +324,9 @@ router.post("/", async (req, res) => {
             }
 
 
-            // ---------------------------------------------
-            // Still no ID
-            // ---------------------------------------------
+            // -------------------------------------------------
+            // MENU ITEM NOT FOUND
+            // -------------------------------------------------
 
             if (!menuItemId) {
 
@@ -215,6 +345,10 @@ router.post("/", async (req, res) => {
 
             }
 
+
+            // -------------------------------------------------
+            // ADD FIXED ITEM
+            // -------------------------------------------------
 
             fixedItems.push({
 
@@ -247,25 +381,41 @@ router.post("/", async (req, res) => {
             (
                 customer_name,
                 phone,
+                table_number,
                 total_price,
                 status,
                 payment_method
             )
-            VALUES (?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?)
         `;
 
 
         const [orderResult] =
-            await db.promise().query(
-                orderSQL,
-                [
-                    customer_name,
-                    phone || null,
-                    Number(total_price) || 0,
-                    "Pending",
-                    payment_method || "Cash"
-                ]
-            );
+            await db
+                .promise()
+                .query(
+                    orderSQL,
+                    [
+
+                        String(
+                            customer_name
+                        ).trim(),
+
+                        phone
+                            ? String(phone).trim()
+                            : null,
+
+                        tableNumber,
+
+                        Number(total_price) || 0,
+
+                        "Pending",
+
+                        payment_method ||
+                            "Cash"
+
+                    ]
+                );
 
 
         const orderId =
@@ -307,10 +457,12 @@ router.post("/", async (req, res) => {
         `;
 
 
-        await db.promise().query(
-            itemsSQL,
-            [itemValues]
-        );
+        await db
+            .promise()
+            .query(
+                itemsSQL,
+                [itemValues]
+            );
 
 
         console.log(
@@ -319,10 +471,13 @@ router.post("/", async (req, res) => {
 
 
         // =================================================
-        // SUCCESS
+        // RESPONSE
         // =================================================
 
         res.status(201).json({
+
+            success:
+                true,
 
             message:
                 "Order created successfully",
@@ -331,12 +486,22 @@ router.post("/", async (req, res) => {
                 orderId,
 
             orderId:
-                orderId
+                orderId,
+
+            table_number:
+                tableNumber,
+
+            status:
+                "Pending",
+
+            payment_method:
+                payment_method || "Cash"
 
         });
 
+    }
 
-    } catch (error) {
+    catch (error) {
 
         console.error(
             "❌ ORDER ERROR:",
@@ -345,6 +510,9 @@ router.post("/", async (req, res) => {
 
 
         return res.status(500).json({
+
+            success:
+                false,
 
             message:
                 "Error creating order",
@@ -365,7 +533,9 @@ router.post("/", async (req, res) => {
 
 router.put("/:id/status", (req, res) => {
 
-    const { status } = req.body;
+    const {
+        status
+    } = req.body;
 
 
     const allowedStatuses = [
@@ -380,12 +550,20 @@ router.put("/:id/status", (req, res) => {
     ];
 
 
-    if (!allowedStatuses.includes(status)) {
+    if (
+        !allowedStatuses.includes(status)
+    ) {
 
         return res.status(400).json({
 
+            success:
+                false,
+
             message:
-                "Invalid order status"
+                "Invalid order status",
+
+            allowedStatuses:
+                allowedStatuses
 
         });
 
@@ -401,26 +579,43 @@ router.put("/:id/status", (req, res) => {
 
     db.query(
         sql,
-        [status, req.params.id],
+        [
+            status,
+            req.params.id
+        ],
         (err, result) => {
 
             if (err) {
 
-                console.error(err);
+                console.error(
+                    "❌ Error updating status:",
+                    err
+                );
 
                 return res.status(500).json({
 
+                    success:
+                        false,
+
                     message:
-                        "Error updating order status"
+                        "Error updating order status",
+
+                    error:
+                        err.message
 
                 });
 
             }
 
 
-            if (result.affectedRows === 0) {
+            if (
+                result.affectedRows === 0
+            ) {
 
                 return res.status(404).json({
+
+                    success:
+                        false,
 
                     message:
                         "Order not found"
@@ -430,14 +625,29 @@ router.put("/:id/status", (req, res) => {
             }
 
 
+            console.log(
+                `✅ Order #${req.params.id} status → ${status}`
+            );
+
+
             res.json({
 
+                success:
+                    true,
+
                 message:
-                    "Order status updated successfully"
+                    "Order status updated successfully",
+
+                order_id:
+                    req.params.id,
+
+                status:
+                    status
 
             });
 
         }
+
     );
 
 });
@@ -454,9 +664,19 @@ router.put("/:id/payment", (req, res) => {
     } = req.body;
 
 
-    if (!payment_method) {
+    // =================================================
+    // VALIDATE PAYMENT METHOD
+    // =================================================
+
+    if (
+        !payment_method ||
+        !String(payment_method).trim()
+    ) {
 
         return res.status(400).json({
+
+            success:
+                false,
 
             message:
                 "Payment method is required"
@@ -466,9 +686,25 @@ router.put("/:id/payment", (req, res) => {
     }
 
 
+    const method =
+        String(payment_method).trim();
+
+
+    // =================================================
+    // UPDATE PAYMENT
+    //
+    // Payment means:
+    //
+    // payment_method = Cash/Card
+    // status = Completed
+    //
+    // =================================================
+
     const sql = `
         UPDATE orders
-        SET payment_method = ?
+        SET
+            payment_method = ?,
+            status = 'Completed'
         WHERE id = ?
     `;
 
@@ -476,28 +712,42 @@ router.put("/:id/payment", (req, res) => {
     db.query(
         sql,
         [
-            payment_method,
+            method,
             req.params.id
         ],
         (err, result) => {
 
             if (err) {
 
-                console.error(err);
+                console.error(
+                    "❌ Error updating payment:",
+                    err
+                );
 
                 return res.status(500).json({
 
+                    success:
+                        false,
+
                     message:
-                        "Error updating payment"
+                        "Error updating payment",
+
+                    error:
+                        err.message
 
                 });
 
             }
 
 
-            if (result.affectedRows === 0) {
+            if (
+                result.affectedRows === 0
+            ) {
 
                 return res.status(404).json({
+
+                    success:
+                        false,
 
                     message:
                         "Order not found"
@@ -507,14 +757,36 @@ router.put("/:id/payment", (req, res) => {
             }
 
 
+            console.log(
+                `💰 Order #${req.params.id} payment completed`
+            );
+
+            console.log(
+                `💳 Payment method: ${method}`
+            );
+
+
             res.json({
 
+                success:
+                    true,
+
                 message:
-                    "Payment updated successfully"
+                    "Payment completed successfully",
+
+                order_id:
+                    req.params.id,
+
+                payment_method:
+                    method,
+
+                status:
+                    "Completed"
 
             });
 
         }
+
     );
 
 });
@@ -530,47 +802,90 @@ router.delete("/:id", (req, res) => {
         req.params.id;
 
 
+    // =================================================
+    // DELETE ORDER ITEMS FIRST
+    // =================================================
+
     db.query(
-        "DELETE FROM order_items WHERE order_id = ?",
+
+        `
+            DELETE FROM order_items
+            WHERE order_id = ?
+        `,
+
         [orderId],
+
         (err) => {
 
             if (err) {
 
-                console.error(err);
+                console.error(
+                    "❌ Error deleting order items:",
+                    err
+                );
 
                 return res.status(500).json({
 
+                    success:
+                        false,
+
                     message:
-                        "Error deleting order items"
+                        "Error deleting order items",
+
+                    error:
+                        err.message
 
                 });
 
             }
 
 
+            // =================================================
+            // DELETE ORDER
+            // =================================================
+
             db.query(
-                "DELETE FROM orders WHERE id = ?",
+
+                `
+                    DELETE FROM orders
+                    WHERE id = ?
+                `,
+
                 [orderId],
+
                 (err, result) => {
 
                     if (err) {
 
-                        console.error(err);
+                        console.error(
+                            "❌ Error deleting order:",
+                            err
+                        );
 
                         return res.status(500).json({
 
+                            success:
+                                false,
+
                             message:
-                                "Error deleting order"
+                                "Error deleting order",
+
+                            error:
+                                err.message
 
                         });
 
                     }
 
 
-                    if (result.affectedRows === 0) {
+                    if (
+                        result.affectedRows === 0
+                    ) {
 
                         return res.status(404).json({
+
+                            success:
+                                false,
 
                             message:
                                 "Order not found"
@@ -580,7 +895,15 @@ router.delete("/:id", (req, res) => {
                     }
 
 
+                    console.log(
+                        `🗑️ Order #${orderId} deleted`
+                    );
+
+
                     res.json({
+
+                        success:
+                            true,
 
                         message:
                             "Order deleted successfully"
@@ -588,12 +911,15 @@ router.delete("/:id", (req, res) => {
                     });
 
                 }
+
             );
 
         }
+
     );
 
 });
 
 
 module.exports = router;
+

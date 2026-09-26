@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,12 +12,7 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 
-
 <style>
-
-/* =====================================================
-   VARIABLES
-===================================================== */
 
 :root{
 
@@ -51,1070 +45,564 @@
 
 }
 
-
-/* =====================================================
-   RESET
-===================================================== */
-
 *{
-
     box-sizing:border-box;
-
     margin:0;
-
     padding:0;
-
 }
-
 
 body{
-
     background:var(--cream);
-
     color:var(--ink);
-
     font-family:'Inter',sans-serif;
-
 }
-
-
-/* =====================================================
-   APP
-===================================================== */
 
 .app{
-
     display:grid;
-
     grid-template-columns:236px 1fr;
-
     min-height:100vh;
-
 }
-
-
-/* =====================================================
-   SIDEBAR
-===================================================== */
 
 .sidebar{
-
     background:var(--charcoal);
-
     color:var(--cream);
-
     padding:28px 22px;
-
     display:flex;
-
     flex-direction:column;
-
     gap:36px;
-
     min-height:100vh;
-
 }
-
 
 .brand{
-
     display:flex;
-
     flex-direction:column;
-
     gap:2px;
-
     border-bottom:1px solid rgba(248,244,234,.12);
-
     padding-bottom:20px;
-
 }
-
 
 .brand .mark{
-
     font-family:'Fraunces',serif;
-
     font-size:22px;
-
     font-weight:700;
-
 }
-
 
 .brand .mark span{
-
     color:var(--ember);
-
 }
-
 
 .brand .sub{
-
     font-size:11px;
-
     letter-spacing:.14em;
-
     text-transform:uppercase;
-
     color:var(--muted-2);
-
 }
-
 
 nav{
-
     display:flex;
-
     flex-direction:column;
-
     gap:3px;
-
 }
-
 
 .navlink{
-
     display:flex;
-
     align-items:center;
-
     gap:12px;
-
     padding:11px 12px;
-
     color:var(--muted-2);
-
     text-decoration:none;
-
     font-size:14px;
-
     border-radius:3px;
-
     cursor:pointer;
-
 }
-
 
 .navlink:hover{
-
     background:var(--charcoal-2);
-
     color:var(--cream);
-
 }
-
 
 .navlink.active{
-
     background:var(--charcoal-2);
-
     color:var(--cream);
-
     border-left:3px solid var(--ember);
-
 }
-
 
 .navlink svg{
-
     width:17px;
-
     height:17px;
-
 }
-
 
 .shift-card{
-
     margin-top:auto;
-
     background:var(--charcoal-2);
-
     border:1px dashed rgba(248,244,234,.18);
-
     padding:14px;
-
     font-size:12px;
-
     color:var(--muted-2);
-
     line-height:1.5;
-
 }
-
 
 .shift-card strong{
-
     color:var(--cream);
-
     display:block;
-
     margin-bottom:3px;
-
 }
-
-
-/* =====================================================
-   MAIN
-===================================================== */
 
 .main{
-
     padding:32px 40px 60px;
-
     max-width:1250px;
-
     width:100%;
-
 }
-
-
-/* =====================================================
-   TOPBAR
-===================================================== */
 
 .topbar{
-
     display:flex;
-
     justify-content:space-between;
-
     align-items:flex-end;
-
     margin-bottom:30px;
-
     flex-wrap:wrap;
-
     gap:20px;
-
 }
-
 
 .topbar h1{
-
     font-family:'Fraunces',serif;
-
     font-size:30px;
-
 }
-
 
 .date{
-
     color:var(--muted);
-
     font-size:13px;
-
     margin-top:5px;
-
 }
-
 
 .admin-profile{
-
     display:flex;
-
     align-items:center;
-
     gap:10px;
-
 }
-
 
 .avatar{
-
     width:38px;
-
     height:38px;
-
     border-radius:50%;
-
     background:var(--charcoal);
-
     color:white;
-
     display:flex;
-
     align-items:center;
-
     justify-content:center;
-
     font-weight:600;
-
 }
-
 
 .admin-info strong{
-
     display:block;
-
     font-size:13px;
-
 }
-
 
 .admin-info small{
-
     color:var(--muted);
-
     font-size:11px;
-
 }
-
-
-/* =====================================================
-   SUMMARY
-===================================================== */
 
 .summary{
-
     display:grid;
-
     grid-template-columns:repeat(4,1fr);
-
     gap:18px;
-
     margin-bottom:25px;
-
 }
-
 
 .summary-card{
-
     background:var(--paper);
-
     border:1px solid var(--line);
-
     padding:19px;
-
 }
-
 
 .summary-label{
-
     color:var(--muted);
-
     font-size:11px;
-
     text-transform:uppercase;
-
     letter-spacing:.1em;
-
     margin-bottom:10px;
-
 }
-
 
 .summary-value{
-
     font-family:'IBM Plex Mono',monospace;
-
     font-size:27px;
-
     font-weight:600;
-
 }
-
 
 .summary-small{
-
     color:var(--muted);
-
     font-size:11px;
-
     margin-top:6px;
-
 }
-
-
-/* =====================================================
-   TOOLBAR
-===================================================== */
 
 .toolbar{
-
     background:var(--paper);
-
     border:1px solid var(--line);
-
     padding:18px;
-
     display:flex;
-
     gap:12px;
-
     flex-wrap:wrap;
-
     margin-bottom:18px;
-
 }
-
 
 .search{
-
     flex:1;
-
     min-width:230px;
-
 }
-
 
 .search input{
-
     width:100%;
-
     padding:11px 14px;
-
     background:var(--cream);
-
     border:1px solid var(--line);
-
     outline:none;
-
     font-family:'Inter',sans-serif;
-
     font-size:13px;
-
 }
-
 
 .search input:focus{
-
     border-color:var(--ember);
-
 }
-
 
 .filter{
-
     padding:11px 14px;
-
     background:var(--cream);
-
     border:1px solid var(--line);
-
     font-family:'Inter',sans-serif;
-
     cursor:pointer;
-
 }
-
 
 .add-btn{
-
     background:var(--charcoal);
-
     color:white;
-
     border:none;
-
     padding:11px 17px;
-
     cursor:pointer;
-
     font-size:12px;
-
     font-weight:600;
-
 }
-
 
 .add-btn:hover{
-
     background:var(--ember-dark);
-
 }
-
-
-/* =====================================================
-   STAFF PANEL
-===================================================== */
 
 .panel{
-
     background:var(--paper);
-
     border:1px solid var(--line);
-
     padding:22px;
-
 }
-
 
 .panel-header{
-
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     margin-bottom:20px;
-
 }
-
 
 .panel-header h2{
-
     font-family:'Fraunces',serif;
-
     font-size:19px;
-
 }
-
 
 .panel-header span{
-
     color:var(--muted);
-
     font-size:12px;
-
 }
-
-
-/* =====================================================
-   TABLE
-===================================================== */
 
 .table-container{
-
     overflow-x:auto;
-
 }
-
 
 table{
-
     width:100%;
-
     border-collapse:collapse;
-
 }
-
 
 th{
-
     text-align:left;
-
     padding:13px 12px;
-
     border-bottom:1px solid var(--line);
-
     color:var(--muted);
-
     font-size:10px;
-
     text-transform:uppercase;
-
     letter-spacing:.08em;
-
 }
-
 
 td{
-
     padding:14px 12px;
-
     border-bottom:1px solid var(--line);
-
     font-size:13px;
-
 }
-
 
 tr:last-child td{
-
     border-bottom:none;
-
 }
-
-
-/* =====================================================
-   STAFF NAME
-===================================================== */
 
 .staff-person{
-
     display:flex;
-
     align-items:center;
-
     gap:11px;
-
 }
-
 
 .staff-avatar{
-
     width:38px;
-
     height:38px;
-
     border-radius:50%;
-
     background:var(--cream);
-
     display:flex;
-
     justify-content:center;
-
     align-items:center;
-
     font-weight:600;
-
     font-size:12px;
-
 }
-
 
 .staff-name{
-
     font-weight:600;
-
 }
-
 
 .staff-email{
-
     font-size:11px;
-
     color:var(--muted);
-
     margin-top:3px;
-
 }
-
-
-/* =====================================================
-   ROLE BADGE
-===================================================== */
 
 .role{
-
     display:inline-block;
-
     padding:5px 10px;
-
     border-radius:20px;
-
     font-size:10px;
-
     font-weight:600;
-
 }
-
 
 .role-admin{
-
     background:var(--rust-tint);
-
     color:var(--rust);
-
 }
-
 
 .role-chef{
-
     background:var(--ember-tint);
-
     color:var(--ember-dark);
-
 }
-
 
 .role-waiter{
-
     background:var(--blue-tint);
-
     color:var(--blue);
-
 }
-
 
 .role-cashier{
-
     background:var(--sage-tint);
-
     color:var(--sage);
-
 }
-
-
-/* =====================================================
-   STATUS
-===================================================== */
 
 .status{
-
     display:inline-flex;
-
     align-items:center;
-
     gap:5px;
-
     padding:5px 10px;
-
     border-radius:20px;
-
     font-size:10px;
-
     font-weight:600;
-
 }
-
 
 .status::before{
-
     content:"";
-
     width:6px;
-
     height:6px;
-
     border-radius:50%;
-
     background:currentColor;
-
 }
-
 
 .status-active{
-
     background:var(--sage-tint);
-
     color:var(--sage);
-
 }
-
 
 .status-off{
-
     background:#ECE9E4;
-
     color:var(--muted);
-
 }
-
-
-/* =====================================================
-   ACTIONS
-===================================================== */
 
 .actions{
-
     display:flex;
-
     gap:6px;
-
 }
-
 
 .action-btn{
-
     border:none;
-
     background:var(--cream);
-
     padding:7px 10px;
-
     cursor:pointer;
-
     font-size:11px;
-
 }
-
 
 .action-btn:hover{
-
     background:var(--ember-tint);
-
 }
-
 
 .delete-btn{
-
     color:var(--rust);
-
 }
-
 
 .delete-btn:hover{
-
     background:var(--rust-tint);
-
 }
-
-
-/* =====================================================
-   MODAL
-===================================================== */
 
 .modal{
-
     display:none;
-
     position:fixed;
-
     inset:0;
-
     background:rgba(34,29,25,.6);
-
     z-index:100;
-
     align-items:center;
-
     justify-content:center;
-
     padding:20px;
-
 }
-
 
 .modal.show{
-
     display:flex;
-
 }
-
 
 .modal-content{
-
     background:var(--paper);
-
     width:100%;
-
     max-width:500px;
-
     padding:26px;
-
     border:1px solid var(--line);
-
 }
-
 
 .modal-header{
-
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
-
     margin-bottom:22px;
-
 }
-
 
 .modal-header h2{
-
     font-family:'Fraunces',serif;
-
     font-size:21px;
-
 }
-
 
 .close{
-
     border:none;
-
     background:none;
-
     font-size:25px;
-
     color:var(--muted);
-
     cursor:pointer;
-
 }
-
-
-/* =====================================================
-   FORM
-===================================================== */
 
 .form-group{
-
     margin-bottom:16px;
-
 }
-
 
 .form-group label{
-
     display:block;
-
     font-size:11px;
-
     font-weight:600;
-
     margin-bottom:7px;
-
 }
-
 
 .form-group input,
 .form-group select{
-
     width:100%;
-
     padding:11px;
-
     border:1px solid var(--line);
-
     background:var(--cream);
-
     outline:none;
-
     font-family:'Inter',sans-serif;
-
 }
-
 
 .form-group input:focus,
 .form-group select:focus{
-
     border-color:var(--ember);
-
 }
-
 
 .form-actions{
-
     display:flex;
-
     justify-content:flex-end;
-
     gap:8px;
-
     margin-top:22px;
-
 }
-
 
 .cancel-btn{
-
     border:1px solid var(--line);
-
     background:var(--cream);
-
     padding:10px 16px;
-
     cursor:pointer;
-
 }
-
 
 .save-btn{
-
     border:none;
-
     background:var(--charcoal);
-
     color:white;
-
     padding:10px 18px;
-
     cursor:pointer;
-
 }
-
 
 .save-btn:hover{
-
     background:var(--ember-dark);
-
 }
 
+.loading{
+    text-align:center;
+    padding:30px;
+    color:var(--muted);
+}
 
-/* =====================================================
-   RESPONSIVE
-===================================================== */
+.empty{
+    text-align:center;
+    padding:40px;
+    color:var(--muted);
+}
 
 @media(max-width:1000px){
 
     .app{
-
         grid-template-columns:1fr;
-
     }
-
 
     .sidebar{
-
         min-height:auto;
-
         flex-direction:row;
-
         align-items:center;
-
         overflow-x:auto;
-
         padding:15px;
-
     }
-
 
     .brand{
-
         border:none;
-
         padding:0;
-
     }
-
 
     nav{
-
         flex-direction:row;
-
     }
-
 
     .shift-card{
-
         display:none;
-
     }
-
 
     .summary{
-
         grid-template-columns:repeat(2,1fr);
-
     }
 
-
     .main{
-
         padding:25px 20px;
-
     }
 
 }
 
-
 @media(max-width:600px){
 
     .summary{
-
         grid-template-columns:1fr;
-
     }
-
 
     .toolbar{
-
         flex-direction:column;
-
     }
 
-
     .search{
-
         min-width:100%;
-
     }
 
 }
@@ -1123,67 +611,39 @@ tr:last-child td{
 
 </head>
 
-
 <body>
-
 
 <div class="app">
 
-
-<!-- =====================================================
-     SIDEBAR
-===================================================== -->
+<!-- SIDEBAR -->
 
 <aside class="sidebar">
-
 
     <div class="brand">
 
         <div class="mark">
-
             The <span>Marrow</span>
-
         </div>
 
         <div class="sub">
-
             Admin Panel
-
         </div>
 
     </div>
 
-
     <nav>
 
-
-        <a class="navlink"
-           href="home.html">
+        <a class="navlink" href="index.html">
 
             <svg viewBox="0 0 24 24"
                  fill="none"
                  stroke="currentColor"
                  stroke-width="2">
 
-                <rect x="3"
-                      y="3"
-                      width="7"
-                      height="9"/>
-
-                <rect x="14"
-                      y="3"
-                      width="7"
-                      height="5"/>
-
-                <rect x="14"
-                      y="12"
-                      width="7"
-                      height="9"/>
-
-                <rect x="3"
-                      y="16"
-                      width="7"
-                      height="5"/>
+                <rect x="3" y="3" width="7" height="9"/>
+                <rect x="14" y="3" width="7" height="5"/>
+                <rect x="14" y="12" width="7" height="9"/>
+                <rect x="3" y="16" width="7" height="5"/>
 
             </svg>
 
@@ -1191,9 +651,7 @@ tr:last-child td{
 
         </a>
 
-
-        <a class="navlink"
-           href="orders.html">
+        <a class="navlink" href="orders.html">
 
             <svg viewBox="0 0 24 24"
                  fill="none"
@@ -1201,15 +659,10 @@ tr:last-child td{
                  stroke-width="2">
 
                 <path d="M6 2h12"/>
-
                 <path d="M6 2v20"/>
-
                 <path d="M18 2v20"/>
-
                 <path d="M6 7h12"/>
-
                 <path d="M6 12h12"/>
-
                 <path d="M6 17h12"/>
 
             </svg>
@@ -1218,9 +671,7 @@ tr:last-child td{
 
         </a>
 
-
-        <a class="navlink active"
-           href="staff.html">
+        <a class="navlink active" href="staff.html">
 
             <svg viewBox="0 0 24 24"
                  fill="none"
@@ -1229,9 +680,7 @@ tr:last-child td{
 
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
 
-                <circle cx="9"
-                        cy="7"
-                        r="4"/>
+                <circle cx="9" cy="7" r="4"/>
 
                 <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
 
@@ -1243,9 +692,7 @@ tr:last-child td{
 
         </a>
 
-
-        <a class="navlink"
-           href="menu.html">
+        <a class="navlink" href="menu.html">
 
             <svg viewBox="0 0 24 24"
                  fill="none"
@@ -1262,9 +709,7 @@ tr:last-child td{
 
         </a>
 
-
-        <a class="navlink"
-           href="statistics.html">
+        <a class="navlink" href="statistics.html">
 
             <svg viewBox="0 0 24 24"
                  fill="none"
@@ -1272,11 +717,8 @@ tr:last-child td{
                  stroke-width="2">
 
                 <path d="M3 3v18h18"/>
-
                 <path d="M18 17V9"/>
-
                 <path d="M13 17V5"/>
-
                 <path d="M8 17v-3"/>
 
             </svg>
@@ -1285,18 +727,14 @@ tr:last-child td{
 
         </a>
 
-
-        <a class="navlink"
-           href="settings.html">
+        <a class="navlink" href="settings.html">
 
             <svg viewBox="0 0 24 24"
                  fill="none"
                  stroke="currentColor"
                  stroke-width="2">
 
-                <circle cx="12"
-                        cy="12"
-                        r="3"/>
+                <circle cx="12" cy="12" r="3"/>
 
                 <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82"/>
 
@@ -1306,18 +744,13 @@ tr:last-child td{
 
         </a>
 
-
-        <a class="navlink"
-           href="#"
-           onclick="logout()">
+        <a class="navlink" href="#" onclick="logout()">
 
             Logout
 
         </a>
 
-
     </nav>
-
 
     <div class="shift-card">
 
@@ -1326,27 +759,19 @@ tr:last-child td{
         Doors at 5:00 PM ·
 
         <span id="shift-count">
-            6 staff scheduled tonight
+            0 staff scheduled tonight
         </span>
 
     </div>
 
-
 </aside>
 
 
-
-<!-- =====================================================
-     MAIN
-===================================================== -->
+<!-- MAIN -->
 
 <main class="main">
 
-
-<!-- TOPBAR -->
-
 <div class="topbar">
-
 
     <div>
 
@@ -1354,23 +779,15 @@ tr:last-child td{
             Staff
         </h1>
 
-        <div class="date"
-             id="today-date">
-
-        </div>
+        <div class="date" id="today-date"></div>
 
     </div>
 
-
     <div class="admin-profile">
 
-
         <div class="avatar">
-
             A
-
         </div>
-
 
         <div class="admin-info">
 
@@ -1384,125 +801,85 @@ tr:last-child td{
 
         </div>
 
-
     </div>
-
 
 </div>
 
 
-
-<!-- =====================================================
-     SUMMARY
-===================================================== -->
+<!-- SUMMARY -->
 
 <section class="summary">
 
-
     <div class="summary-card">
 
         <div class="summary-label">
-
             Total Staff
-
         </div>
 
-        <div class="summary-value"
-             id="totalStaff">
-
-            6
-
+        <div class="summary-value" id="totalStaff">
+            0
         </div>
 
         <div class="summary-small">
-
             Registered employees
-
         </div>
 
     </div>
 
-
     <div class="summary-card">
 
         <div class="summary-label">
-
             Active
-
         </div>
 
-        <div class="summary-value"
-             id="activeStaff">
-
-            5
-
+        <div class="summary-value" id="activeStaff">
+            0
         </div>
 
         <div class="summary-small">
-
             Currently active
-
         </div>
 
     </div>
 
-
     <div class="summary-card">
 
         <div class="summary-label">
-
             Chefs
-
         </div>
 
-        <div class="summary-value">
-
-            2
-
+        <div class="summary-value" id="chefCount">
+            0
         </div>
 
         <div class="summary-small">
-
             Kitchen staff
-
         </div>
 
     </div>
-
 
     <div class="summary-card">
 
         <div class="summary-label">
-
             Waiters
-
         </div>
 
-        <div class="summary-value">
-
-            2
-
+        <div class="summary-value" id="waiterCount">
+            0
         </div>
 
         <div class="summary-small">
-
             Service staff
-
         </div>
 
     </div>
-
 
 </section>
 
 
-
-<!-- =====================================================
-     TOOLBAR
-===================================================== -->
+<!-- TOOLBAR -->
 
 <div class="toolbar">
-
 
     <div class="search">
 
@@ -1514,35 +891,31 @@ tr:last-child td{
 
     </div>
 
-
-    <select class="filter"
-            id="roleFilter">
+    <select class="filter" id="roleFilter">
 
         <option value="all">
             All roles
         </option>
 
-        <option value="Admin">
+        <option value="admin">
             Admin
         </option>
 
-        <option value="Chef">
+        <option value="chef">
             Chef
         </option>
 
-        <option value="Waiter">
+        <option value="server">
             Waiter
         </option>
 
-        <option value="Cashier">
+        <option value="cashier">
             Cashier
         </option>
 
     </select>
 
-
-    <select class="filter"
-            id="statusFilter">
+    <select class="filter" id="statusFilter">
 
         <option value="all">
             All status
@@ -1558,25 +931,18 @@ tr:last-child td{
 
     </select>
 
-
-    <button class="add-btn"
-            onclick="openAddModal()">
+    <button class="add-btn" onclick="openAddModal()">
 
         + Add Staff
 
     </button>
 
-
 </div>
 
 
-
-<!-- =====================================================
-     STAFF TABLE
-===================================================== -->
+<!-- STAFF TABLE -->
 
 <section class="panel">
-
 
     <div class="panel-header">
 
@@ -1585,17 +951,14 @@ tr:last-child td{
         </h2>
 
         <span id="staffCount">
-            6 employees
+            0 employees
         </span>
 
     </div>
 
-
     <div class="table-container">
 
-
         <table>
-
 
             <thead>
 
@@ -1629,576 +992,38 @@ tr:last-child td{
 
             </thead>
 
-
             <tbody id="staffTable">
 
+                <tr>
 
-                <!-- STAFF 1 -->
+                    <td colspan="6">
 
-                <tr
-                    data-name="Sarah Adams"
-                    data-email="sarah@themarrow.com"
-                    data-role="Chef"
-                    data-status="Active"
-                >
-
-                    <td>
-
-                        <div class="staff-person">
-
-                            <div class="staff-avatar">
-                                SA
-                            </div>
-
-                            <div>
-
-                                <div class="staff-name">
-                                    Sarah Adams
-                                </div>
-
-                                <div class="staff-email">
-                                    sarah@themarrow.com
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </td>
-
-
-                    <td>
-
-                        <span class="role role-chef">
-                            Chef
-                        </span>
-
-                    </td>
-
-
-                    <td>
-                        +213 555 000 001
-                    </td>
-
-
-                    <td>
-
-                        <span class="status status-active">
-                            Active
-                        </span>
-
-                    </td>
-
-
-                    <td>
-                        Evening
-                    </td>
-
-
-                    <td>
-
-                        <div class="actions">
-
-                            <button
-                                class="action-btn"
-                                onclick="editStaff(this)">
-
-                                Edit
-
-                            </button>
-
-                            <button
-                                class="action-btn delete-btn"
-                                onclick="deleteStaff(this)">
-
-                                Delete
-
-                            </button>
-
+                        <div class="loading">
+                            Loading staff...
                         </div>
 
                     </td>
 
                 </tr>
-
-
-
-                <!-- STAFF 2 -->
-
-                <tr
-                    data-name="Michael King"
-                    data-email="michael@themarrow.com"
-                    data-role="Waiter"
-                    data-status="Active"
-                >
-
-                    <td>
-
-                        <div class="staff-person">
-
-                            <div class="staff-avatar">
-                                MK
-                            </div>
-
-                            <div>
-
-                                <div class="staff-name">
-                                    Michael King
-                                </div>
-
-                                <div class="staff-email">
-                                    michael@themarrow.com
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </td>
-
-
-                    <td>
-
-                        <span class="role role-waiter">
-                            Waiter
-                        </span>
-
-                    </td>
-
-
-                    <td>
-                        +213 555 000 002
-                    </td>
-
-
-                    <td>
-
-                        <span class="status status-active">
-                            Active
-                        </span>
-
-                    </td>
-
-
-                    <td>
-                        Evening
-                    </td>
-
-
-                    <td>
-
-                        <div class="actions">
-
-                            <button
-                                class="action-btn"
-                                onclick="editStaff(this)">
-
-                                Edit
-
-                            </button>
-
-                            <button
-                                class="action-btn delete-btn"
-                                onclick="deleteStaff(this)">
-
-                                Delete
-
-                            </button>
-
-                        </div>
-
-                    </td>
-
-                </tr>
-
-
-
-                <!-- STAFF 3 -->
-
-                <tr
-                    data-name="Lina Martin"
-                    data-email="lina@themarrow.com"
-                    data-role="Cashier"
-                    data-status="Active"
-                >
-
-                    <td>
-
-                        <div class="staff-person">
-
-                            <div class="staff-avatar">
-                                LM
-                            </div>
-
-                            <div>
-
-                                <div class="staff-name">
-                                    Lina Martin
-                                </div>
-
-                                <div class="staff-email">
-                                    lina@themarrow.com
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </td>
-
-
-                    <td>
-
-                        <span class="role role-cashier">
-                            Cashier
-                        </span>
-
-                    </td>
-
-
-                    <td>
-                        +213 555 000 003
-                    </td>
-
-
-                    <td>
-
-                        <span class="status status-active">
-                            Active
-                        </span>
-
-                    </td>
-
-
-                    <td>
-                        Morning
-                    </td>
-
-
-                    <td>
-
-                        <div class="actions">
-
-                            <button
-                                class="action-btn"
-                                onclick="editStaff(this)">
-
-                                Edit
-
-                            </button>
-
-                            <button
-                                class="action-btn delete-btn"
-                                onclick="deleteStaff(this)">
-
-                                Delete
-
-                            </button>
-
-                        </div>
-
-                    </td>
-
-                </tr>
-
-
-
-                <!-- STAFF 4 -->
-
-                <tr
-                    data-name="John Davis"
-                    data-email="john@themarrow.com"
-                    data-role="Waiter"
-                    data-status="Active"
-                >
-
-                    <td>
-
-                        <div class="staff-person">
-
-                            <div class="staff-avatar">
-                                JD
-                            </div>
-
-                            <div>
-
-                                <div class="staff-name">
-                                    John Davis
-                                </div>
-
-                                <div class="staff-email">
-                                    john@themarrow.com
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </td>
-
-
-                    <td>
-
-                        <span class="role role-waiter">
-                            Waiter
-                        </span>
-
-                    </td>
-
-
-                    <td>
-                        +213 555 000 004
-                    </td>
-
-
-                    <td>
-
-                        <span class="status status-active">
-                            Active
-                        </span>
-
-                    </td>
-
-
-                    <td>
-                        Evening
-                    </td>
-
-
-                    <td>
-
-                        <div class="actions">
-
-                            <button
-                                class="action-btn"
-                                onclick="editStaff(this)">
-
-                                Edit
-
-                            </button>
-
-                            <button
-                                class="action-btn delete-btn"
-                                onclick="deleteStaff(this)">
-
-                                Delete
-
-                            </button>
-
-                        </div>
-
-                    </td>
-
-                </tr>
-
-
-
-                <!-- STAFF 5 -->
-
-                <tr
-                    data-name="David Stone"
-                    data-email="david@themarrow.com"
-                    data-role="Chef"
-                    data-status="Active"
-                >
-
-                    <td>
-
-                        <div class="staff-person">
-
-                            <div class="staff-avatar">
-                                DS
-                            </div>
-
-                            <div>
-
-                                <div class="staff-name">
-                                    David Stone
-                                </div>
-
-                                <div class="staff-email">
-                                    david@themarrow.com
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </td>
-
-
-                    <td>
-
-                        <span class="role role-chef">
-                            Chef
-                        </span>
-
-                    </td>
-
-
-                    <td>
-                        +213 555 000 005
-                    </td>
-
-
-                    <td>
-
-                        <span class="status status-active">
-                            Active
-                        </span>
-
-                    </td>
-
-
-                    <td>
-                        Morning
-                    </td>
-
-
-                    <td>
-
-                        <div class="actions">
-
-                            <button
-                                class="action-btn"
-                                onclick="editStaff(this)">
-
-                                Edit
-
-                            </button>
-
-                            <button
-                                class="action-btn delete-btn"
-                                onclick="deleteStaff(this)">
-
-                                Delete
-
-                            </button>
-
-                        </div>
-
-                    </td>
-
-                </tr>
-
-
-
-                <!-- STAFF 6 -->
-
-                <tr
-                    data-name="Emma Wilson"
-                    data-email="emma@themarrow.com"
-                    data-role="Cashier"
-                    data-status="Off Duty"
-                >
-
-                    <td>
-
-                        <div class="staff-person">
-
-                            <div class="staff-avatar">
-                                EW
-                            </div>
-
-                            <div>
-
-                                <div class="staff-name">
-                                    Emma Wilson
-                                </div>
-
-                                <div class="staff-email">
-                                    emma@themarrow.com
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </td>
-
-
-                    <td>
-
-                        <span class="role role-cashier">
-                            Cashier
-                        </span>
-
-                    </td>
-
-
-                    <td>
-                        +213 555 000 006
-                    </td>
-
-
-                    <td>
-
-                        <span class="status status-off">
-                            Off Duty
-                        </span>
-
-                    </td>
-
-
-                    <td>
-                        Off
-                    </td>
-
-
-                    <td>
-
-                        <div class="actions">
-
-                            <button
-                                class="action-btn"
-                                onclick="editStaff(this)">
-
-                                Edit
-
-                            </button>
-
-                            <button
-                                class="action-btn delete-btn"
-                                onclick="deleteStaff(this)">
-
-                                Delete
-
-                            </button>
-
-                        </div>
-
-                    </td>
-
-                </tr>
-
 
             </tbody>
-
 
         </table>
 
     </div>
 
-
 </section>
-
 
 </main>
 
 </div>
 
 
+<!-- MODAL -->
 
-<!-- =====================================================
-     ADD / EDIT MODAL
-===================================================== -->
-
-<div class="modal"
-     id="staffModal">
-
+<div class="modal" id="staffModal">
 
     <div class="modal-content">
-
 
         <div class="modal-header">
 
@@ -2206,19 +1031,15 @@ tr:last-child td{
                 Add Staff
             </h2>
 
-            <button
-                class="close"
-                onclick="closeModal()">
-
+            <button class="close" onclick="closeModal()">
                 ×
-
             </button>
 
         </div>
 
-
         <form id="staffForm">
 
+            <!-- NAME -->
 
             <div class="form-group">
 
@@ -2236,6 +1057,8 @@ tr:last-child td{
             </div>
 
 
+            <!-- EMAIL -->
+
             <div class="form-group">
 
                 <label>
@@ -2251,6 +1074,27 @@ tr:last-child td{
 
             </div>
 
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter password"
+                    minlength="6"
+                    required
+                >
+
+            </div>
+
+
+            <!-- PHONE -->
 
             <div class="form-group">
 
@@ -2268,32 +1112,33 @@ tr:last-child td{
             </div>
 
 
+            <!-- ROLE -->
+
             <div class="form-group">
 
                 <label>
                     Role
                 </label>
 
-                <select id="role"
-                        required>
+                <select id="role" required>
 
                     <option value="">
                         Select role
                     </option>
 
-                    <option value="Admin">
+                    <option value="admin">
                         Admin
                     </option>
 
-                    <option value="Chef">
+                    <option value="chef">
                         Chef
                     </option>
 
-                    <option value="Waiter">
+                    <option value="server">
                         Waiter
                     </option>
 
-                    <option value="Cashier">
+                    <option value="cashier">
                         Cashier
                     </option>
 
@@ -2302,14 +1147,15 @@ tr:last-child td{
             </div>
 
 
+            <!-- SHIFT -->
+
             <div class="form-group">
 
                 <label>
                     Shift
                 </label>
 
-                <select id="shift"
-                        required>
+                <select id="shift" required>
 
                     <option value="">
                         Select shift
@@ -2332,6 +1178,8 @@ tr:last-child td{
             </div>
 
 
+            <!-- STATUS -->
+
             <div class="form-group">
 
                 <label>
@@ -2353,6 +1201,8 @@ tr:last-child td{
             </div>
 
 
+            <!-- ACTIONS -->
+
             <div class="form-actions">
 
                 <button
@@ -2364,7 +1214,6 @@ tr:last-child td{
 
                 </button>
 
-
                 <button
                     type="submit"
                     class="save-btn">
@@ -2375,24 +1224,24 @@ tr:last-child td{
 
             </div>
 
-
         </form>
-
 
     </div>
 
 </div>
 
 
-
 <script>
 
-/* =====================================================
-   DATE
-===================================================== */
+const API_URL =
+    "http://localhost:5000/api/users";
+
+
+// =====================================================
+// DATE
+// =====================================================
 
 document.getElementById("today-date").textContent =
-
     new Date().toLocaleDateString(
         "en-US",
         {
@@ -2404,280 +1253,193 @@ document.getElementById("today-date").textContent =
     );
 
 
-
-/* =====================================================
-   VARIABLES
-===================================================== */
+// =====================================================
+// VARIABLES
+// =====================================================
 
 let editingRow = null;
 
 
+// =====================================================
+// ROLE DISPLAY
+// =====================================================
 
-/* =====================================================
-   OPEN ADD MODAL
-===================================================== */
+function getRoleName(role){
 
-function openAddModal(){
+    const roles = {
 
-    editingRow = null;
+        admin:"Admin",
 
-    document.getElementById("modalTitle").textContent =
-        "Add Staff";
+        chef:"Chef",
 
-    document.getElementById("staffForm").reset();
+        server:"Waiter",
 
-    document.getElementById("staffModal")
-        .classList.add("show");
+        cashier:"Cashier"
 
-}
+    };
 
-
-
-/* =====================================================
-   EDIT STAFF
-===================================================== */
-
-function editStaff(button){
-
-    editingRow =
-        button.closest("tr");
-
-
-    const name =
-        editingRow.dataset.name;
-
-    const email =
-        editingRow.dataset.email;
-
-    const role =
-        editingRow.dataset.role;
-
-    const status =
-        editingRow.dataset.status;
-
-
-    document.getElementById("modalTitle")
-        .textContent =
-        "Edit Staff";
-
-
-    document.getElementById("name")
-        .value =
-        name;
-
-
-    document.getElementById("email")
-        .value =
-        email;
-
-
-    document.getElementById("role")
-        .value =
-        role;
-
-
-    document.getElementById("status")
-        .value =
-        status;
-
-
-    document.getElementById("staffModal")
-        .classList.add("show");
+    return roles[role] || role;
 
 }
 
 
+// =====================================================
+// ROLE CLASS
+// =====================================================
 
-/* =====================================================
-   DELETE STAFF
-===================================================== */
+function getRoleClass(role){
 
-function deleteStaff(button){
+    if(role === "admin")
+        return "role-admin";
 
-    const row =
-        button.closest("tr");
+    if(role === "chef")
+        return "role-chef";
 
+    if(role === "server")
+        return "role-waiter";
 
-    const name =
-        row.dataset.name;
+    if(role === "cashier")
+        return "role-cashier";
 
-
-    const confirmation =
-        confirm(
-            "Are you sure you want to delete " +
-            name +
-            "?"
-        );
-
-
-    if(confirmation){
-
-        row.remove();
-
-        updateStaffCounters();
-
-        alert(
-            name +
-            " has been removed."
-        );
-
-    }
+    return "";
 
 }
 
 
+// =====================================================
+// INITIALS
+// =====================================================
 
-/* =====================================================
-   FORM SUBMIT
-===================================================== */
+function getInitials(name){
 
-document.getElementById("staffForm")
-.addEventListener(
-    "submit",
-    function(event){
+    return name
+        .split(" ")
+        .filter(word => word.length > 0)
+        .map(word => word[0])
+        .join("")
+        .substring(0,2)
+        .toUpperCase();
 
-        event.preventDefault();
-
-
-        const name =
-            document.getElementById("name")
-            .value;
-
-
-        const email =
-            document.getElementById("email")
-            .value;
+}
 
 
-        const phone =
-            document.getElementById("phone")
-            .value;
+// =====================================================
+// ESCAPE HTML
+// =====================================================
+
+function escapeHTML(value){
+
+    const div =
+        document.createElement("div");
+
+    div.textContent =
+        value ?? "";
+
+    return div.innerHTML;
+
+}
 
 
-        const role =
-            document.getElementById("role")
-            .value;
+// =====================================================
+// LOAD STAFF
+// =====================================================
+
+async function loadStaff(){
+
+    const tbody =
+        document.getElementById("staffTable");
 
 
-        const shift =
-            document.getElementById("shift")
-            .value;
+    tbody.innerHTML = `
+
+        <tr>
+
+            <td colspan="6">
+
+                <div class="loading">
+                    Loading staff...
+                </div>
+
+            </td>
+
+        </tr>
+
+    `;
 
 
-        const status =
-            document.getElementById("status")
-            .value;
+    try{
+
+        const response =
+            await fetch(API_URL);
 
 
-        /* EDIT */
+        if(!response.ok){
 
-        if(editingRow){
-
-            editingRow.dataset.name =
-                name;
-
-            editingRow.dataset.email =
-                email;
-
-            editingRow.dataset.role =
-                role;
-
-            editingRow.dataset.status =
-                status;
-
-
-            const avatar =
-                editingRow
-                .querySelector(".staff-avatar");
-
-
-            avatar.textContent =
-                getInitials(name);
-
-
-            editingRow
-            .querySelector(".staff-name")
-            .textContent =
-                name;
-
-
-            editingRow
-            .querySelector(".staff-email")
-            .textContent =
-                email;
-
-
-            editingRow
-            .querySelector(".role")
-            .textContent =
-                role;
-
-
-            editingRow
-            .querySelector(".role")
-            .className =
-                "role " +
-                getRoleClass(role);
-
-
-            editingRow
-            .querySelector(".status")
-            .textContent =
-                status;
-
-
-            editingRow
-            .querySelector(".status")
-            .className =
-                "status " +
-                getStatusClass(status);
-
-
-            editingRow
-            .cells[2]
-            .textContent =
-                phone;
-
-
-            editingRow
-            .cells[4]
-            .textContent =
-                shift;
-
-
-            alert(
-                name +
-                " has been updated."
+            throw new Error(
+                "Cannot load staff from server"
             );
 
         }
 
 
-        /* ADD */
+        const staff =
+            await response.json();
 
-        else{
 
-            const tbody =
-                document.getElementById(
-                    "staffTable"
-                );
+        tbody.innerHTML = "";
 
+
+        if(staff.length === 0){
+
+            tbody.innerHTML = `
+
+                <tr>
+
+                    <td colspan="6">
+
+                        <div class="empty">
+
+                            No staff members found.
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+            updateStaffCounters();
+
+            return;
+
+        }
+
+
+        staff.forEach(user => {
 
             const row =
                 document.createElement("tr");
 
 
+            row.dataset.id =
+                user.id;
+
             row.dataset.name =
-                name;
+                user.name;
 
             row.dataset.email =
-                email;
+                user.email;
 
             row.dataset.role =
-                role;
+                user.role;
 
             row.dataset.status =
-                status;
+                "Active";
+
+
+            const roleName =
+                getRoleName(user.role);
 
 
             row.innerHTML = `
@@ -2687,17 +1449,23 @@ document.getElementById("staffForm")
                     <div class="staff-person">
 
                         <div class="staff-avatar">
-                            ${getInitials(name)}
+
+                            ${getInitials(user.name)}
+
                         </div>
 
                         <div>
 
                             <div class="staff-name">
-                                ${name}
+
+                                ${escapeHTML(user.name)}
+
                             </div>
 
                             <div class="staff-email">
-                                ${email}
+
+                                ${escapeHTML(user.email)}
+
                             </div>
 
                         </div>
@@ -2709,29 +1477,37 @@ document.getElementById("staffForm")
 
                 <td>
 
-                    <span class="role ${getRoleClass(role)}">
-                        ${role}
+                    <span class="role ${getRoleClass(user.role)}">
+
+                        ${roleName}
+
                     </span>
 
                 </td>
 
 
                 <td>
-                    ${phone}
+
+                    --
+
                 </td>
 
 
                 <td>
 
-                    <span class="status ${getStatusClass(status)}">
-                        ${status}
+                    <span class="status status-active">
+
+                        Active
+
                     </span>
 
                 </td>
 
 
                 <td>
-                    ${shift}
+
+                    --
+
                 </td>
 
 
@@ -2765,140 +1541,568 @@ document.getElementById("staffForm")
 
             tbody.appendChild(row);
 
+        });
 
-            alert(
-                name +
-                " has been added."
-            );
-
-        }
-
-
-        closeModal();
 
         updateStaffCounters();
 
         filterStaff();
 
     }
+
+    catch(error){
+
+        console.error(
+            "Error loading staff:",
+            error
+        );
+
+
+        tbody.innerHTML = `
+
+            <tr>
+
+                <td colspan="6">
+
+                    <div class="empty">
+
+                        ❌ Cannot connect to the server.
+
+                        <br><br>
+
+                        Make sure Node.js server is running.
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    }
+
+}
+
+
+// =====================================================
+// OPEN ADD MODAL
+// =====================================================
+
+function openAddModal(){
+
+    editingRow = null;
+
+
+    document.getElementById(
+        "modalTitle"
+    ).textContent =
+        "Add Staff";
+
+
+    document.getElementById(
+        "staffForm"
+    ).reset();
+
+
+    document.getElementById(
+        "password"
+    ).required = true;
+
+
+    document.getElementById(
+        "staffModal"
+    ).classList.add("show");
+
+}
+
+
+// =====================================================
+// EDIT STAFF
+// =====================================================
+
+function editStaff(button){
+
+    editingRow =
+        button.closest("tr");
+
+
+    const name =
+        editingRow.dataset.name;
+
+
+    const email =
+        editingRow.dataset.email;
+
+
+    const role =
+        editingRow.dataset.role;
+
+
+    document.getElementById(
+        "modalTitle"
+    ).textContent =
+        "Edit Staff";
+
+
+    document.getElementById(
+        "name"
+    ).value =
+        name;
+
+
+    document.getElementById(
+        "email"
+    ).value =
+        email;
+
+
+    document.getElementById(
+        "password"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "password"
+    ).required =
+        false;
+
+
+    document.getElementById(
+        "role"
+    ).value =
+        role;
+
+
+    document.getElementById(
+        "phone"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "shift"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "status"
+    ).value =
+        editingRow.dataset.status ||
+        "Active";
+
+
+    document.getElementById(
+        "staffModal"
+    ).classList.add("show");
+
+}
+
+
+// =====================================================
+// DELETE STAFF
+// =====================================================
+
+async function deleteStaff(button){
+
+    const row =
+        button.closest("tr");
+
+
+    const id =
+        row.dataset.id;
+
+
+    const name =
+        row.dataset.name;
+
+
+    const confirmation =
+        confirm(
+            "Are you sure you want to delete " +
+            name +
+            "?"
+        );
+
+
+    if(!confirmation)
+        return;
+
+
+    try{
+
+        const response =
+            await fetch(
+                `${API_URL}/${id}`,
+                {
+                    method:"DELETE"
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok){
+
+            throw new Error(
+                data.message ||
+                "Error deleting staff"
+            );
+
+        }
+
+
+        alert(
+            name +
+            " has been deleted successfully."
+        );
+
+
+        await loadStaff();
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Delete error:",
+            error
+        );
+
+
+        alert(
+            "❌ " +
+            error.message
+        );
+
+    }
+
+}
+
+
+// =====================================================
+// FORM SUBMIT
+// =====================================================
+
+document.getElementById(
+    "staffForm"
+)
+.addEventListener(
+    "submit",
+    async function(event){
+
+        event.preventDefault();
+
+
+        const name =
+            document.getElementById(
+                "name"
+            )
+            .value
+            .trim();
+
+
+        const email =
+            document.getElementById(
+                "email"
+            )
+            .value
+            .trim();
+
+
+        const password =
+            document.getElementById(
+                "password"
+            )
+            .value
+            .trim();
+
+
+        const phone =
+            document.getElementById(
+                "phone"
+            )
+            .value
+            .trim();
+
+
+        const role =
+            document.getElementById(
+                "role"
+            )
+            .value;
+
+
+        const shift =
+            document.getElementById(
+                "shift"
+            )
+            .value;
+
+
+        const status =
+            document.getElementById(
+                "status"
+            )
+            .value;
+
+
+        try{
+
+
+            // =================================================
+            // EDIT
+            // =================================================
+
+            if(editingRow){
+
+                const id =
+                    editingRow.dataset.id;
+
+
+                const body = {
+
+                    name:name,
+
+                    email:email,
+
+                    role:role
+
+                };
+
+
+                // Only change password
+                // if Admin entered a new one
+
+                if(password){
+
+                    if(password.length < 6){
+
+                        throw new Error(
+                            "Password must contain at least 6 characters"
+                        );
+
+                    }
+
+
+                    body.password =
+                        password;
+
+                }
+
+
+                const response =
+                    await fetch(
+                        `${API_URL}/${id}`,
+                        {
+
+                            method:"PUT",
+
+                            headers:{
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify(body)
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if(!response.ok){
+
+                    throw new Error(
+                        data.message ||
+                        "Error updating staff"
+                    );
+
+                }
+
+
+                alert(
+                    name +
+                    " has been updated successfully."
+                );
+
+            }
+
+
+            // =================================================
+            // ADD
+            // =================================================
+
+            else{
+
+                if(!password){
+
+                    throw new Error(
+                        "Please enter a password"
+                    );
+
+                }
+
+
+                if(password.length < 6){
+
+                    throw new Error(
+                        "Password must contain at least 6 characters"
+                    );
+
+                }
+
+
+                const response =
+                    await fetch(
+                        API_URL,
+                        {
+
+                            method:"POST",
+
+                            headers:{
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify({
+
+                                    name:name,
+
+                                    email:email,
+
+                                    password:password,
+
+                                    role:role
+
+                                })
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if(!response.ok){
+
+                    throw new Error(
+                        data.message ||
+                        "Error creating staff"
+                    );
+
+                }
+
+
+                alert(
+                    "✅ " +
+                    name +
+                    " has been added successfully."
+                );
+
+            }
+
+
+            closeModal();
+
+
+            await loadStaff();
+
+        }
+
+        catch(error){
+
+            console.error(
+                "Staff save error:",
+                error
+            );
+
+
+            alert(
+                "❌ " +
+                error.message
+            );
+
+        }
+
+    }
 );
 
 
+// =====================================================
+// SEARCH
+// =====================================================
 
-/* =====================================================
-   ROLE CLASS
-===================================================== */
-
-function getRoleClass(role){
-
-    if(role === "Admin")
-        return "role-admin";
-
-    if(role === "Chef")
-        return "role-chef";
-
-    if(role === "Waiter")
-        return "role-waiter";
-
-    if(role === "Cashier")
-        return "role-cashier";
-
-    return "";
-
-}
-
-
-
-/* =====================================================
-   STATUS CLASS
-===================================================== */
-
-function getStatusClass(status){
-
-    if(status === "Active")
-        return "status-active";
-
-    return "status-off";
-
-}
-
-
-
-/* =====================================================
-   INITIALS
-===================================================== */
-
-function getInitials(name){
-
-    return name
-        .split(" ")
-        .map(word => word[0])
-        .join("")
-        .substring(0,2)
-        .toUpperCase();
-
-}
-
-
-
-/* =====================================================
-   SEARCH
-===================================================== */
-
-document.getElementById("searchInput")
+document.getElementById(
+    "searchInput"
+)
 .addEventListener(
     "input",
     filterStaff
 );
 
 
+// =====================================================
+// ROLE FILTER
+// =====================================================
 
-/* =====================================================
-   ROLE FILTER
-===================================================== */
-
-document.getElementById("roleFilter")
+document.getElementById(
+    "roleFilter"
+)
 .addEventListener(
     "change",
     filterStaff
 );
 
 
+// =====================================================
+// STATUS FILTER
+// =====================================================
 
-/* =====================================================
-   STATUS FILTER
-===================================================== */
-
-document.getElementById("statusFilter")
+document.getElementById(
+    "statusFilter"
+)
 .addEventListener(
     "change",
     filterStaff
 );
 
 
-
-/* =====================================================
-   FILTER STAFF
-===================================================== */
+// =====================================================
+// FILTER STAFF
+// =====================================================
 
 function filterStaff(){
 
     const search =
         document.getElementById(
             "searchInput"
-        ).value.toLowerCase();
+        )
+        .value
+        .toLowerCase();
 
 
     const role =
         document.getElementById(
             "roleFilter"
-        ).value;
+        )
+        .value;
 
 
     const status =
         document.getElementById(
             "statusFilter"
-        ).value;
+        )
+        .value;
 
 
     const rows =
@@ -2912,13 +2116,17 @@ function filterStaff(){
 
     rows.forEach(row => {
 
+        if(!row.dataset.id)
+            return;
+
+
         const name =
-            row.dataset.name
+            (row.dataset.name || "")
             .toLowerCase();
 
 
         const email =
-            row.dataset.email
+            (row.dataset.email || "")
             .toLowerCase();
 
 
@@ -2951,16 +2159,15 @@ function filterStaff(){
             statusMatch
         ){
 
-            row.style.display =
-                "";
+            row.style.display = "";
 
             visible++;
 
         }
+
         else{
 
-            row.style.display =
-                "none";
+            row.style.display = "none";
 
         }
 
@@ -2970,15 +2177,15 @@ function filterStaff(){
     document.getElementById(
         "staffCount"
     ).textContent =
-        visible + " employees";
+        visible +
+        " employees";
 
 }
 
 
-
-/* =====================================================
-   UPDATE COUNTERS
-===================================================== */
+// =====================================================
+// UPDATE COUNTERS
+// =====================================================
 
 function updateStaffCounters(){
 
@@ -2992,8 +2199,16 @@ function updateStaffCounters(){
 
     let active = 0;
 
+    let chefs = 0;
+
+    let waiters = 0;
+
 
     rows.forEach(row => {
+
+        if(!row.dataset.id)
+            return;
+
 
         total++;
 
@@ -3004,6 +2219,26 @@ function updateStaffCounters(){
         ){
 
             active++;
+
+        }
+
+
+        if(
+            row.dataset.role ===
+            "chef"
+        ){
+
+            chefs++;
+
+        }
+
+
+        if(
+            row.dataset.role ===
+            "server"
+        ){
+
+            waiters++;
 
         }
 
@@ -3023,6 +2258,18 @@ function updateStaffCounters(){
 
 
     document.getElementById(
+        "chefCount"
+    ).textContent =
+        chefs;
+
+
+    document.getElementById(
+        "waiterCount"
+    ).textContent =
+        waiters;
+
+
+    document.getElementById(
         "shift-count"
     ).textContent =
         active +
@@ -3031,26 +2278,28 @@ function updateStaffCounters(){
 }
 
 
-
-/* =====================================================
-   CLOSE MODAL
-===================================================== */
+// =====================================================
+// CLOSE MODAL
+// =====================================================
 
 function closeModal(){
 
     document.getElementById(
         "staffModal"
-    ).classList.remove("show");
+    )
+    .classList
+    .remove("show");
 
 }
 
 
+// =====================================================
+// CLOSE MODAL OUTSIDE
+// =====================================================
 
-/* =====================================================
-   CLOSE MODAL OUTSIDE
-===================================================== */
-
-document.getElementById("staffModal")
+document.getElementById(
+    "staffModal"
+)
 .addEventListener(
     "click",
     function(event){
@@ -3065,10 +2314,9 @@ document.getElementById("staffModal")
 );
 
 
-
-/* =====================================================
-   LOGOUT
-===================================================== */
+// =====================================================
+// LOGOUT
+// =====================================================
 
 function logout(){
 
@@ -3081,14 +2329,20 @@ function logout(){
     if(confirmation){
 
         window.location.href =
-            "login.html";
+            "../login.html";
 
     }
 
 }
 
-</script>
 
+// =====================================================
+// LOAD STAFF
+// =====================================================
+
+loadStaff();
+
+</script>
 
 </body>
 

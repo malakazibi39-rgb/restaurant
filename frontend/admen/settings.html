@@ -2,82 +2,152 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>The Marrow — Settings</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
     <style>
+
+        :root{
+            --charcoal:#221D19;
+            --charcoal-2:#2E2721;
+            --charcoal-3:#3A312A;
+            --cream:#F8F4EA;
+            --paper:#FFFFFF;
+            --ink:#2B2420;
+            --muted:#8A7F72;
+            --muted-2:#B4A995;
+            --ember:#D98A3D;
+            --ember-dark:#B86F2C;
+            --ember-tint:#FCEBD6;
+            --sage:#6F8A5E;
+            --sage-tint:#E7EEE2;
+            --rust:#A8442F;
+            --line:#E4DCC8;
+        }
+
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .num{
+            font-family:'IBM Plex Mono',monospace;
         }
 
         body {
-            background: #f6f7f9;
-            color: #222;
-            display: flex;
+            background: var(--cream);
+            color: var(--ink);
             min-height: 100vh;
+        }
+
+        .app{
+            display:grid;
+            grid-template-columns:236px 1fr;
+            min-height:100vh;
         }
 
         /* =========================
            SIDEBAR
         ========================= */
 
-        .sidebar {
-            width: 240px;
-            background: #171717;
-            color: white;
-
-            padding: 25px 18px;
-
-            position: fixed;
-            top: 0;
-            left: 0;
-            bottom: 0;
+        .sidebar{
+            background:var(--charcoal);
+            color:var(--cream);
+            padding:28px 22px;
+            display:flex;
+            flex-direction:column;
+            gap:36px;
+            min-height:100vh;
         }
 
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            text-align: center;
-
-            margin-bottom: 40px;
+        .brand{
+            display:flex;
+            flex-direction:column;
+            gap:2px;
+            border-bottom:1px solid rgba(248,244,234,.12);
+            padding-bottom:20px;
         }
 
-        .logo span {
-            color: #c89b3c;
+        .brand .mark{
+            font-family:'Fraunces',serif;
+            font-weight:700;
+            font-size:22px;
         }
 
-        .nav a {
-            display: block;
-
-            color: #ccc;
-            text-decoration: none;
-
-            padding: 13px 15px;
-            margin-bottom: 8px;
-
-            border-radius: 8px;
-
-            transition: 0.3s;
+        .brand .mark span{
+            color:var(--ember);
         }
 
-        .nav a:hover,
-        .nav a.active {
-            background: #c89b3c;
-            color: white;
+        .brand .sub{
+            font-size:11px;
+            letter-spacing:.14em;
+            text-transform:uppercase;
+            color:var(--muted-2);
         }
 
-        .logout {
-            position: absolute;
+        nav{
+            display:flex;
+            flex-direction:column;
+            gap:3px;
+        }
 
-            bottom: 25px;
-            left: 18px;
-            right: 18px;
+        .navlink{
+            display:flex;
+            align-items:center;
+            gap:12px;
+            padding:11px 12px;
+            border-radius:3px;
+            color:var(--muted-2);
+            text-decoration:none;
+            font-family:'Inter',sans-serif;
+            font-size:14px;
+            font-weight:500;
+            cursor:pointer;
+            transition:.2s;
+        }
+
+        .navlink:hover,
+        .navlink.active{
+            background:var(--charcoal-2);
+            color:var(--cream);
+        }
+
+        .navlink.active{
+            border-left:3px solid var(--ember);
+        }
+
+        .navlink svg{
+            width:17px;
+            height:17px;
+            flex-shrink:0;
+        }
+
+        .shift-card{
+            margin-top:auto;
+            background:var(--charcoal-2);
+            border:1px dashed rgba(248,244,234,.18);
+            border-radius:3px;
+            padding:14px;
+            font-family:'Inter',sans-serif;
+            font-size:12px;
+            color:var(--muted-2);
+            line-height:1.5;
+        }
+
+        .shift-card strong{
+            display:block;
+            color:var(--cream);
+            font-size:13px;
+            margin-bottom:3px;
         }
 
 
@@ -86,11 +156,10 @@
         ========================= */
 
         .main {
-            margin-left: 240px;
+            width: 100%;
+            max-width: 1250px;
 
-            width: calc(100% - 240px);
-
-            padding: 30px;
+            padding: 32px 40px 60px;
         }
 
 
@@ -102,25 +171,30 @@
             display: flex;
 
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-end;
 
             margin-bottom: 30px;
+            gap: 20px;
+            flex-wrap: wrap;
         }
 
         .topbar h1 {
+            font-family: 'Fraunces', serif;
+            font-weight: 600;
             font-size: 30px;
         }
 
         .topbar p {
-            color: #777;
-            margin-top: 6px;
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 5px;
         }
 
         .admin {
             display: flex;
             align-items: center;
 
-            gap: 12px;
+            gap: 10px;
         }
 
         .admin-info {
@@ -128,16 +202,14 @@
         }
 
         .admin-info p {
-            font-size: 12px;
-            margin-top: 3px;
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 2px;
         }
 
-        .avatar {
-            width: 45px;
-            height: 45px;
-
-            background: #c89b3c;
-
+        .avatar,
+        .big-avatar {
+            background: var(--charcoal);
             color: white;
 
             border-radius: 50%;
@@ -146,7 +218,12 @@
             justify-content: center;
             align-items: center;
 
-            font-weight: bold;
+            font-weight: 600;
+        }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
         }
 
 
@@ -159,7 +236,7 @@
 
             grid-template-columns: 220px 1fr;
 
-            gap: 25px;
+            gap: 20px;
         }
 
 
@@ -168,16 +245,14 @@
         ========================= */
 
         .settings-menu {
-            background: white;
+            background: var(--paper);
+            border: 1px solid var(--line);
 
-            border-radius: 12px;
+            border-radius: 0;
 
-            padding: 12px;
+            padding: 10px;
 
             height: fit-content;
-
-            box-shadow:
-                0 3px 12px rgba(0,0,0,0.06);
         }
 
         .settings-menu button {
@@ -191,24 +266,25 @@
 
             padding: 13px 14px;
 
-            border-radius: 8px;
+            border-radius: 0;
 
             cursor: pointer;
 
-            color: #555;
+            color: var(--muted);
 
-            margin-bottom: 5px;
+            margin-bottom: 3px;
 
-            font-size: 14px;
+            font-size: 13px;
+            font-weight: 500;
         }
 
         .settings-menu button:hover,
         .settings-menu button.active {
-            background: #f5ead3;
+            background: var(--ember-tint);
 
-            color: #a27624;
+            color: var(--ember-dark);
 
-            font-weight: bold;
+            font-weight: 600;
         }
 
 
@@ -217,14 +293,12 @@
         ========================= */
 
         .settings-content {
-            background: white;
+            background: var(--paper);
+            border: 1px solid var(--line);
 
-            border-radius: 12px;
+            border-radius: 0;
 
-            padding: 30px;
-
-            box-shadow:
-                0 3px 12px rgba(0,0,0,0.06);
+            padding: 26px;
         }
 
         .settings-section {
@@ -236,21 +310,22 @@
         }
 
         .section-title {
-            margin-bottom: 25px;
+            margin-bottom: 22px;
 
             padding-bottom: 18px;
 
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--line);
         }
 
         .section-title h2 {
-            font-size: 21px;
+            font-family: 'Fraunces', serif;
+            font-size: 19px;
         }
 
         .section-title p {
-            color: #888;
+            color: var(--muted);
 
-            font-size: 13px;
+            font-size: 12px;
 
             margin-top: 6px;
         }
@@ -263,14 +338,13 @@
         .form-grid {
             display: grid;
 
-            grid-template-columns:
-                1fr 1fr;
+            grid-template-columns: 1fr 1fr;
 
-            gap: 20px;
+            gap: 18px;
         }
 
         .form-group {
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
 
         .form-group.full {
@@ -282,9 +356,9 @@
 
             margin-bottom: 7px;
 
-            font-size: 13px;
+            font-size: 11px;
 
-            font-weight: bold;
+            font-weight: 600;
         }
 
         input,
@@ -292,21 +366,23 @@
         textarea {
             width: 100%;
 
-            padding: 12px;
+            padding: 11px;
 
-            border: 1px solid #ddd;
+            background: var(--cream);
+            border: 1px solid var(--line);
 
-            border-radius: 7px;
+            border-radius: 0;
 
             outline: none;
 
-            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
         }
 
         input:focus,
         select:focus,
         textarea:focus {
-            border-color: #c89b3c;
+            border-color: var(--ember);
         }
 
         textarea {
@@ -334,28 +410,17 @@
             width: 80px;
             height: 80px;
 
-            background: #c89b3c;
-
-            color: white;
-
-            border-radius: 50%;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
             font-size: 28px;
-
-            font-weight: bold;
         }
 
         .profile-info h3 {
+            font-family: 'Fraunces', serif;
             margin-bottom: 5px;
         }
 
         .profile-info p {
-            color: #888;
-            font-size: 13px;
+            color: var(--muted);
+            font-size: 12px;
         }
 
 
@@ -372,7 +437,7 @@
 
             padding: 18px 0;
 
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--line);
         }
 
         .option:last-child {
@@ -388,7 +453,7 @@
         }
 
         .option-info span {
-            color: #888;
+            color: var(--muted);
 
             font-size: 12px;
         }
@@ -414,7 +479,7 @@
 
             inset: 0;
 
-            background: #ccc;
+            background: var(--line);
 
             border-radius: 25px;
 
@@ -440,7 +505,7 @@
         }
 
         .switch input:checked + .slider {
-            background: #c89b3c;
+            background: var(--ember);
         }
 
         .switch input:checked + .slider:before {
@@ -457,13 +522,13 @@
 
             justify-content: flex-end;
 
-            gap: 10px;
+            gap: 8px;
 
             margin-top: 25px;
 
             padding-top: 20px;
 
-            border-top: 1px solid #eee;
+            border-top: 1px solid var(--line);
         }
 
         button {
@@ -471,27 +536,30 @@
 
             cursor: pointer;
 
-            border-radius: 7px;
+            border-radius: 0;
 
-            padding: 12px 20px;
+            padding: 11px 18px;
 
-            font-weight: bold;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
         }
 
         .save-btn {
-            background: #c89b3c;
+            background: var(--charcoal);
 
             color: white;
         }
 
         .save-btn:hover {
-            background: #a97f2f;
+            background: var(--ember-dark);
         }
 
         .cancel-btn {
-            background: #eee;
+            border: 1px solid var(--line);
+            background: var(--cream);
 
-            color: #333;
+            color: var(--ink);
         }
 
 
@@ -504,21 +572,22 @@
 
             padding: 20px;
 
-            border: 1px solid #f0caca;
+            border: 1px solid #E9CFC7;
 
-            background: #fff8f8;
+            background: #FBF2EF;
 
-            border-radius: 10px;
+            border-radius: 0;
         }
 
         .danger h3 {
-            color: #c0392b;
+            font-family: 'Fraunces', serif;
+            color: var(--rust);
 
             margin-bottom: 8px;
         }
 
         .danger p {
-            color: #777;
+            color: var(--muted);
 
             font-size: 13px;
 
@@ -526,7 +595,7 @@
         }
 
         .danger-btn {
-            background: #c0392b;
+            background: var(--rust);
 
             color: white;
         }
@@ -536,16 +605,31 @@
            RESPONSIVE
         ========================= */
 
-        @media (max-width: 900px) {
+        @media (max-width: 1000px) {
 
-            .sidebar {
-                width: 190px;
+            .app{
+                grid-template-columns:1fr;
             }
 
-            .main {
-                margin-left: 190px;
+            .sidebar{
+                min-height:auto;
+                flex-direction:row;
+                align-items:center;
+                overflow-x:auto;
+                padding:15px;
+            }
 
-                width: calc(100% - 190px);
+            .brand{
+                border:none;
+                padding:0;
+            }
+
+            nav{
+                flex-direction:row;
+            }
+
+            .shift-card{
+                display:none;
             }
 
             .settings-layout {
@@ -555,8 +639,7 @@
             .settings-menu {
                 display: grid;
 
-                grid-template-columns:
-                    repeat(3, 1fr);
+                grid-template-columns: repeat(3, 1fr);
 
                 gap: 5px;
             }
@@ -566,15 +649,7 @@
 
         @media (max-width: 650px) {
 
-            .sidebar {
-                display: none;
-            }
-
             .main {
-                margin-left: 0;
-
-                width: 100%;
-
                 padding: 15px;
             }
 
@@ -600,51 +675,119 @@
 <body>
 
 
+    <div class="app">
+
     <!-- =========================
          SIDEBAR
     ========================= -->
 
     <aside class="sidebar">
 
-        <div class="logo">
-            The <span>Marrow</span>
+        <div class="brand">
+
+            <div class="mark">
+                The <span>Marrow</span>
+            </div>
+
+            <div class="sub">
+                Admin Panel
+            </div>
+
         </div>
 
+        <nav>
 
-        <nav class="nav">
+            <a class="navlink" href="index.html">
 
-            <a href="home.html">
-                🏠 Dashboard
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="9"/>
+                    <rect x="14" y="3" width="7" height="5"/>
+                    <rect x="14" y="12" width="7" height="9"/>
+                    <rect x="3" y="16" width="7" height="5"/>
+                </svg>
+
+                Dashboard
+
             </a>
 
-            <a href="orders.html">
-                🛒 Orders
+            <a class="navlink" href="orders.html">
+
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 2h12"/>
+                    <path d="M6 2v20"/>
+                    <path d="M18 2v20"/>
+                    <path d="M6 7h12"/>
+                    <path d="M6 12h12"/>
+                    <path d="M6 17h12"/>
+                </svg>
+
+                Orders
+
             </a>
 
-            <a href="staff.html">
-                👥 Staff
+            <a class="navlink" href="staff.html">
+
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+
+                Staff
+
             </a>
 
-            <a href="menu.html">
-                🍽 Menu
+            <a class="navlink" href="menu.html">
+
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                </svg>
+
+                Menu
+
             </a>
 
-            <a href="statistics.html">
-                📊 Statistics
+            <a class="navlink" href="statistics.html">
+
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 3v18h18"/>
+                    <path d="M18 17V9"/>
+                    <path d="M13 17V5"/>
+                    <path d="M8 17v-3"/>
+                </svg>
+
+                Statistics
+
             </a>
 
-            <a href="settings.html" class="active">
-                ⚙ Settings
+            <a class="navlink active" href="settings.html">
+
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82"/>
+                </svg>
+
+                Settings
+
+            </a>
+
+            <a class="navlink" href="#" onclick="logout(); return false;">
+
+                Logout
+
             </a>
 
         </nav>
 
+        <div class="shift-card">
 
-        <div class="logout">
+            <strong>Evening service</strong>
 
-            <a href="login.html">
-                🚪 Logout
-            </a>
+            Doors at 5:00 PM ·
+
+            <span>6 staff scheduled tonight</span>
 
         </div>
 
@@ -680,7 +823,7 @@
 
                 <div class="admin-info">
 
-                    <strong>
+                    <strong id="topAdminName">
                         Admin
                     </strong>
 
@@ -690,8 +833,7 @@
 
                 </div>
 
-
-                <div class="avatar">
+                <div class="avatar" id="topAdminAvatar">
                     A
                 </div>
 
@@ -912,7 +1054,6 @@
 
                         </div>
 
-
                     </div>
 
 
@@ -962,13 +1103,16 @@
 
                     <div class="profile-header">
 
-                        <div class="big-avatar">
+                        <div
+                            class="big-avatar"
+                            id="profileAvatar"
+                        >
                             A
                         </div>
 
                         <div class="profile-info">
 
-                            <h3>
+                            <h3 id="profileName">
                                 Admin
                             </h3>
 
@@ -992,7 +1136,8 @@
 
                             <input
                                 type="text"
-                                value="Admin"
+                                id="firstName"
+                                placeholder="First name"
                             >
 
                         </div>
@@ -1006,7 +1151,8 @@
 
                             <input
                                 type="text"
-                                value="Manager"
+                                id="lastName"
+                                placeholder="Last name"
                             >
 
                         </div>
@@ -1020,7 +1166,8 @@
 
                             <input
                                 type="email"
-                                value="admin@themarrow.com"
+                                id="profileEmail"
+                                placeholder="Email"
                             >
 
                         </div>
@@ -1034,7 +1181,8 @@
 
                             <input
                                 type="tel"
-                                value="+213 555 000 000"
+                                id="profilePhone"
+                                placeholder="+213..."
                             >
 
                         </div>
@@ -1047,7 +1195,7 @@
 
                         <button
                             class="save-btn"
-                            onclick="showMessage('Profile updated successfully!')"
+                            onclick="saveProfile()"
                         >
                             Save Profile
                         </button>
@@ -1094,7 +1242,6 @@
 
                         </div>
 
-
                         <label class="switch">
 
                             <input
@@ -1122,7 +1269,6 @@
                             </span>
 
                         </div>
-
 
                         <label class="switch">
 
@@ -1152,7 +1298,6 @@
 
                         </div>
 
-
                         <label class="switch">
 
                             <input
@@ -1181,7 +1326,6 @@
 
                         </div>
 
-
                         <label class="switch">
 
                             <input
@@ -1208,7 +1352,6 @@
                             </span>
 
                         </div>
-
 
                         <label class="switch">
 
@@ -1240,7 +1383,7 @@
 
 
                 <!-- =========================
-                     ORDERS SETTINGS
+                     ORDERS
                 ========================= -->
 
                 <section
@@ -1262,7 +1405,6 @@
 
 
                     <div class="form-grid">
-
 
                         <div class="form-group">
 
@@ -1345,7 +1487,6 @@
 
                         </div>
 
-
                     </div>
 
 
@@ -1362,7 +1503,6 @@
                             </span>
 
                         </div>
-
 
                         <label class="switch">
 
@@ -1391,7 +1531,6 @@
                             </span>
 
                         </div>
-
 
                         <label class="switch">
 
@@ -1512,7 +1651,7 @@
 
                         <button
                             class="cancel-btn"
-                            onclick="window.location.href='login.html'"
+                            onclick="logout()"
                         >
                             Logout
                         </button>
@@ -1559,7 +1698,6 @@
 
                         </div>
 
-
                         <label class="switch">
 
                             <input
@@ -1588,7 +1726,6 @@
 
                         </div>
 
-
                         <label class="switch">
 
                             <input
@@ -1614,7 +1751,6 @@
                             Use them carefully.
                         </p>
 
-
                         <button
                             class="danger-btn"
                             onclick="clearDemoData()"
@@ -1634,9 +1770,14 @@
 
     </main>
 
+    </div>
+
 
 
     <script>
+
+        const API_URL = "http://localhost:5000/api/users";
+
 
         /* =========================
            SHOW SETTINGS TAB
@@ -1648,9 +1789,7 @@
                 document.querySelectorAll(".settings-section");
 
             sections.forEach(section => {
-
                 section.classList.remove("active");
-
             });
 
 
@@ -1658,9 +1797,7 @@
                 document.querySelectorAll(".tab-btn");
 
             buttons.forEach(btn => {
-
                 btn.classList.remove("active");
-
             });
 
 
@@ -1676,23 +1813,342 @@
 
 
         /* =========================
-           SAVE RESTAURANT
+           LOAD ADMIN PROFILE
+        ========================= */
+
+        async function loadProfile() {
+
+            const userId =
+                localStorage.getItem("userId");
+
+
+            console.log("Logged user ID:", userId);
+
+
+            if (!userId) {
+
+                alert(
+                    "No logged-in user found. Please login again."
+                );
+
+                return;
+            }
+
+
+            try {
+
+                const response = await fetch(
+                    `${API_URL}/${userId}`
+                );
+
+
+                const data = await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Failed to load profile"
+                    );
+
+                }
+
+
+                console.log("User data:", data);
+
+
+                // Get full name
+                const fullName =
+                    data.name || "";
+
+
+                // Separate first and last name
+                const nameParts =
+                    fullName.split(" ");
+
+
+                document
+                    .getElementById("firstName")
+                    .value =
+                    nameParts[0] || "";
+
+
+                document
+                    .getElementById("lastName")
+                    .value =
+                    nameParts
+                        .slice(1)
+                        .join(" ") || "";
+
+
+                // Email
+                document
+                    .getElementById("profileEmail")
+                    .value =
+                    data.email || "";
+
+
+                // Profile name
+                document
+                    .getElementById("profileName")
+                    .textContent =
+                    fullName || "Admin";
+
+
+                // Profile avatar
+                document
+                    .getElementById("profileAvatar")
+                    .textContent =
+                    fullName
+                        ? fullName
+                            .charAt(0)
+                            .toUpperCase()
+                        : "A";
+
+
+                // Topbar name
+                document
+                    .getElementById("topAdminName")
+                    .textContent =
+                    fullName || "Admin";
+
+
+                // Topbar avatar
+                document
+                    .getElementById("topAdminAvatar")
+                    .textContent =
+                    fullName
+                        ? fullName
+                            .charAt(0)
+                            .toUpperCase()
+                        : "A";
+
+
+                // Phone if it exists
+                if (data.phone) {
+
+                    document
+                        .getElementById("profilePhone")
+                        .value =
+                        data.phone;
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error loading profile:",
+                    error
+                );
+
+                alert(
+                    "Unable to load profile."
+                );
+
+            }
+
+        }
+
+
+
+        /* =========================
+           SAVE ADMIN PROFILE
+        ========================= */
+
+        async function saveProfile() {
+
+            const userId =
+                localStorage.getItem("userId");
+
+
+            if (!userId) {
+
+                alert(
+                    "User not found. Please login again."
+                );
+
+                return;
+            }
+
+
+            const firstName =
+                document
+                    .getElementById("firstName")
+                    .value
+                    .trim();
+
+
+            const lastName =
+                document
+                    .getElementById("lastName")
+                    .value
+                    .trim();
+
+
+            const email =
+                document
+                    .getElementById("profileEmail")
+                    .value
+                    .trim();
+
+
+            if (!firstName) {
+
+                alert(
+                    "Please enter your first name."
+                );
+
+                return;
+            }
+
+
+            if (!email) {
+
+                alert(
+                    "Please enter your email."
+                );
+
+                return;
+            }
+
+
+            const fullName =
+                `${firstName} ${lastName}`.trim();
+
+
+            try {
+
+                const response = await fetch(
+                    `${API_URL}/${userId}`,
+                    {
+                        method: "PUT",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            name: fullName,
+
+                            email: email
+
+                        })
+
+                    }
+                );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Failed to update profile"
+                    );
+
+                }
+
+
+                // Update displayed information
+
+                document
+                    .getElementById("profileName")
+                    .textContent =
+                    fullName;
+
+
+                document
+                    .getElementById("profileAvatar")
+                    .textContent =
+                    fullName
+                        .charAt(0)
+                        .toUpperCase();
+
+
+                document
+                    .getElementById("topAdminName")
+                    .textContent =
+                    fullName;
+
+
+                document
+                    .getElementById("topAdminAvatar")
+                    .textContent =
+                    fullName
+                        .charAt(0)
+                        .toUpperCase();
+
+
+                // Save updated information locally
+                const user =
+                    JSON.parse(
+                        localStorage.getItem("user") ||
+                        "{}"
+                    );
+
+
+                user.id = userId;
+
+                user.name = fullName;
+
+                user.email = email;
+
+
+                localStorage.setItem(
+                    "user",
+                    JSON.stringify(user)
+                );
+
+
+                alert(
+                    "Profile updated successfully!"
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error updating profile:",
+                    error
+                );
+
+                alert(
+                    error.message ||
+                    "Unable to update profile."
+                );
+
+            }
+
+        }
+
+
+
+        /* =========================
+           RESTAURANT
         ========================= */
 
         function saveRestaurant() {
 
             const name =
                 document
-                .getElementById("restaurantName")
-                .value;
+                    .getElementById("restaurantName")
+                    .value;
 
 
             if (!name.trim()) {
 
-                alert("Please enter the restaurant name.");
+                alert(
+                    "Please enter the restaurant name."
+                );
 
                 return;
-
             }
 
 
@@ -1703,26 +2159,24 @@
         }
 
 
-
-        /* =========================
-           RESET RESTAURANT
-        ========================= */
-
         function resetRestaurant() {
 
             document
                 .getElementById("restaurantName")
-                .value = "The Marrow";
+                .value =
+                "The Marrow";
 
 
             document
                 .getElementById("restaurantPhone")
-                .value = "+213 555 123 456";
+                .value =
+                "+213 555 123 456";
 
 
             document
                 .getElementById("restaurantEmail")
-                .value = "contact@themarrow.com";
+                .value =
+                "contact@themarrow.com";
 
         }
 
@@ -1736,20 +2190,20 @@
 
             const current =
                 document
-                .getElementById("currentPassword")
-                .value;
+                    .getElementById("currentPassword")
+                    .value;
 
 
             const newPassword =
                 document
-                .getElementById("newPassword")
-                .value;
+                    .getElementById("newPassword")
+                    .value;
 
 
             const confirm =
                 document
-                .getElementById("confirmPassword")
-                .value;
+                    .getElementById("confirmPassword")
+                    .value;
 
 
             if (!current || !newPassword || !confirm) {
@@ -1759,7 +2213,6 @@
                 );
 
                 return;
-
             }
 
 
@@ -1770,7 +2223,6 @@
                 );
 
                 return;
-
             }
 
 
@@ -1781,7 +2233,6 @@
                 );
 
                 return;
-
             }
 
 
@@ -1833,15 +2284,30 @@
 
 
             if (!confirmation) {
-
                 return;
-
             }
 
 
             alert(
                 "Demo data has been reset."
             );
+
+        }
+
+
+
+        /* =========================
+           LOGOUT
+        ========================= */
+
+        function logout() {
+
+            localStorage.removeItem("userId");
+
+            localStorage.removeItem("user");
+
+            window.location.href =
+                "../login.html";
 
         }
 
@@ -1855,7 +2321,7 @@
             .getElementById("maintenanceMode")
             .addEventListener(
                 "change",
-                function() {
+                function () {
 
                     if (this.checked) {
 
@@ -1873,6 +2339,21 @@
 
                 }
             );
+
+
+
+        /* =========================
+           PAGE LOAD
+        ========================= */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                loadProfile();
+
+            }
+        );
 
     </script>
 

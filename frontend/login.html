@@ -191,12 +191,14 @@
         // ==========================================
         // ROLE → PAGE
         // ==========================================
-const dashboardByRole = {
-    admin: "/frontend/admen/home.html",
-    chef: "/frontend/chef/kitchen.html",
-    server: "/frontend/server/waiter.html",
-    cashier: "/frontend/cashier/cashier.html"
-};
+
+        const dashboardByRole = {
+            admin: "/frontend/admen/index.html",
+            chef: "/frontend/chef/kitchen.html",
+            server: "/frontend/server/waiter.html",
+            cashier: "/frontend/cashier/cashier.html"
+        };
+
 
         // ==========================================
         // LOGIN
@@ -293,6 +295,30 @@ const dashboardByRole = {
 
 
                 // ==================================
+                // CHECK USER ID
+                // ==================================
+
+                if (!data.user.id) {
+
+                    console.error(
+                        "User ID is missing from login response:",
+                        data.user
+                    );
+
+                    messageEl.textContent =
+                        "User ID is missing.";
+
+                    messageEl.className =
+                        "message error";
+
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "Punch In";
+
+                    return;
+                }
+
+
+                // ==================================
                 // GET ROLE
                 // ==================================
 
@@ -317,11 +343,36 @@ const dashboardByRole = {
 
                 // ==================================
                 // SAVE USER
-                // ==================================
+                // ==========================================
 
                 localStorage.setItem(
                     "user",
                     JSON.stringify(data.user)
+                );
+
+
+                // ==========================================
+                // SAVE USER ID
+                // ==========================================
+
+                localStorage.setItem(
+                    "userId",
+                    data.user.id
+                );
+
+
+                // ==================================
+                // DEBUG
+                // ==================================
+
+                console.log(
+                    "Logged in user:",
+                    data.user
+                );
+
+                console.log(
+                    "Saved userId:",
+                    localStorage.getItem("userId")
                 );
 
 
@@ -394,6 +445,3 @@ const dashboardByRole = {
 
 </body>
 </html>
-
-
-  

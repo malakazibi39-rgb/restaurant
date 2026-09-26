@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,249 +13,229 @@
 
     <title>Shopping Cart</title>
 
-
     <style>
 
         * {
             box-sizing: border-box;
-
             margin: 0;
-
             padding: 0;
-
             font-family: Arial, sans-serif;
         }
 
-
         body {
-
             background: #f7f7f7;
-
             color: #333;
         }
 
-
         header {
-
             background: #222;
-
             color: white;
-
             padding: 20px 40px;
-
             display: flex;
-
             justify-content: space-between;
-
             align-items: center;
         }
 
-
         header a {
-
             color: white;
-
             text-decoration: none;
-
             background: #ff9800;
-
             padding: 10px 18px;
-
             border-radius: 8px;
         }
 
-
         .container {
-
             max-width: 1000px;
-
             margin: 40px auto;
-
             padding: 20px;
         }
 
-
         h2 {
-
             text-align: center;
-
             margin-bottom: 30px;
         }
 
+        .table-info {
+            background: #fff3e0;
+            border: 1px solid #ffcc80;
+            padding: 18px 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .table-number {
+            color: #e65100;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .table-warning {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+
+        .table-warning a {
+            display: inline-block;
+            margin-top: 10px;
+            color: #ff9800;
+            text-decoration: none;
+        }
 
         .cart-item {
-
             background: white;
-
             margin-bottom: 15px;
-
             padding: 20px;
-
             border-radius: 10px;
-
             display: flex;
-
             justify-content: space-between;
-
             align-items: center;
-
+            gap: 15px;
             box-shadow:
                 0 3px 10px
                 rgba(0,0,0,0.08);
         }
 
-
         .item-info {
-
             display: flex;
-
             align-items: center;
-
             gap: 15px;
+            flex: 1;
         }
-
 
         .item-image {
-
             width: 70px;
-
             height: 70px;
-
             display: flex;
-
             align-items: center;
-
             justify-content: center;
-
             font-size: 40px;
-
             background: #eee;
-
             border-radius: 10px;
+            overflow: hidden;
         }
 
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
         .item-name {
-
             font-size: 18px;
-
             font-weight: bold;
         }
 
-
         .item-price {
-
             color: #777;
-
             margin-top: 5px;
         }
 
-
         .quantity {
-
             display: flex;
-
             align-items: center;
-
             gap: 10px;
         }
 
-
         .quantity button {
-
             border: none;
-
             background: #ff9800;
-
             color: white;
-
             width: 32px;
-
             height: 32px;
-
             border-radius: 5px;
-
             cursor: pointer;
-
             font-size: 18px;
         }
 
-
-        .remove {
-
-            border: none;
-
-            background: #e53935;
-
-            color: white;
-
-            padding: 8px 12px;
-
-            border-radius: 5px;
-
-            cursor: pointer;
-
+        .quantity button:hover {
+            background: #f57c00;
         }
 
+        .remove {
+            border: none;
+            background: #e53935;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .remove:hover {
+            background: #c62828;
+        }
 
         .summary {
-
             background: white;
-
             padding: 25px;
-
             border-radius: 10px;
-
             margin-top: 25px;
-
             box-shadow:
                 0 3px 10px
                 rgba(0,0,0,0.08);
         }
 
-
         .total {
-
             font-size: 24px;
-
             font-weight: bold;
-
             margin-bottom: 20px;
         }
 
-
         .checkout {
-
             display: block;
-
             width: 100%;
-
             text-align: center;
-
             background: #ff9800;
-
             color: white;
-
             text-decoration: none;
-
             padding: 14px;
-
             border-radius: 8px;
-
             font-weight: bold;
-
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
         }
 
+        .checkout:hover {
+            background: #f57c00;
+        }
 
         .empty {
-
             text-align: center;
-
             padding: 50px;
-
             background: white;
-
             border-radius: 10px;
+        }
+
+        .empty a {
+            display: inline-block;
+            margin-top: 15px;
+            color: #ff9800;
+            text-decoration: none;
+        }
+
+        @media (max-width: 700px) {
+
+            header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .cart-item {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .quantity {
+                justify-content: center;
+            }
+
+            .remove {
+                width: 100%;
+            }
+
         }
 
     </style>
@@ -280,7 +261,15 @@
 
     <h2>Your Order</h2>
 
+
+    <div
+        id="tableInfo"
+        class="table-info"
+    ></div>
+
+
     <div id="cartContainer"></div>
+
 
     <div
         id="summary"
@@ -291,20 +280,19 @@
         <div class="total">
 
             Total:
-            <span id="totalPrice">
-                0.00
-            </span>
+            <span id="totalPrice">0.00</span>
             DA
 
         </div>
 
 
-        <a
-            href="customer-order.html"
+        <button
+            id="checkoutButton"
             class="checkout"
+            onclick="goToOrder()"
         >
             Proceed to Order →
-        </a>
+        </button>
 
     </div>
 
@@ -314,26 +302,79 @@
 <script>
 
 
+// =====================================================
+// LOAD CART
+// =====================================================
+
 let cart =
-    JSON.parse(localStorage.getItem("cart")) || [];
+    JSON.parse(
+        localStorage.getItem("cart")
+    ) || [];
 
 
-// ======================================
+// =====================================================
+// DISPLAY TABLE NUMBER
+// =====================================================
+
+function displayTableNumber() {
+
+    const tableInfo =
+        document.getElementById("tableInfo");
+
+    const tableNumber =
+        localStorage.getItem("tableNumber");
+
+
+    if (
+        tableNumber &&
+        Number(tableNumber) > 0
+    ) {
+
+        tableInfo.innerHTML = `
+
+            🪑 Your Table Number:
+
+            <span class="table-number">
+                ${escapeHtml(tableNumber)}
+            </span>
+
+        `;
+
+    } else {
+
+        tableInfo.innerHTML = `
+
+            <div class="table-warning">
+
+                ⚠️ No table number selected.
+
+            </div>
+
+            <a href="customer-menu.html">
+
+                ← Go back to the menu
+                and enter your table number
+
+            </a>
+
+        `;
+
+    }
+
+}
+
+
+// =====================================================
 // DISPLAY CART
-// ======================================
+// =====================================================
 
 function displayCart() {
 
     const container =
-        document.getElementById(
-            "cartContainer"
-        );
-
+        document.getElementById("cartContainer");
 
     const summary =
-        document.getElementById(
-            "summary"
-        );
+        document.getElementById("summary");
 
 
     if (
@@ -345,9 +386,9 @@ function displayCart() {
 
             <div class="empty">
 
-                <h3>Your cart is empty 🛒</h3>
-
-                <br>
+                <h3>
+                    Your cart is empty 🛒
+                </h3>
 
                 <a href="customer-menu.html">
                     Go to Menu
@@ -357,17 +398,14 @@ function displayCart() {
 
         `;
 
-
-        summary.style.display =
-            "none";
-
+        summary.style.display = "none";
 
         return;
+
     }
 
 
     container.innerHTML = "";
-
 
     let total = 0;
 
@@ -378,7 +416,6 @@ function displayCart() {
             const quantity =
                 Number(item.quantity) || 1;
 
-
             const price =
                 Number(item.price) || 0;
 
@@ -388,8 +425,8 @@ function displayCart() {
 
 
             const itemId =
-                item.id ||
                 item.menu_item_id ||
+                item.id ||
                 null;
 
 
@@ -401,27 +438,70 @@ function displayCart() {
                 "cart-item";
 
 
+            let imageContent = "🍽️";
+
+
+            if (item.image) {
+
+                if (
+                    String(item.image).startsWith("http") ||
+                    String(item.image).startsWith("/")
+                ) {
+
+                    imageContent = `
+
+                        <img
+                            src="${escapeHtml(item.image)}"
+                            alt="${escapeHtml(item.name)}"
+                        >
+
+                    `;
+
+                } else {
+
+                    imageContent =
+                        escapeHtml(item.image);
+
+                }
+
+            }
+
+
             div.innerHTML = `
 
                 <div class="item-info">
 
                     <div class="item-image">
-                        ${item.image || "🍽️"}
+
+                        ${imageContent}
+
                     </div>
 
                     <div>
 
                         <div class="item-name">
+
                             ${escapeHtml(item.name)}
+
                         </div>
 
                         <div class="item-price">
+
                             ${price.toFixed(2)} DA
+
                         </div>
 
-                        <div style="font-size:12px;color:#999;">
+                        <div
+                            style="
+                                font-size:12px;
+                                color:#999;
+                                margin-top:4px;
+                            "
+                        >
+
                             Product ID:
                             ${itemId || "Missing"}
+
                         </div>
 
                     </div>
@@ -475,34 +555,39 @@ function displayCart() {
     summary.style.display =
         "block";
 
-
-    console.log(
-        "🛒 Current cart:",
-        cart
-    );
-
 }
 
 
-// ======================================
-// INCREASE
-// ======================================
+// =====================================================
+// INCREASE QUANTITY
+// =====================================================
 
 function increaseQuantity(index) {
 
+    if (!cart[index]) {
+        return;
+    }
+
+
     cart[index].quantity =
         Number(cart[index].quantity || 1) + 1;
+
 
     saveCart();
 
 }
 
 
-// ======================================
-// DECREASE
-// ======================================
+// =====================================================
+// DECREASE QUANTITY
+// =====================================================
 
 function decreaseQuantity(index) {
+
+    if (!cart[index]) {
+        return;
+    }
+
 
     const quantity =
         Number(cart[index].quantity || 1);
@@ -513,6 +598,7 @@ function decreaseQuantity(index) {
         removeItem(index);
 
         return;
+
     }
 
 
@@ -525,11 +611,21 @@ function decreaseQuantity(index) {
 }
 
 
-// ======================================
-// REMOVE
-// ======================================
+// =====================================================
+// REMOVE ITEM
+// =====================================================
 
 function removeItem(index) {
+
+    if (
+        index < 0 ||
+        index >= cart.length
+    ) {
+
+        return;
+
+    }
+
 
     cart.splice(index, 1);
 
@@ -538,9 +634,9 @@ function removeItem(index) {
 }
 
 
-// ======================================
-// SAVE
-// ======================================
+// =====================================================
+// SAVE CART
+// =====================================================
 
 function saveCart() {
 
@@ -554,47 +650,102 @@ function saveCart() {
 }
 
 
-// ======================================
-// ESCAPE
-// ======================================
+// =====================================================
+// GO TO ORDER
+// =====================================================
 
-function escapeHtml(text) {
+function goToOrder() {
 
-    return String(text)
+    const tableNumber =
+        localStorage.getItem("tableNumber");
 
-        .replace(
-            /&/g,
-            "&amp;"
-        )
 
-        .replace(
-            /</g,
-            "&lt;"
-        )
+    // IMPORTANT:
+    // Verify table number before continuing
 
-        .replace(
-            />/g,
-            "&gt;"
-        )
+    if (
+        !tableNumber ||
+        Number(tableNumber) <= 0
+    ) {
 
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
+        alert(
+            "🪑 Please enter your table number first."
         );
+
+
+        window.location.href =
+            "customer-menu.html";
+
+        return;
+
+    }
+
+
+    if (
+        !Array.isArray(cart) ||
+        cart.length === 0
+    ) {
+
+        alert(
+            "Your cart is empty."
+        );
+
+        return;
+
+    }
+
+
+    // Save as string
+
+    localStorage.setItem(
+        "tableNumber",
+        String(Number(tableNumber))
+    );
+
+
+    console.log(
+        "🪑 Table number:",
+        Number(tableNumber)
+    );
+
+
+    console.log(
+        "🛒 Cart:",
+        cart
+    );
+
+
+    window.location.href =
+        "customer-order.html";
 
 }
 
 
-// ======================================
+// =====================================================
+// ESCAPE HTML
+// =====================================================
+
+function escapeHtml(text) {
+
+    return String(text ?? "")
+
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+// =====================================================
 // START
-// ======================================
+// =====================================================
+
+displayTableNumber();
 
 displayCart();
+
 
 </script>
 

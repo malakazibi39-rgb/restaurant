@@ -1,419 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tables - Restaurant Management</title>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
-        body {
-            background: #f5f6fa;
-            color: #2d3436;
-        }
-
-        .layout {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* SIDEBAR */
-
-        .sidebar {
-            width: 250px;
-            background: #1f2937;
-            color: white;
-            padding: 20px 15px;
-            position: fixed;
-            height: 100vh;
-        }
-
-        .logo {
-            text-align: center;
-            font-size: 22px;
-            font-weight: bold;
-            margin-bottom: 35px;
-        }
-
-        .logo span {
-            color: #3498db;
-        }
-
-        .profile {
-            text-align: center;
-            padding-bottom: 25px;
-            border-bottom: 1px solid #374151;
-            margin-bottom: 20px;
-        }
-
-        .avatar {
-            width: 65px;
-            height: 65px;
-            border-radius: 50%;
-            background: #3498db;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: auto;
-            font-size: 28px;
-        }
-
-        .profile h3 {
-            margin-top: 10px;
-        }
-
-        .profile p {
-            color: #9ca3af;
-            font-size: 13px;
-        }
-
-        .menu a {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: #d1d5db;
-            text-decoration: none;
-            padding: 13px 15px;
-            border-radius: 8px;
-            margin-bottom: 7px;
-        }
-
-        .menu a:hover,
-        .menu a.active {
-            background: #3498db;
-            color: white;
-        }
-
-        .logout {
-            position: absolute;
-            bottom: 20px;
-            left: 15px;
-            right: 15px;
-        }
-
-        .logout a {
-            color: #ff7675;
-        }
-
-        /* MAIN */
-
-        .main {
-            margin-left: 250px;
-            width: calc(100% - 250px);
-        }
-
-        .topbar {
-            height: 70px;
-            background: white;
-            padding: 0 30px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid #eee;
-        }
-
-        .date {
-            color: #777;
-            font-size: 14px;
-        }
-
-        .content {
-            padding: 30px;
-        }
-
-        /* STATS */
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-
-        .stat {
-            background: white;
-            padding: 22px;
-            border-radius: 12px;
-        }
-
-        .stat-icon {
-            font-size: 27px;
-        }
-
-        .stat h3 {
-            font-size: 28px;
-            margin: 8px 0;
-        }
-
-        .stat p {
-            color: #777;
-            font-size: 14px;
-        }
-
-        /* TOOLBAR */
-
-        .toolbar {
-            background: white;
-            padding: 18px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .filters {
-            display: flex;
-            gap: 8px;
-        }
-
-        .filter {
-            border: none;
-            padding: 10px 17px;
-            border-radius: 7px;
-            cursor: pointer;
-            background: #f1f2f6;
-            font-weight: bold;
-        }
-
-        .filter.active {
-            background: #3498db;
-            color: white;
-        }
-
-        .search {
-            padding: 10px 15px;
-            width: 230px;
-            border: 1px solid #ddd;
-            border-radius: 7px;
-            outline: none;
-        }
-
-        /* TABLE GRID */
-
-        .tables-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-
-        .table-card {
-            background: white;
-            border-radius: 12px;
-            padding: 22px;
-            text-align: center;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
-            border-top: 5px solid;
-        }
-
-        .table-card.free {
-            border-color: #27ae60;
-        }
-
-        .table-card.occupied {
-            border-color: #e74c3c;
-        }
-
-        .table-card.reserved {
-            border-color: #f39c12;
-        }
-
-        .table-number {
-            font-size: 27px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .table-icon {
-            font-size: 55px;
-            margin: 10px 0;
-        }
-
-        .capacity {
-            color: #777;
-            font-size: 13px;
-            margin-bottom: 10px;
-        }
-
-        .table-status {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .free .table-status {
-            background: #d1fae5;
-            color: #047857;
-        }
-
-        .occupied .table-status {
-            background: #fee2e2;
-            color: #b91c1c;
-        }
-
-        .reserved .table-status {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .customer-name {
-            color: #555;
-            font-size: 13px;
-            margin-bottom: 15px;
-            min-height: 18px;
-        }
-
-        .actions {
-            display: flex;
-            justify-content: center;
-            gap: 7px;
-        }
-
-        .btn {
-            border: none;
-            padding: 8px 11px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .view {
-            background: #f1f2f6;
-        }
-
-        .occupy {
-            background: #e74c3c;
-            color: white;
-        }
-
-        .free-btn {
-            background: #27ae60;
-            color: white;
-        }
-
-        .reserve {
-            background: #f39c12;
-            color: white;
-        }
-
-        /* MODAL */
-
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,.5);
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-        }
-
-        .modal-content {
-            background: white;
-            width: 450px;
-            max-width: 90%;
-            padding: 25px;
-            border-radius: 12px;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-
-        .close {
-            font-size: 28px;
-            cursor: pointer;
-        }
-
-        .detail {
-            padding: 13px 0;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .detail span:first-child {
-            color: #777;
-        }
-
-        /* RESPONSIVE */
-
-        @media(max-width: 1100px) {
-
-            .tables-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media(max-width: 800px) {
-
-            .tables-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media(max-width: 700px) {
-
-            .sidebar {
-                width: 70px;
-                padding: 15px 8px;
-            }
-
-            .logo span,
-            .profile h3,
-            .profile p,
-            .menu span {
-                display: none;
-            }
-
-            .profile {
-                border: none;
-            }
-
-            .main {
-                margin-left: 70px;
-                width: calc(100% - 70px);
-            }
-
-            .content {
-                padding: 15px;
-            }
-
-            .toolbar {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .filters {
-                width: 100%;
-                overflow-x: auto;
-            }
-
-            .search {
-                width: 100%;
-            }
-
-            .tables-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tables - Restaurant Management</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
+body{background:#f5f6fa;color:#2d3436;}
+.layout{display:flex;min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{width:250px;background:#1f2937;color:white;padding:20px 15px;position:fixed;height:100vh;}
+.logo{text-align:center;font-size:22px;font-weight:bold;margin-bottom:35px;}
+.logo span{color:#3498db;}
+.profile{text-align:center;padding-bottom:25px;border-bottom:1px solid #374151;margin-bottom:20px;}
+.avatar{width:65px;height:65px;border-radius:50%;background:#3498db;display:flex;align-items:center;justify-content:center;margin:auto;font-size:28px;}
+.profile h3{margin-top:10px;}
+.profile p{color:#9ca3af;font-size:13px;}
+.menu a{display:flex;align-items:center;gap:12px;color:#d1d5db;text-decoration:none;padding:13px 15px;border-radius:8px;margin-bottom:7px;}
+.menu a:hover,.menu a.active{background:#3498db;color:white;}
+.logout{position:absolute;bottom:20px;left:15px;right:15px;}
+.logout a{color:#ff7675;text-decoration:none;}
+
+/* MAIN */
+.main{margin-left:250px;width:calc(100% - 250px);}
+.topbar{height:70px;background:white;padding:0 30px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee;}
+.date{color:#777;font-size:14px;}
+.content{padding:30px;}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:25px;}
+.stat{background:white;padding:22px;border-radius:12px;}
+.stat-icon{font-size:27px;}
+.stat h3{font-size:28px;margin:8px 0;}
+.stat p{color:#777;font-size:14px;}
+
+/* TOOLBAR */
+.toolbar{background:white;padding:18px;border-radius:12px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;}
+.filters{display:flex;gap:8px;}
+.filter{border:none;padding:10px 17px;border-radius:7px;cursor:pointer;background:#f1f2f6;font-weight:bold;}
+.filter.active{background:#3498db;color:white;}
+.search{padding:10px 15px;width:230px;border:1px solid #ddd;border-radius:7px;outline:none;}
+
+/* TABLE GRID */
+.tables-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+.table-card{background:white;border-radius:12px;padding:22px;text-align:center;box-shadow:0 3px 12px rgba(0,0,0,0.05);border-top:5px solid;}
+.table-card.free{border-color:#27ae60;}
+.table-card.occupied{border-color:#e74c3c;}
+.table-card.reserved{border-color:#f39c12;}
+.table-number{font-size:27px;font-weight:bold;margin-bottom:10px;}
+.table-icon{font-size:55px;margin:10px 0;}
+.capacity{color:#777;font-size:13px;margin-bottom:10px;}
+.table-status{display:inline-block;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:bold;margin-bottom:15px;}
+.free .table-status{background:#d1fae5;color:#047857;}
+.occupied .table-status{background:#fee2e2;color:#b91c1c;}
+.reserved .table-status{background:#fef3c7;color:#92400e;}
+.customer-name{color:#555;font-size:13px;margin-bottom:15px;min-height:18px;}
+.actions{display:flex;justify-content:center;gap:7px;}
+.btn{border:none;padding:8px 11px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:bold;}
+.view{background:#f1f2f6;}
+.occupy{background:#e74c3c;color:white;}
+.free-btn{background:#27ae60;color:white;}
+.reserve{background:#f39c12;color:white;}
+
+/* MODAL */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);align-items:center;justify-content:center;z-index:100;}
+.modal-content{background:white;width:450px;max-width:90%;padding:25px;border-radius:12px;}
+.modal-header{display:flex;justify-content:space-between;margin-bottom:20px;}
+.close{font-size:28px;cursor:pointer;}
+.detail{padding:13px 0;border-bottom:1px solid #eee;display:flex;justify-content:space-between;}
+.detail span:first-child{color:#777;}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+    .tables-grid{grid-template-columns:repeat(3,1fr);}
+    .stats{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:800px){
+    .tables-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:700px){
+    .sidebar{width:70px;padding:15px 8px;}
+    .logo span,.profile h3,.profile p,.menu span{display:none;}
+    .profile{border:none;}
+    .main{margin-left:70px;width:calc(100% - 70px);}
+    .content{padding:15px;}
+    .toolbar{flex-direction:column;gap:15px;}
+    .filters{width:100%;overflow-x:auto;}
+    .search{width:100%;}
+    .tables-grid{grid-template-columns:1fr;}
+}
+</style>
 </head>
 
 <body>
@@ -421,746 +99,218 @@
 <div class="layout">
 
     <!-- SIDEBAR -->
-
     <aside class="sidebar">
 
-        <div class="logo">
-            🍽️ <span>Restaurant</span>
-        </div>
+        <div class="logo">🍽️ <span>Restaurant</span></div>
 
         <div class="profile">
-
-            <div class="avatar">
-                🧑‍🍳
-            </div>
-
-            <h3>John Carter</h3>
-
-            <p>
-                Waiter
-            </p>
-
+            <div class="avatar">🧑‍🍳</div>
+            <h3 id="waiterName">John Carter</h3>
+            <p>Waiter</p>
         </div>
 
         <nav class="menu">
-
-            <a href="waiter.html">
-                🏠
-                <span>Dashboard</span>
-            </a>
-
-            <a href="waiter-orders.html">
-                📋
-                <span>Orders</span>
-            </a>
-
-            <a href="waiter-tables.html" class="active">
-                🪑
-                <span>Tables</span>
-            </a>
-
+            <a href="waiter.html">🏠 <span>Dashboard</span></a>
+            <a href="waiter-orders.html">📋 <span>Orders</span></a>
+            <a href="waiter-tables.html" class="active">🪑 <span>Tables</span></a>
         </nav>
 
-        <div class="logout">
-
-            <a href="login.html">
-                🚪
-                <span>Logout</span>
-            </a>
-
+        <div class="logout menu">
+            <a href="#" onclick="logout(event)">🚪 <span>Logout</span></a>
         </div>
 
     </aside>
 
 
     <!-- MAIN -->
-
     <main class="main">
 
         <header class="topbar">
-
             <h2>Restaurant Tables</h2>
-
-            <div
-                class="date"
-                id="date">
-            </div>
-
+            <div class="date" id="date"></div>
         </header>
-
 
         <section class="content">
 
             <!-- STATS -->
-
             <div class="stats">
-
-                <div class="stat">
-
-                    <div class="stat-icon">
-                        🪑
-                    </div>
-
-                    <h3 id="total">
-                        12
-                    </h3>
-
-                    <p>
-                        Total Tables
-                    </p>
-
-                </div>
-
-
-                <div class="stat">
-
-                    <div class="stat-icon">
-                        🟢
-                    </div>
-
-                    <h3 id="free">
-                        4
-                    </h3>
-
-                    <p>
-                        Free
-                    </p>
-
-                </div>
-
-
-                <div class="stat">
-
-                    <div class="stat-icon">
-                        🔴
-                    </div>
-
-                    <h3 id="occupied">
-                        6
-                    </h3>
-
-                    <p>
-                        Occupied
-                    </p>
-
-                </div>
-
-
-                <div class="stat">
-
-                    <div class="stat-icon">
-                        🟡
-                    </div>
-
-                    <h3 id="reserved">
-                        2
-                    </h3>
-
-                    <p>
-                        Reserved
-                    </p>
-
-                </div>
-
+                <div class="stat"><div class="stat-icon">🪑</div><h3 id="total">12</h3><p>Total Tables</p></div>
+                <div class="stat"><div class="stat-icon">🟢</div><h3 id="free">4</h3><p>Free</p></div>
+                <div class="stat"><div class="stat-icon">🔴</div><h3 id="occupied">6</h3><p>Occupied</p></div>
+                <div class="stat"><div class="stat-icon">🟡</div><h3 id="reserved">2</h3><p>Reserved</p></div>
             </div>
 
-
             <!-- TOOLBAR -->
-
             <div class="toolbar">
 
                 <div class="filters">
-
-                    <button
-                        class="filter active"
-                        onclick="filterTables('all',this)">
-                        All
-                    </button>
-
-                    <button
-                        class="filter"
-                        onclick="filterTables('free',this)">
-                        Free
-                    </button>
-
-                    <button
-                        class="filter"
-                        onclick="filterTables('occupied',this)">
-                        Occupied
-                    </button>
-
-                    <button
-                        class="filter"
-                        onclick="filterTables('reserved',this)">
-                        Reserved
-                    </button>
-
+                    <button class="filter active" onclick="filterTables('all',this)">All</button>
+                    <button class="filter" onclick="filterTables('free',this)">Free</button>
+                    <button class="filter" onclick="filterTables('occupied',this)">Occupied</button>
+                    <button class="filter" onclick="filterTables('reserved',this)">Reserved</button>
                 </div>
 
-                <input
-                    type="text"
-                    id="search"
-                    class="search"
-                    placeholder="Search table..."
-                    onkeyup="searchTables()">
+                <input type="text" id="search" class="search" placeholder="Search table..." onkeyup="searchTables()">
 
             </div>
 
-
             <!-- TABLES -->
-
             <div class="tables-grid" id="tables">
 
-
                 <!-- TABLE 1 -->
-
-                <div
-                    class="table-card free"
-                    data-status="free"
-                    data-table="1">
-
-                    <div class="table-number">
-                        Table 1
-                    </div>
-
-                    <div class="table-icon">
-                        🪑
-                    </div>
-
-                    <div class="capacity">
-                        2 seats
-                    </div>
-
-                    <span class="table-status">
-                        Free
-                    </span>
-
-                    <div class="customer-name">
-                        -
-                    </div>
-
+                <div class="table-card free" data-status="free" data-table="1">
+                    <div class="table-number">Table 1</div>
+                    <div class="table-icon">🪑</div>
+                    <div class="capacity">2 seats</div>
+                    <span class="table-status">Free</span>
+                    <div class="customer-name">-</div>
                     <div class="actions">
-
-                        <button
-                            class="btn occupy"
-                            onclick="changeStatus(this,'occupied')">
-                            Occupy
-                        </button>
-
-                        <button
-                            class="btn reserve"
-                            onclick="changeStatus(this,'reserved')">
-                            Reserve
-                        </button>
-
+                        <button class="btn occupy" onclick="changeStatus(this,'occupied')">Occupy</button>
+                        <button class="btn reserve" onclick="changeStatus(this,'reserved')">Reserve</button>
                     </div>
-
                 </div>
-
 
                 <!-- TABLE 2 -->
-
-                <div
-                    class="table-card occupied"
-                    data-status="occupied"
-                    data-table="2">
-
-                    <div class="table-number">
-                        Table 2
-                    </div>
-
-                    <div class="table-icon">
-                        🪑
-                    </div>
-
-                    <div class="capacity">
-                        4 seats
-                    </div>
-
-                    <span class="table-status">
-                        Occupied
-                    </span>
-
-                    <div class="customer-name">
-                        James Smith
-                    </div>
-
+                <div class="table-card occupied" data-status="occupied" data-table="2">
+                    <div class="table-number">Table 2</div>
+                    <div class="table-icon">🪑</div>
+                    <div class="capacity">4 seats</div>
+                    <span class="table-status">Occupied</span>
+                    <div class="customer-name">James Smith</div>
                     <div class="actions">
-
-                        <button
-                            class="btn free-btn"
-                            onclick="changeStatus(this,'free')">
-                            Free
-                        </button>
-
-                        <button
-                            class="btn view"
-                            onclick="viewTable(this)">
-                            View
-                        </button>
-
+                        <button class="btn free-btn" onclick="changeStatus(this,'free')">Free</button>
+                        <button class="btn view" onclick="viewTable(this)">View</button>
                     </div>
-
                 </div>
-
 
                 <!-- TABLE 3 -->
-
-                <div
-                    class="table-card occupied"
-                    data-status="occupied"
-                    data-table="3">
-
-                    <div class="table-number">
-                        Table 3
-                    </div>
-
-                    <div class="table-icon">
-                        🪑
-                    </div>
-
-                    <div class="capacity">
-                        4 seats
-                    </div>
-
-                    <span class="table-status">
-                        Occupied
-                    </span>
-
-                    <div class="customer-name">
-                        Sophia Davis
-                    </div>
-
+                <div class="table-card occupied" data-status="occupied" data-table="3">
+                    <div class="table-number">Table 3</div>
+                    <div class="table-icon">🪑</div>
+                    <div class="capacity">4 seats</div>
+                    <span class="table-status">Occupied</span>
+                    <div class="customer-name">Sophia Davis</div>
                     <div class="actions">
-
-                        <button
-                            class="btn free-btn"
-                            onclick="changeStatus(this,'free')">
-                            Free
-                        </button>
-
-                        <button
-                            class="btn view"
-                            onclick="viewTable(this)">
-                            View
-                        </button>
-
+                        <button class="btn free-btn" onclick="changeStatus(this,'free')">Free</button>
+                        <button class="btn view" onclick="viewTable(this)">View</button>
                     </div>
-
                 </div>
-
 
                 <!-- TABLE 4 -->
-
-                <div
-                    class="table-card reserved"
-                    data-status="reserved"
-                    data-table="4">
-
-                    <div class="table-number">
-                        Table 4
-                    </div>
-
-                    <div class="table-icon">
-                        🪑
-                    </div>
-
-                    <div class="capacity">
-                        6 seats
-                    </div>
-
-                    <span class="table-status">
-                        Reserved
-                    </span>
-
-                    <div class="customer-name">
-                        Michael Brown
-                    </div>
-
+                <div class="table-card reserved" data-status="reserved" data-table="4">
+                    <div class="table-number">Table 4</div>
+                    <div class="table-icon">🪑</div>
+                    <div class="capacity">6 seats</div>
+                    <span class="table-status">Reserved</span>
+                    <div class="customer-name">Michael Brown</div>
                     <div class="actions">
-
-                        <button
-                            class="btn occupy"
-                            onclick="changeStatus(this,'occupied')">
-                            Seat
-                        </button>
-
-                        <button
-                            class="btn free-btn"
-                            onclick="changeStatus(this,'free')">
-                            Cancel
-                        </button>
-
+                        <button class="btn occupy" onclick="changeStatus(this,'occupied')">Seat</button>
+                        <button class="btn free-btn" onclick="changeStatus(this,'free')">Cancel</button>
                     </div>
-
                 </div>
-
 
                 <!-- TABLE 5 -->
-
-                <div
-                    class="table-card occupied"
-                    data-status="occupied"
-                    data-table="5">
-
-                    <div class="table-number">
-                        Table 5
-                    </div>
-
-                    <div class="table-icon">
-                        🪑
-                    </div>
-
-                    <div class="capacity">
-                        4 seats
-                    </div>
-
-                    <span class="table-status">
-                        Occupied
-                    </span>
-
-                    <div class="customer-name">
-                        Emma Wilson
-                    </div>
-
+                <div class="table-card occupied" data-status="occupied" data-table="5">
+                    <div class="table-number">Table 5</div>
+                    <div class="table-icon">🪑</div>
+                    <div class="capacity">4 seats</div>
+                    <span class="table-status">Occupied</span>
+                    <div class="customer-name">Emma Wilson</div>
                     <div class="actions">
-
-                        <button
-                            class="btn free-btn"
-                            onclick="changeStatus(this,'free')">
-                            Free
-                        </button>
-
-                        <button
-                            class="btn view"
-                            onclick="viewTable(this)">
-                            View
-                        </button>
-
+                        <button class="btn free-btn" onclick="changeStatus(this,'free')">Free</button>
+                        <button class="btn view" onclick="viewTable(this)">View</button>
                     </div>
-
                 </div>
-
 
                 <!-- TABLE 6 -->
-
-                <div
-                    class="table-card free"
-                    data-status="free"
-                    data-table="6">
-
-                    <div class="table-number">
-                        Table 6
-                    </div>
-
-                    <div class="table-icon">
-                        🪑
-                    </div>
-
-                    <div class="capacity">
-                        2 seats
-                    </div>
-
-                    <span class="table-status">
-                        Free
-                    </span>
-
-                    <div class="customer-name">
-                        -
-                    </div>
-
+                <div class="table-card free" data-status="free" data-table="6">
+                    <div class="table-number">Table 6</div>
+                    <div class="table-icon">🪑</div>
+                    <div class="capacity">2 seats</div>
+                    <span class="table-status">Free</span>
+                    <div class="customer-name">-</div>
                     <div class="actions">
-
-                        <button
-                            class="btn occupy"
-                            onclick="changeStatus(this,'occupied')">
-                            Occupy
-                        </button>
-
-                        <button
-                            class="btn reserve"
-                            onclick="changeStatus(this,'reserved')">
-                            Reserve
-                        </button>
-
+                        <button class="btn occupy" onclick="changeStatus(this,'occupied')">Occupy</button>
+                        <button class="btn reserve" onclick="changeStatus(this,'reserved')">Reserve</button>
                     </div>
-
                 </div>
-
 
                 <!-- TABLE 7 -->
-
-                <div
-                    class="table-card occupied"
-                    data-status="occupied"
-                    data-table="7">
-
-                    <div class="table-number">
-                        Table 7
-                    </div>
-
-                    <div class="table-icon">
-                        🪑
-                    </div>
-
-                    <div class="capacity">
-                        6 seats
-                    </div>
-
-                    <span class="table-status">
-                        Occupied
-                    </span>
-
-                    <div class="customer-name">
-                        Noah Johnson
-                    </div>
-
+                <div class="table-card occupied" data-status="occupied" data-table="7">
+                    <div class="table-number">Table 7</div>
+                    <div class="table-icon">🪑</div>
+                    <div class="capacity">6 seats</div>
+                    <span class="table-status">Occupied</span>
+                    <div class="customer-name">Noah Johnson</div>
                     <div class="actions">
-
-                        <button
-                            class="btn free-btn"
-                            onclick="changeStatus(this,'free')">
-                            Free
-                        </button>
-
-                        <button
-                            class="btn view"
-                            onclick="viewTable(this)">
-                            View
-                        </button>
-
+                        <button class="btn free-btn" onclick="changeStatus(this,'free')">Free</button>
+                        <button class="btn view" onclick="viewTable(this)">View</button>
                     </div>
-
                 </div>
-
 
                 <!-- TABLE 8 -->
-
-                <div
-                    class="table-card occupied"
-                    data-status="occupied"
-                    data-table="8">
-
-                    <div class="table-number">
-                        Table 8
-                    </div>
-
-                    <div class="table-icon">
-                        🪑
-                    </div>
-
-                    <div class="capacity">
-                        4 seats
-                    </div>
-
-                    <span class="table-status">
-                        Occupied
-                    </span>
-
-                    <div class="customer-name">
-                        Olivia Brown
-                    </div>
-
+                <div class="table-card occupied" data-status="occupied" data-table="8">
+                    <div class="table-number">Table 8</div>
+                    <div class="table-icon">🪑</div>
+                    <div class="capacity">4 seats</div>
+                    <span class="table-status">Occupied</span>
+                    <div class="customer-name">Olivia Brown</div>
                     <div class="actions">
-
-                        <button
-                            class="btn free-btn"
-                            onclick="changeStatus(this,'free')">
-                            Free
-                        </button>
-
-                        <button
-                            class="btn view"
-                            onclick="viewTable(this)">
-                            View
-                        </button>
-
+                        <button class="btn free-btn" onclick="changeStatus(this,'free')">Free</button>
+                        <button class="btn view" onclick="viewTable(this)">View</button>
                     </div>
-
                 </div>
-
 
                 <!-- TABLE 9 -->
-
-                <div
-                    class="table-card free"
-                    data-status="free"
-                    data-table="9">
-
-                    <div class="table-number">
-                        Table 9
-                    </div>
-
-                    <div class="table-icon">
-                        🪑
-                    </div>
-
-                    <div class="capacity">
-                        2 seats
-                    </div>
-
-                    <span class="table-status">
-                        Free
-                    </span>
-
-                    <div class="customer-name">
-                        -
-                    </div>
-
+                <div class="table-card free" data-status="free" data-table="9">
+                    <div class="table-number">Table 9</div>
+                    <div class="table-icon">🪑</div>
+                    <div class="capacity">2 seats</div>
+                    <span class="table-status">Free</span>
+                    <div class="customer-name">-</div>
                     <div class="actions">
-
-                        <button
-                            class="btn occupy"
-                            onclick="changeStatus(this,'occupied')">
-                            Occupy
-                        </button>
-
-                        <button
-                            class="btn reserve"
-                            onclick="changeStatus(this,'reserved')">
-                            Reserve
-                        </button>
-
+                        <button class="btn occupy" onclick="changeStatus(this,'occupied')">Occupy</button>
+                        <button class="btn reserve" onclick="changeStatus(this,'reserved')">Reserve</button>
                     </div>
-
                 </div>
-
 
                 <!-- TABLE 10 -->
-
-                <div
-                    class="table-card reserved"
-                    data-status="reserved"
-                    data-table="10">
-
-                    <div class="table-number">
-                        Table 10
-                    </div>
-
-                    <div class="table-icon">
-                        🪑
-                    </div>
-
-                    <div class="capacity">
-                        8 seats
-                    </div>
-
-                    <span class="table-status">
-                        Reserved
-                    </span>
-
-                    <div class="customer-name">
-                        David Miller
-                    </div>
-
+                <div class="table-card reserved" data-status="reserved" data-table="10">
+                    <div class="table-number">Table 10</div>
+                    <div class="table-icon">🪑</div>
+                    <div class="capacity">8 seats</div>
+                    <span class="table-status">Reserved</span>
+                    <div class="customer-name">David Miller</div>
                     <div class="actions">
-
-                        <button
-                            class="btn occupy"
-                            onclick="changeStatus(this,'occupied')">
-                            Seat
-                        </button>
-
-                        <button
-                            class="btn free-btn"
-                            onclick="changeStatus(this,'free')">
-                            Cancel
-                        </button>
-
+                        <button class="btn occupy" onclick="changeStatus(this,'occupied')">Seat</button>
+                        <button class="btn free-btn" onclick="changeStatus(this,'free')">Cancel</button>
                     </div>
-
                 </div>
-
 
                 <!-- TABLE 11 -->
-
-                <div
-                    class="table-card free"
-                    data-status="free"
-                    data-table="11">
-
-                    <div class="table-number">
-                        Table 11
-                    </div>
-
-                    <div class="table-icon">
-                        🪑
-                    </div>
-
-                    <div class="capacity">
-                        4 seats
-                    </div>
-
-                    <span class="table-status">
-                        Free
-                    </span>
-
-                    <div class="customer-name">
-                        -
-                    </div>
-
+                <div class="table-card free" data-status="free" data-table="11">
+                    <div class="table-number">Table 11</div>
+                    <div class="table-icon">🪑</div>
+                    <div class="capacity">4 seats</div>
+                    <span class="table-status">Free</span>
+                    <div class="customer-name">-</div>
                     <div class="actions">
-
-                        <button
-                            class="btn occupy"
-                            onclick="changeStatus(this,'occupied')">
-                            Occupy
-                        </button>
-
-                        <button
-                            class="btn reserve"
-                            onclick="changeStatus(this,'reserved')">
-                            Reserve
-                        </button>
-
+                        <button class="btn occupy" onclick="changeStatus(this,'occupied')">Occupy</button>
+                        <button class="btn reserve" onclick="changeStatus(this,'reserved')">Reserve</button>
                     </div>
-
                 </div>
 
-
                 <!-- TABLE 12 -->
-
-                <div
-                    class="table-card occupied"
-                    data-status="occupied"
-                    data-table="12">
-
-                    <div class="table-number">
-                        Table 12
-                    </div>
-
-                    <div class="table-icon">
-                        🪑
-                    </div>
-
-                    <div class="capacity">
-                        6 seats
-                    </div>
-
-                    <span class="table-status">
-                        Occupied
-                    </span>
-
-                    <div class="customer-name">
-                        Lucas Anderson
-                    </div>
-
+                <div class="table-card occupied" data-status="occupied" data-table="12">
+                    <div class="table-number">Table 12</div>
+                    <div class="table-icon">🪑</div>
+                    <div class="capacity">6 seats</div>
+                    <span class="table-status">Occupied</span>
+                    <div class="customer-name">Lucas Anderson</div>
                     <div class="actions">
-
-                        <button
-                            class="btn free-btn"
-                            onclick="changeStatus(this,'free')">
-                            Free
-                        </button>
-
-                        <button
-                            class="btn view"
-                            onclick="viewTable(this)">
-                            View
-                        </button>
-
+                        <button class="btn free-btn" onclick="changeStatus(this,'free')">Free</button>
+                        <button class="btn view" onclick="viewTable(this)">View</button>
                     </div>
-
                 </div>
 
             </div>
@@ -1173,329 +323,211 @@
 
 
 <!-- MODAL -->
-
 <div class="modal" id="modal">
-
     <div class="modal-content">
 
         <div class="modal-header">
-
             <h2>Table Details</h2>
-
-            <span
-                class="close"
-                onclick="closeModal()">
-                ×
-            </span>
-
+            <span class="close" onclick="closeModal()">×</span>
         </div>
 
-        <div class="detail">
-
-            <span>Table</span>
-
-            <strong id="mTable"></strong>
-
-        </div>
-
-        <div class="detail">
-
-            <span>Capacity</span>
-
-            <strong id="mCapacity"></strong>
-
-        </div>
-
-        <div class="detail">
-
-            <span>Status</span>
-
-            <strong id="mStatus"></strong>
-
-        </div>
-
-        <div class="detail">
-
-            <span>Customer</span>
-
-            <strong id="mCustomer"></strong>
-
-        </div>
+        <div class="detail"><span>Table</span><strong id="mTable"></strong></div>
+        <div class="detail"><span>Capacity</span><strong id="mCapacity"></strong></div>
+        <div class="detail"><span>Status</span><strong id="mStatus"></strong></div>
+        <div class="detail"><span>Customer</span><strong id="mCustomer"></strong></div>
 
     </div>
-
 </div>
 
 
 <script>
 
-    /* DATE */
+/* DATE */
 
-    document.getElementById("date").textContent =
-        new Date().toLocaleDateString("en-US", {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-        });
+document.getElementById("date").textContent =
+    new Date().toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+    });
 
 
-    /* CHANGE STATUS */
+/* WAITER NAME (from login data if available) */
 
-    function changeStatus(button, newStatus) {
+try{
 
-        const card =
-            button.closest(".table-card");
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
 
-        const status =
-            card.querySelector(".table-status");
+    if(user.name){
+        document.getElementById("waiterName").textContent = user.name;
+    }
 
-        const customer =
-            card.querySelector(".customer-name");
+}
+catch(error){
+    console.error("Invalid user data");
+}
 
-        card.classList.remove(
-            "free",
-            "occupied",
-            "reserved"
-        );
 
-        card.classList.add(newStatus);
+/* CHANGE STATUS */
 
-        card.dataset.status = newStatus;
+function changeStatus(button, newStatus){
 
-        if (newStatus === "free") {
+    const card = button.closest(".table-card");
+    const status = card.querySelector(".table-status");
+    const customer = card.querySelector(".customer-name");
 
-            status.textContent = "Free";
+    card.classList.remove("free", "occupied", "reserved");
+    card.classList.add(newStatus);
+    card.dataset.status = newStatus;
 
-            customer.textContent = "-";
+    if(newStatus === "free"){
 
-            card.querySelector(".actions").innerHTML = `
-                <button
-                    class="btn occupy"
-                    onclick="changeStatus(this,'occupied')">
-                    Occupy
-                </button>
+        status.textContent = "Free";
+        customer.textContent = "-";
 
-                <button
-                    class="btn reserve"
-                    onclick="changeStatus(this,'reserved')">
-                    Reserve
-                </button>
-            `;
+        card.querySelector(".actions").innerHTML = `
+            <button class="btn occupy" onclick="changeStatus(this,'occupied')">Occupy</button>
+            <button class="btn reserve" onclick="changeStatus(this,'reserved')">Reserve</button>
+        `;
 
+    }
+    else if(newStatus === "occupied"){
+
+        status.textContent = "Occupied";
+
+        if(customer.textContent === "-"){
+            customer.textContent = "Current Customer";
         }
 
-        else if (newStatus === "occupied") {
+        card.querySelector(".actions").innerHTML = `
+            <button class="btn free-btn" onclick="changeStatus(this,'free')">Free</button>
+            <button class="btn view" onclick="viewTable(this)">View</button>
+        `;
 
-            status.textContent = "Occupied";
+    }
+    else if(newStatus === "reserved"){
 
-            if (customer.textContent === "-") {
-                customer.textContent = "Current Customer";
-            }
+        status.textContent = "Reserved";
+        customer.textContent = "Reserved Customer";
 
-            card.querySelector(".actions").innerHTML = `
-                <button
-                    class="btn free-btn"
-                    onclick="changeStatus(this,'free')">
-                    Free
-                </button>
-
-                <button
-                    class="btn view"
-                    onclick="viewTable(this)">
-                    View
-                </button>
-            `;
-
-        }
-
-        else if (newStatus === "reserved") {
-
-            status.textContent = "Reserved";
-
-            customer.textContent = "Reserved Customer";
-
-            card.querySelector(".actions").innerHTML = `
-                <button
-                    class="btn occupy"
-                    onclick="changeStatus(this,'occupied')">
-                    Seat
-                </button>
-
-                <button
-                    class="btn free-btn"
-                    onclick="changeStatus(this,'free')">
-                    Cancel
-                </button>
-            `;
-
-        }
-
-        updateStats();
+        card.querySelector(".actions").innerHTML = `
+            <button class="btn occupy" onclick="changeStatus(this,'occupied')">Seat</button>
+            <button class="btn free-btn" onclick="changeStatus(this,'free')">Cancel</button>
+        `;
 
     }
 
+    updateStats();
 
-    /* FILTER */
+}
 
-    function filterTables(status, button) {
 
-        document
-            .querySelectorAll(".filter")
-            .forEach(btn =>
-                btn.classList.remove("active")
-            );
+/* FILTER */
 
-        button.classList.add("active");
+function filterTables(status, button){
 
-        document
-            .querySelectorAll(".table-card")
-            .forEach(card => {
+    document.querySelectorAll(".filter").forEach(btn => btn.classList.remove("active"));
 
-                if (
-                    status === "all" ||
-                    card.dataset.status === status
-                ) {
-                    card.style.display = "";
-                } else {
-                    card.style.display = "none";
-                }
+    button.classList.add("active");
 
-            });
+    document.querySelectorAll(".table-card").forEach(card => {
 
+        card.style.display =
+            (status === "all" || card.dataset.status === status) ? "" : "none";
+
+    });
+
+}
+
+
+/* SEARCH */
+
+function searchTables(){
+
+    const value = document.getElementById("search").value.toLowerCase();
+
+    document.querySelectorAll(".table-card").forEach(card => {
+
+        card.style.display =
+            card.innerText.toLowerCase().includes(value) ? "" : "none";
+
+    });
+
+}
+
+
+/* UPDATE STATS */
+
+function updateStats(){
+
+    let free = 0;
+    let occupied = 0;
+    let reserved = 0;
+
+    document.querySelectorAll(".table-card").forEach(card => {
+
+        if(card.dataset.status === "free") free++;
+        if(card.dataset.status === "occupied") occupied++;
+        if(card.dataset.status === "reserved") reserved++;
+
+    });
+
+    document.getElementById("total").textContent = free + occupied + reserved;
+    document.getElementById("free").textContent = free;
+    document.getElementById("occupied").textContent = occupied;
+    document.getElementById("reserved").textContent = reserved;
+
+}
+
+
+/* VIEW TABLE */
+
+function viewTable(button){
+
+    const card = button.closest(".table-card");
+
+    document.getElementById("mTable").textContent = card.querySelector(".table-number").textContent;
+    document.getElementById("mCapacity").textContent = card.querySelector(".capacity").textContent;
+    document.getElementById("mStatus").textContent = card.querySelector(".table-status").textContent;
+    document.getElementById("mCustomer").textContent = card.querySelector(".customer-name").textContent;
+
+    document.getElementById("modal").style.display = "flex";
+
+}
+
+
+/* CLOSE */
+
+function closeModal(){
+    document.getElementById("modal").style.display = "none";
+}
+
+window.onclick = function(event){
+
+    const modal = document.getElementById("modal");
+
+    if(event.target === modal){
+        closeModal();
     }
 
-
-    /* SEARCH */
-
-    function searchTables() {
-
-        const value =
-            document
-            .getElementById("search")
-            .value
-            .toLowerCase();
-
-        document
-            .querySelectorAll(".table-card")
-            .forEach(card => {
-
-                if (
-                    card.innerText
-                    .toLowerCase()
-                    .includes(value)
-                ) {
-                    card.style.display = "";
-                } else {
-                    card.style.display = "none";
-                }
-
-            });
-
-    }
+};
 
 
-    /* UPDATE STATS */
+/* LOGOUT */
 
-    function updateStats() {
+function logout(event){
 
-        let free = 0;
-        let occupied = 0;
-        let reserved = 0;
+    event.preventDefault();
 
-        document
-            .querySelectorAll(".table-card")
-            .forEach(card => {
+    // Clear saved login data
+    localStorage.clear();
+    sessionStorage.clear();
 
-                if (card.dataset.status === "free") {
-                    free++;
-                }
+    // Adjust this path to where your login.html really is
+    window.location.href = "../login.html";
 
-                if (card.dataset.status === "occupied") {
-                    occupied++;
-                }
-
-                if (card.dataset.status === "reserved") {
-                    reserved++;
-                }
-
-            });
-
-        const total =
-            free + occupied + reserved;
-
-        document.getElementById("total").textContent =
-            total;
-
-        document.getElementById("free").textContent =
-            free;
-
-        document.getElementById("occupied").textContent =
-            occupied;
-
-        document.getElementById("reserved").textContent =
-            reserved;
-
-    }
-
-
-    /* VIEW TABLE */
-
-    function viewTable(button) {
-
-        const card =
-            button.closest(".table-card");
-
-        const number =
-            card.querySelector(".table-number").textContent;
-
-        const capacity =
-            card.querySelector(".capacity").textContent;
-
-        const status =
-            card.querySelector(".table-status").textContent;
-
-        const customer =
-            card.querySelector(".customer-name").textContent;
-
-        document.getElementById("mTable").textContent =
-            number;
-
-        document.getElementById("mCapacity").textContent =
-            capacity;
-
-        document.getElementById("mStatus").textContent =
-            status;
-
-        document.getElementById("mCustomer").textContent =
-            customer;
-
-        document.getElementById("modal").style.display =
-            "flex";
-
-    }
-
-
-    /* CLOSE */
-
-    function closeModal() {
-
-        document.getElementById("modal").style.display =
-            "none";
-
-    }
-
-
-    window.onclick = function(event) {
-
-        const modal =
-            document.getElementById("modal");
-
-        if (event.target === modal) {
-            closeModal();
-        }
-
-    };
+}
 
 </script>
 

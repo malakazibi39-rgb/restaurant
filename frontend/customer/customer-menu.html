@@ -1,13 +1,21 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Restaurant Menu</title>
 
+
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -15,24 +23,35 @@
             font-family: Arial, sans-serif;
         }
 
+
         body {
             background: #f7f7f7;
             color: #333;
         }
 
+
+        /* =========================
+           HEADER
+        ========================= */
+
         header {
             background: #222;
             color: white;
+
             padding: 20px 40px;
 
             display: flex;
             justify-content: space-between;
             align-items: center;
+
+            gap: 20px;
         }
+
 
         header h1 {
             font-size: 24px;
         }
+
 
         .cart-btn {
             background: #ff9800;
@@ -45,40 +64,149 @@
             text-decoration: none;
 
             font-weight: bold;
+
+            white-space: nowrap;
         }
+
+
+        /* =========================
+           CONTAINER
+        ========================= */
 
         .container {
             max-width: 1200px;
+
             margin: 30px auto;
+
             padding: 20px;
         }
 
+
+        /* =========================
+           TITLE
+        ========================= */
+
         .title {
             text-align: center;
-            margin-bottom: 30px;
+
+            margin-bottom: 25px;
         }
+
 
         .title h2 {
             font-size: 32px;
+
             margin-bottom: 10px;
         }
 
-        #message {
+
+        /* =========================
+           TABLE NUMBER
+        ========================= */
+
+        .table-box {
+
+            background: white;
+
+            max-width: 500px;
+
+            margin: 0 auto 30px;
+
+            padding: 20px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 15px rgba(0, 0, 0, 0.08);
+
             text-align: center;
+        }
+
+
+        .table-box label {
+
+            display: block;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            margin-bottom: 10px;
+        }
+
+
+        .table-input {
+
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 8px;
+
+            font-size: 18px;
+
+            text-align: center;
+
+            outline: none;
+        }
+
+
+        .table-input:focus {
+
+            border-color: #ff9800;
+
+            box-shadow:
+                0 0 0 2px
+                rgba(255, 152, 0, 0.15);
+        }
+
+
+        .table-help {
+
+            margin-top: 8px;
+
+            color: #777;
+
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           MESSAGE
+        ========================= */
+
+        #message {
+
+            text-align: center;
+
             margin: 20px;
+
             font-size: 18px;
         }
 
+
+        /* =========================
+           MENU
+        ========================= */
+
         .menu-grid {
+
             display: grid;
 
             grid-template-columns:
-                repeat(auto-fit, minmax(250px, 1fr));
+                repeat(
+                    auto-fit,
+                    minmax(250px, 1fr)
+                );
 
             gap: 25px;
         }
 
+
         .menu-card {
+
             background: white;
 
             border-radius: 12px;
@@ -86,11 +214,15 @@
             overflow: hidden;
 
             box-shadow:
-                0 4px 15px rgba(0, 0, 0, 0.1);
+                0 4px 15px
+                rgba(0, 0, 0, 0.1);
         }
 
+
         .menu-card img {
+
             width: 100%;
+
             height: 180px;
 
             object-fit: cover;
@@ -98,16 +230,23 @@
             background: #eee;
         }
 
+
         .menu-content {
+
             padding: 18px;
         }
 
+
         .menu-content h3 {
+
             margin-bottom: 10px;
+
             font-size: 21px;
         }
 
+
         .description {
+
             color: #777;
 
             min-height: 45px;
@@ -115,7 +254,9 @@
             margin-bottom: 12px;
         }
 
+
         .price {
+
             font-size: 20px;
 
             font-weight: bold;
@@ -123,7 +264,9 @@
             margin-bottom: 15px;
         }
 
+
         .add-btn {
+
             width: 100%;
 
             padding: 12px;
@@ -143,11 +286,15 @@
             cursor: pointer;
         }
 
+
         .add-btn:hover {
+
             background: #e68900;
         }
 
+
         .category {
+
             display: inline-block;
 
             background: #eee;
@@ -160,58 +307,237 @@
 
             margin-bottom: 10px;
         }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            header {
+
+                padding: 15px 20px;
+
+                flex-direction: column;
+
+                align-items: stretch;
+            }
+
+
+            header h1 {
+
+                text-align: center;
+            }
+
+
+            .cart-btn {
+
+                text-align: center;
+            }
+
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
 <header>
 
-    <h1>🍽️ Restaurant Menu</h1>
+    <h1>
+        🍽️ Restaurant Menu
+    </h1>
 
-    <a href="customer-cart.html" class="cart-btn">
-        🛒 Cart (<span id="cartCount">0</span>)
+
+    <a
+        href="customer-cart.html"
+        class="cart-btn"
+    >
+        🛒 Cart
+        (<span id="cartCount">0</span>)
     </a>
 
 </header>
 
 
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
 <div class="container">
+
 
     <div class="title">
 
-        <h2>Our Menu</h2>
+        <h2>
+            Our Menu
+        </h2>
 
-        <p>Choose your favorite dishes</p>
+        <p>
+            Choose your favorite dishes
+        </p>
 
     </div>
 
+
+
+    <!-- =================================================
+         TABLE NUMBER
+    ================================================== -->
+
+    <div class="table-box">
+
+        <label for="tableNumber">
+
+            🪑 Enter Your Table Number
+
+        </label>
+
+
+        <input
+            type="number"
+            id="tableNumber"
+            class="table-input"
+            placeholder="Example: 5"
+            min="1"
+            max="999"
+        >
+
+
+        <p class="table-help">
+
+            Please enter the table number
+            before ordering.
+
+        </p>
+
+    </div>
+
+
+
+    <!-- =================================================
+         MESSAGE
+    ================================================== -->
+
     <div id="message"></div>
 
-    <div id="menuContainer" class="menu-grid"></div>
+
+
+    <!-- =================================================
+         MENU
+    ================================================== -->
+
+    <div
+        id="menuContainer"
+        class="menu-grid"
+    ></div>
+
 
 </div>
 
 
+
 <script>
 
-const API_URL = "http://localhost:5000/api/menu";
+
+const API_URL =
+    "http://localhost:5000/api/menu";
+
+
+
+/* =====================================================
+   CART
+===================================================== */
 
 let cart =
-    JSON.parse(localStorage.getItem("cart")) || [];
+    JSON.parse(
+        localStorage.getItem("cart")
+    ) || [];
 
 
-// ======================================
-// LOAD MENU
-// ======================================
+
+/* =====================================================
+   LOAD SAVED TABLE NUMBER
+===================================================== */
+
+const tableInput =
+    document.getElementById(
+        "tableNumber"
+    );
+
+
+const savedTable =
+    localStorage.getItem(
+        "tableNumber"
+    );
+
+
+if (savedTable) {
+
+    tableInput.value =
+        savedTable;
+}
+
+
+
+/* =====================================================
+   SAVE TABLE NUMBER
+===================================================== */
+
+tableInput.addEventListener(
+    "input",
+    () => {
+
+        const value =
+            tableInput.value.trim();
+
+
+        if (value) {
+
+            localStorage.setItem(
+                "tableNumber",
+                value
+            );
+
+        } else {
+
+            localStorage.removeItem(
+                "tableNumber"
+            );
+
+        }
+
+    }
+);
+
+
+
+/* =====================================================
+   LOAD MENU
+===================================================== */
 
 async function loadMenu() {
 
     const container =
-        document.getElementById("menuContainer");
+        document.getElementById(
+            "menuContainer"
+        );
+
 
     const message =
-        document.getElementById("message");
+        document.getElementById(
+            "message"
+        );
+
 
     try {
 
@@ -220,7 +546,9 @@ async function loadMenu() {
 
 
         const response =
-            await fetch(API_URL);
+            await fetch(
+                API_URL
+            );
 
 
         if (!response.ok) {
@@ -246,7 +574,9 @@ async function loadMenu() {
 
 
         if (
-            !Array.isArray(menuItems) ||
+            !Array.isArray(
+                menuItems
+            ) ||
             menuItems.length === 0
         ) {
 
@@ -254,101 +584,144 @@ async function loadMenu() {
                 "No menu items available.";
 
             return;
+
         }
 
 
-        container.innerHTML = "";
+        container.innerHTML =
+            "";
 
 
-        menuItems.forEach(item => {
+        menuItems.forEach(
+            item => {
 
-            console.log(
-                "Menu item ID:",
-                item.id
-            );
-
-
-            const card =
-                document.createElement("div");
+                console.log(
+                    "Menu item ID:",
+                    item.id
+                );
 
 
-            card.className =
-                "menu-card";
-
-
-            const image =
-                item.image ||
-                "https://via.placeholder.com/400x250?text=Food";
-
-
-            card.innerHTML = `
-
-                <img
-                    src="${escapeHtml(image)}"
-                    alt="${escapeHtml(item.name)}"
-                >
-
-                <div class="menu-content">
-
-                    <span class="category">
-                        ${escapeHtml(
-                            item.category || "Food"
-                        )}
-                    </span>
-
-                    <h3>
-                        ${escapeHtml(item.name)}
-                    </h3>
-
-                    <p class="description">
-                        ${escapeHtml(
-                            item.description ||
-                            "Delicious restaurant dish"
-                        )}
-                    </p>
-
-                    <div class="price">
-                        ${Number(item.price).toFixed(2)} DA
-                    </div>
-
-                    <button
-                        class="add-btn"
-                    >
-                        ➕ Add to Cart
-                    </button>
-
-                </div>
-
-            `;
-
-
-            const button =
-                card.querySelector(".add-btn");
-
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    addToCart(
-
-                        Number(item.id),
-
-                        item.name,
-
-                        Number(item.price),
-
-                        item.image || ""
-
+                const card =
+                    document.createElement(
+                        "div"
                     );
 
-                }
-            );
+
+                card.className =
+                    "menu-card";
 
 
-            container.appendChild(card);
+                const image =
+                    item.image ||
+                    "https://via.placeholder.com/400x250?text=Food";
 
-        });
+
+                card.innerHTML = `
+
+                    <img
+                        src="${escapeHtml(image)}"
+                        alt="${escapeHtml(item.name)}"
+                    >
+
+
+                    <div
+                        class="menu-content"
+                    >
+
+                        <span
+                            class="category"
+                        >
+
+                            ${escapeHtml(
+                                item.category ||
+                                "Food"
+                            )}
+
+                        </span>
+
+
+                        <h3>
+
+                            ${escapeHtml(
+                                item.name
+                            )}
+
+                        </h3>
+
+
+                        <p
+                            class="description"
+                        >
+
+                            ${escapeHtml(
+                                item.description ||
+                                "Delicious restaurant dish"
+                            )}
+
+                        </p>
+
+
+                        <div
+                            class="price"
+                        >
+
+                            ${Number(
+                                item.price
+                            ).toFixed(2)}
+                            DA
+
+                        </div>
+
+
+                        <button
+                            class="add-btn"
+                        >
+
+                            ➕ Add to Cart
+
+                        </button>
+
+                    </div>
+
+                `;
+
+
+                const button =
+                    card.querySelector(
+                        ".add-btn"
+                    );
+
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        addToCart(
+
+                            Number(
+                                item.id
+                            ),
+
+                            item.name,
+
+                            Number(
+                                item.price
+                            ),
+
+                            item.image || ""
+
+                        );
+
+                    }
+                );
+
+
+                container.appendChild(
+                    card
+                );
+
+            }
+        );
 
 
     } catch (error) {
@@ -367,9 +740,10 @@ async function loadMenu() {
 }
 
 
-// ======================================
-// ADD TO CART
-// ======================================
+
+/* =====================================================
+   ADD TO CART
+===================================================== */
 
 function addToCart(
     id,
@@ -378,9 +752,65 @@ function addToCart(
     image
 ) {
 
+
+    /* ---------------------------------------------
+       CHECK TABLE NUMBER
+    --------------------------------------------- */
+
+    const tableNumber =
+        tableInput.value.trim();
+
+
+    if (!tableNumber) {
+
+        alert(
+            "🪑 Please enter your table number first."
+        );
+
+
+        tableInput.focus();
+
+
+        return;
+    }
+
+
+    if (
+        Number(tableNumber) < 1
+    ) {
+
+        alert(
+            "Please enter a valid table number."
+        );
+
+
+        tableInput.focus();
+
+
+        return;
+    }
+
+
+    /* ---------------------------------------------
+       SAVE TABLE NUMBER
+    --------------------------------------------- */
+
+    localStorage.setItem(
+        "tableNumber",
+        tableNumber
+    );
+
+
+
+    /* ---------------------------------------------
+       CHECK PRODUCT ID
+    --------------------------------------------- */
+
     if (
         !id ||
-        Number.isNaN(Number(id))
+        Number.isNaN(
+            Number(id)
+        )
     ) {
 
         console.error(
@@ -388,46 +818,76 @@ function addToCart(
             id
         );
 
+
         alert(
             "❌ This product has no valid ID."
         );
+
 
         return;
     }
 
 
+
+    /* ---------------------------------------------
+       FIND EXISTING ITEM
+    --------------------------------------------- */
+
     const existingItem =
         cart.find(
             item =>
-                Number(item.id) === Number(id)
+                Number(
+                    item.id
+                ) ===
+                Number(id)
         );
 
+
+
+    /* ---------------------------------------------
+       ADD / INCREASE QUANTITY
+    --------------------------------------------- */
 
     if (existingItem) {
 
         existingItem.quantity =
-            Number(existingItem.quantity) + 1;
+            Number(
+                existingItem.quantity
+            ) + 1;
 
-    } else {
+    }
+
+    else {
 
         cart.push({
 
-            id: Number(id),
+            id:
+                Number(id),
 
-            menu_item_id: Number(id),
+            menu_item_id:
+                Number(id),
 
-            name: name,
+            name:
+                name,
 
-            price: Number(price),
+            price:
+                Number(price),
 
-            image: image,
+            image:
+                image,
 
-            quantity: 1
+            quantity:
+                1
 
         });
 
     }
 
+
+
+    /* ---------------------------------------------
+       SAVE CART
+    --------------------------------------------- */
 
     localStorage.setItem(
         "cart",
@@ -441,41 +901,55 @@ function addToCart(
     );
 
 
+    console.log(
+        "🪑 Table:",
+        tableNumber
+    );
+
+
     updateCartCount();
 
 
     alert(
-        `✅ ${name} added to cart!`
+        `✅ ${name} added to cart!\n🪑 Table: ${tableNumber}`
     );
 
 }
 
 
-// ======================================
-// CART COUNT
-// ======================================
+
+/* =====================================================
+   CART COUNT
+===================================================== */
 
 function updateCartCount() {
 
     const count =
         cart.reduce(
-            (total, item) =>
+            (
+                total,
+                item
+            ) =>
                 total +
-                Number(item.quantity || 0),
+                Number(
+                    item.quantity || 0
+                ),
             0
         );
 
 
     document.getElementById(
         "cartCount"
-    ).textContent = count;
+    ).textContent =
+        count;
 
 }
 
 
-// ======================================
-// ESCAPE HTML
-// ======================================
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
 
 function escapeHtml(text) {
 
@@ -509,15 +983,18 @@ function escapeHtml(text) {
 }
 
 
-// ======================================
-// START
-// ======================================
+
+/* =====================================================
+   START
+===================================================== */
 
 loadMenu();
 
 updateCartCount();
 
+
 </script>
+
 
 </body>
 
